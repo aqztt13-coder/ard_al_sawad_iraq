@@ -1,0 +1,6 @@
+{
+  "name": "أرض السواد — دليل السياحة والتراث في العراق",
+  "description": "دليل رقمي شامل وتطبيق ويب تقدمي (PWA) للمراقد الدينية والمواقع الأثرية والطبيعة والسياحة في جميع محافظات العراق الثماني عشرة.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

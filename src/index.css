@@ -1,0 +1,89 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --color-emerald-palm: #0F3D3E;
+    --color-sumerian-gold: #C89B3C;
+    --color-ishtar-lapis: #1B4B72;
+    --color-sandstone: #F9F6F0;
+    --color-night: #0D1B1E;
+  }
+
+  html {
+    font-family: 'Cairo', system-ui, -apple-system, sans-serif;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+}
+
+.font-heritage {
+  font-family: 'Amiri', Georgia, serif;
+}
+
+.font-ui {
+  font-family: 'Cairo', system-ui, -apple-system, sans-serif;
+}
+
+/* Subtle Mesopotamian stepped geometric hairline frieze */
+.mesopotamian-frieze {
+  background-image: url("data:image/svg+xml,%3Csvg width='48' height='12' viewBox='0 0 48 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10h6V6h4V2h4v4h4v4h12V6h4V2h4v4h4v4h6' fill='none' stroke='%23C89B3C' stroke-opacity='0.38' stroke-width='1.2'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: center;
+}
+
+/* Low-opacity Islamic eight-pointed star lattice background */
+.islamic-lattice {
+  background-image: url("data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23C89B3C' stroke-opacity='0.09' stroke-width='0.9'%3E%3Cpath d='M32 4l6 14 14 6-14 6-6 14-6-14-14-6 14-6z'/%3E%3Crect x='20' y='20' width='24' height='24' transform='rotate(45 32 32)'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Leaflet overrides for RTL Arabic and Mesopotamian palette */
+.leaflet-container {
+  font-family: 'Cairo', system-ui, sans-serif !important;
+  background-color: #EBE6DA;
+  z-index: 10;
+}
+
+.dark .leaflet-container {
+  background-color: #0B1518;
+}
+
+.dark .leaflet-tile-pane {
+  filter: brightness(0.82) contrast(1.06) saturate(0.85);
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 14px !important;
+  padding: 0 !important;
+  overflow: hidden;
+  border: 1px solid rgba(200, 155, 60, 0.25);
+  box-shadow: 0 12px 28px -8px rgba(15, 61, 62, 0.24) !important;
+}
+
+.leaflet-popup-content {
+  margin: 0 !important;
+  direction: rtl;
+  text-align: right;
+}
+
+.dark .leaflet-popup-content-wrapper,
+.dark .leaflet-popup-tip {
+  background-color: #132529 !important;
+  color: #F1ECE2 !important;
+}
+
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

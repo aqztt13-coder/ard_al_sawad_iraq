@@ -1,0 +1,4009 @@
+{
+  "metadata": {
+    "app_name": "أرض السواد",
+    "app_name_en": "Ard Al-Sawad",
+    "description_ar": "قاعدة بيانات معالم العراق الدينية والأثرية والثقافية والطبيعية والسياحية.",
+    "version": "1.0.0",
+    "language": "ar",
+    "categories": [
+      {
+        "id": "religious",
+        "name_ar": "دينية"
+      },
+      {
+        "id": "archaeological",
+        "name_ar": "أثرية"
+      },
+      {
+        "id": "nature_tourism",
+        "name_ar": "سياحة طبيعية"
+      }
+    ],
+    "total_governorates": 18,
+    "total_landmarks": 152
+  },
+  "governorates": [
+    {
+      "id": "IQ-GOV-01",
+      "name_ar": "بغداد",
+      "name_en": "Baghdad",
+      "region": "وسط",
+      "center_coordinates": {
+        "lat": null,
+        "lng": null
+      }
+    },
+    {
+      "id": "IQ-GOV-02",
+      "name_ar": "البصرة",
+      "name_en": "Basra",
+      "region": "جنوب",
+      "center_coordinates": {
+        "lat": null,
+        "lng": null
+      }
+    },
+    {
+      "id": "IQ-GOV-03",
+      "name_ar": "نينوى",
+      "name_en": "Nineveh",
+      "region": "شمال",
+      "center_coordinates": {
+        "lat": null,
+        "lng": null
+      }
+    },
+    {
+      "id": "IQ-GOV-04",
+      "name_ar": "أربيل",
+      "name_en": "Erbil",
+      "region": "شمال",
+      "center_coordinates": {
+        "lat": null,
+        "lng": null
+      }
+    },
+    {
+      "id": "IQ-GOV-05",
+      "name_ar": "دهوك",
+      "name_en": "Duhok",
+      "region": "شمال",
+      "center_coordinates": {
+        "lat": null,
+        "lng": null
+      }
+    },
+    {
+      "id": "IQ-GOV-06",
+      "name_ar": "السليمانية",
+      "name_en": "Sulaymaniyah",
+      "region": "شمال",
+      "center_coordinates": {
+        "lat": null,
+        "lng": null
+      }
+    },
+    {
+      "id": "IQ-GOV-07",
+      "name_ar": "كربلاء",
+      "name_en": "Karbala",
+      "region": "وسط",
+      "center_coordinates": {
+        "lat": null,
+        "lng": null
+      }
+    },
+    {
+      "id": "IQ-GOV-08",
+      "name_ar": "النجف",
+      "name_en": "Najaf",
+      "region": "وسط",
+      "center_coordinates": {
+        "lat": null,
+        "lng": null
+      }
+    },
+    {
+      "id": "IQ-GOV-09",
+      "name_ar": "صلاح الدين",
+      "name_en": "Salah al-Din",
+      "region": "وسط",
+      "center_coordinates": {
+        "lat": null,
+        "lng": null
+      }
+    },
+    {
+      "id": "IQ-GOV-10",
+      "name_ar": "بابل",
+      "name_en": "Babil",
+      "region": "وسط",
+      "center_coordinates": {
+        "lat": null,
+        "lng": null
+      }
+    },
+    {
+      "id": "IQ-GOV-11",
+      "name_ar": "المثنى",
+      "name_en": "Al Muthanna",
+      "region": "جنوب",
+      "center_coordinates": {
+        "lat": null,
+        "lng": null
+      }
+    },
+    {
+      "id": "IQ-GOV-12",
+      "name_ar": "الأنبار",
+      "name_en": "Anbar",
+      "region": "غرب",
+      "center_coordinates": {
+        "lat": null,
+        "lng": null
+      }
+    },
+    {
+      "id": "IQ-GOV-13",
+      "name_ar": "كركوك",
+      "name_en": "Kirkuk",
+      "region": "شمال",
+      "center_coordinates": {
+        "lat": null,
+        "lng": null
+      }
+    },
+    {
+      "id": "IQ-GOV-14",
+      "name_ar": "ديالى",
+      "name_en": "Diyala",
+      "region": "شرق",
+      "center_coordinates": {
+        "lat": null,
+        "lng": null
+      }
+    },
+    {
+      "id": "IQ-GOV-15",
+      "name_ar": "ميسان",
+      "name_en": "Maysan",
+      "region": "جنوب",
+      "center_coordinates": {
+        "lat": null,
+        "lng": null
+      }
+    },
+    {
+      "id": "IQ-GOV-16",
+      "name_ar": "واسط",
+      "name_en": "Wasit",
+      "region": "شرق",
+      "center_coordinates": {
+        "lat": null,
+        "lng": null
+      }
+    },
+    {
+      "id": "IQ-GOV-17",
+      "name_ar": "القادسية",
+      "name_en": "Al Qadisiyyah",
+      "region": "جنوب",
+      "center_coordinates": {
+        "lat": null,
+        "lng": null
+      }
+    },
+    {
+      "id": "IQ-GOV-18",
+      "name_ar": "ذي قار",
+      "name_en": "Dhi Qar",
+      "region": "جنوب",
+      "center_coordinates": {
+        "lat": null,
+        "lng": null
+      }
+    }
+  ],
+  "landmarks": [
+    {
+      "id": "IQ-0001",
+      "name_ar": "القصر العباسي",
+      "name_en": "Abbasid Palace",
+      "governorate_id": "IQ-GOV-01",
+      "governorate_ar": "بغداد",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "معالم تاريخية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "قصر تاريخي من العصر العباسي في بغداد.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية وتاريخية",
+        "معالم تاريخية",
+        "بغداد"
+      ],
+      "wikimedia_search_query": "Abbasid Palace",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Abbasid%20Palace%20Iraq"
+    },
+    {
+      "id": "IQ-0002",
+      "name_ar": "المدرسة المستنصرية",
+      "name_en": "Al-Mustansiriya Madrasa",
+      "governorate_id": "IQ-GOV-01",
+      "governorate_ar": "بغداد",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "معالم تاريخية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مدرسة تاريخية تأسست في العصر العباسي المتأخر.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية وتاريخية",
+        "معالم تاريخية",
+        "بغداد"
+      ],
+      "wikimedia_search_query": "Al-Mustansiriya Madrasa",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Al-Mustansiriya%20Madrasa%20Iraq"
+    },
+    {
+      "id": "IQ-0003",
+      "name_ar": "شارع المتنبي",
+      "name_en": "Al-Mutanabbi Street",
+      "governorate_id": "IQ-GOV-01",
+      "governorate_ar": "بغداد",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "معالم تاريخية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "شارع ثقافي تاريخي معروف بالمكتبات والكتب.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية وتاريخية",
+        "معالم تاريخية",
+        "بغداد"
+      ],
+      "wikimedia_search_query": "Al-Mutanabbi Street",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Al-Mutanabbi%20Street%20Iraq"
+    },
+    {
+      "id": "IQ-0004",
+      "name_ar": "ساحة القشلة",
+      "name_en": "Al-Qishla",
+      "governorate_id": "IQ-GOV-01",
+      "governorate_ar": "بغداد",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "معالم تاريخية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مبنى وساحة تاريخية على ضفاف دجلة.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية وتاريخية",
+        "معالم تاريخية",
+        "بغداد"
+      ],
+      "wikimedia_search_query": "Al-Qishla",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Al-Qishla%20Iraq"
+    },
+    {
+      "id": "IQ-0005",
+      "name_ar": "باب الطلسم",
+      "name_en": "Talism Gate",
+      "governorate_id": "IQ-GOV-01",
+      "governorate_ar": "بغداد",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "معالم تاريخية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "بوابة تاريخية من بقايا سور بغداد القديم.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية وتاريخية",
+        "معالم تاريخية",
+        "بغداد"
+      ],
+      "wikimedia_search_query": "Talism Gate",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Talism%20Gate%20Iraq"
+    },
+    {
+      "id": "IQ-0006",
+      "name_ar": "المتحف العراقي",
+      "name_en": "Iraq Museum",
+      "governorate_id": "IQ-GOV-01",
+      "governorate_ar": "بغداد",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "معالم تاريخية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "متحف يضم مجموعات أثرية من حضارات العراق.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية وتاريخية",
+        "معالم تاريخية",
+        "بغداد"
+      ],
+      "wikimedia_search_query": "Iraq Museum",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Iraq%20Museum%20Iraq"
+    },
+    {
+      "id": "IQ-0007",
+      "name_ar": "بيت الحكمة (الموقع التاريخي)",
+      "name_en": "Bayt al-Hikma",
+      "governorate_id": "IQ-GOV-01",
+      "governorate_ar": "بغداد",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "معالم تاريخية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مرتبط بتاريخ الحركة العلمية العباسية.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية وتاريخية",
+        "معالم تاريخية",
+        "بغداد"
+      ],
+      "wikimedia_search_query": "Bayt al-Hikma",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Bayt%20al-Hikma%20Iraq"
+    },
+    {
+      "id": "IQ-0008",
+      "name_ar": "خان مرجان",
+      "name_en": "Khan Murjan",
+      "governorate_id": "IQ-GOV-01",
+      "governorate_ar": "بغداد",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "معالم تاريخية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "خان تاريخي من العمارة التجارية العباسية.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية وتاريخية",
+        "معالم تاريخية",
+        "بغداد"
+      ],
+      "wikimedia_search_query": "Khan Murjan",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Khan%20Murjan%20Iraq"
+    },
+    {
+      "id": "IQ-0009",
+      "name_ar": "سوق الصفافير",
+      "name_en": "Safafeer Market",
+      "governorate_id": "IQ-GOV-01",
+      "governorate_ar": "بغداد",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "معالم تاريخية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "سوق تقليدي لصناعة النحاس والأواني.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية وتاريخية",
+        "معالم تاريخية",
+        "بغداد"
+      ],
+      "wikimedia_search_query": "Safafeer Market",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Safafeer%20Market%20Iraq"
+    },
+    {
+      "id": "IQ-0010",
+      "name_ar": "شارع الرشيد",
+      "name_en": "Al-Rasheed Street",
+      "governorate_id": "IQ-GOV-01",
+      "governorate_ar": "بغداد",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "معالم تاريخية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "شارع تاريخي يحمل مباني وواجهات من بغداد القديمة.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية وتاريخية",
+        "معالم تاريخية",
+        "بغداد"
+      ],
+      "wikimedia_search_query": "Al-Rasheed Street",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Al-Rasheed%20Street%20Iraq"
+    },
+    {
+      "id": "IQ-0011",
+      "name_ar": "المدرسة الآصفية",
+      "name_en": "Al-Asifiya Mosque",
+      "governorate_id": "IQ-GOV-01",
+      "governorate_ar": "بغداد",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "معالم تاريخية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "موقع ديني وتاريخي في منطقة بغداد القديمة.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية وتاريخية",
+        "معالم تاريخية",
+        "بغداد"
+      ],
+      "wikimedia_search_query": "Al-Asifiya Mosque",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Al-Asifiya%20Mosque%20Iraq"
+    },
+    {
+      "id": "IQ-0012",
+      "name_ar": "جامع الخلفاء",
+      "name_en": "Al-Khulafa Mosque",
+      "governorate_id": "IQ-GOV-01",
+      "governorate_ar": "بغداد",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "معالم تاريخية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مسجد تاريخي في بغداد.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية وتاريخية",
+        "معالم تاريخية",
+        "بغداد"
+      ],
+      "wikimedia_search_query": "Al-Khulafa Mosque",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Al-Khulafa%20Mosque%20Iraq"
+    },
+    {
+      "id": "IQ-0013",
+      "name_ar": "نصب الشهيد",
+      "name_en": "Martyr Monument",
+      "governorate_id": "IQ-GOV-01",
+      "governorate_ar": "بغداد",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "معالم تاريخية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "نصب تذكاري ومتحف مرتبط بتاريخ العراق الحديث.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية وتاريخية",
+        "معالم تاريخية",
+        "بغداد"
+      ],
+      "wikimedia_search_query": "Martyr Monument",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Martyr%20Monument%20Iraq"
+    },
+    {
+      "id": "IQ-0014",
+      "name_ar": "حدائق أبو نؤاس",
+      "name_en": "Abu Nuwas Gardens",
+      "governorate_id": "IQ-GOV-01",
+      "governorate_ar": "بغداد",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "معالم تاريخية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "متنزهات على ضفاف نهر دجلة.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية وتاريخية",
+        "معالم تاريخية",
+        "بغداد"
+      ],
+      "wikimedia_search_query": "Abu Nuwas Gardens",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Abu%20Nuwas%20Gardens%20Iraq"
+    },
+    {
+      "id": "IQ-0015",
+      "name_ar": "جزيرة بغداد السياحية",
+      "name_en": "Baghdad Tourist Island",
+      "governorate_id": "IQ-GOV-01",
+      "governorate_ar": "بغداد",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "معالم تاريخية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "منطقة ترفيهية في بغداد.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية وتاريخية",
+        "معالم تاريخية",
+        "بغداد"
+      ],
+      "wikimedia_search_query": "Baghdad Tourist Island",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Baghdad%20Tourist%20Island%20Iraq"
+    },
+    {
+      "id": "IQ-0016",
+      "name_ar": "مرقد الإمام الكاظم",
+      "name_en": "Al-Kadhim Shrine",
+      "governorate_id": "IQ-GOV-01",
+      "governorate_ar": "بغداد",
+      "category": "religious",
+      "category_ar": "دينية",
+      "era": "مساجد ومراقد",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مرقد الإمام موسى الكاظم والإمام محمد الجواد في الكاظمية.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "دينية",
+        "مساجد ومراقد",
+        "بغداد"
+      ],
+      "wikimedia_search_query": "Al-Kadhim Shrine",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Al-Kadhim%20Shrine%20Iraq"
+    },
+    {
+      "id": "IQ-0017",
+      "name_ar": "جامع الإمام الأعظم أبو حنيفة",
+      "name_en": "Abu Hanifa Mosque",
+      "governorate_id": "IQ-GOV-01",
+      "governorate_ar": "بغداد",
+      "category": "religious",
+      "category_ar": "دينية",
+      "era": "مساجد ومراقد",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مسجد ومرقد في منطقة الأعظمية.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "دينية",
+        "مساجد ومراقد",
+        "بغداد"
+      ],
+      "wikimedia_search_query": "Abu Hanifa Mosque",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Abu%20Hanifa%20Mosque%20Iraq"
+    },
+    {
+      "id": "IQ-0018",
+      "name_ar": "جامع أم القرى",
+      "name_en": "Umm al-Qura Mosque",
+      "governorate_id": "IQ-GOV-01",
+      "governorate_ar": "بغداد",
+      "category": "religious",
+      "category_ar": "دينية",
+      "era": "مساجد ومراقد",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مسجد معروف في بغداد.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "دينية",
+        "مساجد ومراقد",
+        "بغداد"
+      ],
+      "wikimedia_search_query": "Umm al-Qura Mosque",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Umm%20al-Qura%20Mosque%20Iraq"
+    },
+    {
+      "id": "IQ-0019",
+      "name_ar": "جامع الرحمن",
+      "name_en": "Al-Rahman Mosque",
+      "governorate_id": "IQ-GOV-01",
+      "governorate_ar": "بغداد",
+      "category": "religious",
+      "category_ar": "دينية",
+      "era": "مساجد ومراقد",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مسجد ذو تصميم معماري كبير في بغداد.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "دينية",
+        "مساجد ومراقد",
+        "بغداد"
+      ],
+      "wikimedia_search_query": "Al-Rahman Mosque",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Al-Rahman%20Mosque%20Iraq"
+    },
+    {
+      "id": "IQ-0020",
+      "name_ar": "مدينة بابل الأثرية",
+      "name_en": "Babylon",
+      "governorate_id": "IQ-GOV-10",
+      "governorate_ar": "بابل",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار بابلية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "موقع المدينة القديمة وآثارها البابلية.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار بابلية",
+        "بابل"
+      ],
+      "wikimedia_search_query": "Babylon",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Babylon%20Iraq"
+    },
+    {
+      "id": "IQ-0021",
+      "name_ar": "أسد بابل",
+      "name_en": "Lion of Babylon",
+      "governorate_id": "IQ-GOV-10",
+      "governorate_ar": "بابل",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار بابلية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "تمثال حجري رمزي ضمن موقع بابل.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار بابلية",
+        "بابل"
+      ],
+      "wikimedia_search_query": "Lion of Babylon",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Lion%20of%20Babylon%20Iraq"
+    },
+    {
+      "id": "IQ-0022",
+      "name_ar": "بوابة عشتار (إعادة البناء بالموقع)",
+      "name_en": "Ishtar Gate Replica",
+      "governorate_id": "IQ-GOV-10",
+      "governorate_ar": "بابل",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار بابلية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "إعادة بناء بوابة عشتار في موقع بابل.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار بابلية",
+        "بابل"
+      ],
+      "wikimedia_search_query": "Ishtar Gate Replica",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Ishtar%20Gate%20Replica%20Iraq"
+    },
+    {
+      "id": "IQ-0023",
+      "name_ar": "شارع الموكب",
+      "name_en": "Processional Way",
+      "governorate_id": "IQ-GOV-10",
+      "governorate_ar": "بابل",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار بابلية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "طريق احتفالي قديم ضمن مدينة بابل.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار بابلية",
+        "بابل"
+      ],
+      "wikimedia_search_query": "Processional Way",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Processional%20Way%20Iraq"
+    },
+    {
+      "id": "IQ-0024",
+      "name_ar": "قصر نبوخذنصر",
+      "name_en": "Nebuchadnezzar Palace",
+      "governorate_id": "IQ-GOV-10",
+      "governorate_ar": "بابل",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار بابلية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "آثار قصر ضمن الموقع الأثري لبابل.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار بابلية",
+        "بابل"
+      ],
+      "wikimedia_search_query": "Nebuchadnezzar Palace",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Nebuchadnezzar%20Palace%20Iraq"
+    },
+    {
+      "id": "IQ-0025",
+      "name_ar": "موقع بورسيبا",
+      "name_en": "Borsippa",
+      "governorate_id": "IQ-GOV-10",
+      "governorate_ar": "بابل",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار بابلية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مدينة بابلية قديمة وموقع زقورة.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار بابلية",
+        "بابل"
+      ],
+      "wikimedia_search_query": "Borsippa",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Borsippa%20Iraq"
+    },
+    {
+      "id": "IQ-0026",
+      "name_ar": "زقورة بورسيبا",
+      "name_en": "Borsippa Ziggurat",
+      "governorate_id": "IQ-GOV-10",
+      "governorate_ar": "بابل",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار بابلية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "بقايا زقورة في موقع بورسيبا.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار بابلية",
+        "بابل"
+      ],
+      "wikimedia_search_query": "Borsippa Ziggurat",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Borsippa%20Ziggurat%20Iraq"
+    },
+    {
+      "id": "IQ-0027",
+      "name_ar": "مرقد الإمام الحسين",
+      "name_en": "Imam Husayn Shrine",
+      "governorate_id": "IQ-GOV-07",
+      "governorate_ar": "كربلاء",
+      "category": "religious",
+      "category_ar": "دينية",
+      "era": "مراقد ومساجد",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مرقد الإمام الحسين في مركز مدينة كربلاء.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "دينية",
+        "مراقد ومساجد",
+        "كربلاء"
+      ],
+      "wikimedia_search_query": "Imam Husayn Shrine",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Imam%20Husayn%20Shrine%20Iraq"
+    },
+    {
+      "id": "IQ-0028",
+      "name_ar": "مرقد العباس",
+      "name_en": "Al-Abbas Shrine",
+      "governorate_id": "IQ-GOV-07",
+      "governorate_ar": "كربلاء",
+      "category": "religious",
+      "category_ar": "دينية",
+      "era": "مراقد ومساجد",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مرقد العباس بن علي في كربلاء.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "دينية",
+        "مراقد ومساجد",
+        "كربلاء"
+      ],
+      "wikimedia_search_query": "Al-Abbas Shrine",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Al-Abbas%20Shrine%20Iraq"
+    },
+    {
+      "id": "IQ-0029",
+      "name_ar": "تل زينبية",
+      "name_en": "Zainabiya Hill",
+      "governorate_id": "IQ-GOV-07",
+      "governorate_ar": "كربلاء",
+      "category": "religious",
+      "category_ar": "دينية",
+      "era": "مراقد ومساجد",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "موقع مرتبط بالتقاليد الدينية في كربلاء.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "دينية",
+        "مراقد ومساجد",
+        "كربلاء"
+      ],
+      "wikimedia_search_query": "Zainabiya Hill",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Zainabiya%20Hill%20Iraq"
+    },
+    {
+      "id": "IQ-0030",
+      "name_ar": "مقام الإمام المهدي",
+      "name_en": "Imam Mahdi Shrine",
+      "governorate_id": "IQ-GOV-07",
+      "governorate_ar": "كربلاء",
+      "category": "religious",
+      "category_ar": "دينية",
+      "era": "مراقد ومساجد",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مقام ديني في كربلاء.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "دينية",
+        "مراقد ومساجد",
+        "كربلاء"
+      ],
+      "wikimedia_search_query": "Imam Mahdi Shrine",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Imam%20Mahdi%20Shrine%20Iraq"
+    },
+    {
+      "id": "IQ-0031",
+      "name_ar": "مقام الحر",
+      "name_en": "Shrine of al-Hurr",
+      "governorate_id": "IQ-GOV-07",
+      "governorate_ar": "كربلاء",
+      "category": "religious",
+      "category_ar": "دينية",
+      "era": "مراقد ومساجد",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مرقد الحر بن يزيد الرياحي قرب كربلاء.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "دينية",
+        "مراقد ومساجد",
+        "كربلاء"
+      ],
+      "wikimedia_search_query": "Shrine of al-Hurr",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Shrine%20of%20al-Hurr%20Iraq"
+    },
+    {
+      "id": "IQ-0032",
+      "name_ar": "قلعة الأخيضر",
+      "name_en": "Al-Ukhaidir Fortress",
+      "governorate_id": "IQ-GOV-07",
+      "governorate_ar": "كربلاء",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "قلاع ومواقع",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "قلعة إسلامية تاريخية جنوب غرب كربلاء.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية وتاريخية",
+        "قلاع ومواقع",
+        "كربلاء"
+      ],
+      "wikimedia_search_query": "Al-Ukhaidir Fortress",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Al-Ukhaidir%20Fortress%20Iraq"
+    },
+    {
+      "id": "IQ-0033",
+      "name_ar": "خان النخيلة",
+      "name_en": "Khan al-Nukhayla",
+      "governorate_id": "IQ-GOV-07",
+      "governorate_ar": "كربلاء",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "قلاع ومواقع",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "خان تاريخي على طرق القوافل.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية وتاريخية",
+        "قلاع ومواقع",
+        "كربلاء"
+      ],
+      "wikimedia_search_query": "Khan al-Nukhayla",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Khan%20al-Nukhayla%20Iraq"
+    },
+    {
+      "id": "IQ-0034",
+      "name_ar": "قصر شمعون",
+      "name_en": "Shimon Palace",
+      "governorate_id": "IQ-GOV-07",
+      "governorate_ar": "كربلاء",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "قلاع ومواقع",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "موقع تاريخي محلي قرب كربلاء.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية وتاريخية",
+        "قلاع ومواقع",
+        "كربلاء"
+      ],
+      "wikimedia_search_query": "Shimon Palace",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Shimon%20Palace%20Iraq"
+    },
+    {
+      "id": "IQ-0035",
+      "name_ar": "مرقد الإمام علي",
+      "name_en": "Imam Ali Shrine",
+      "governorate_id": "IQ-GOV-08",
+      "governorate_ar": "النجف",
+      "category": "religious",
+      "category_ar": "دينية",
+      "era": "مراقد ومواقع دينية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مرقد الإمام علي بن أبي طالب في النجف.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "دينية",
+        "مراقد ومواقع دينية",
+        "النجف"
+      ],
+      "wikimedia_search_query": "Imam Ali Shrine",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Imam%20Ali%20Shrine%20Iraq"
+    },
+    {
+      "id": "IQ-0036",
+      "name_ar": "مقبرة وادي السلام",
+      "name_en": "Wadi al-Salam Cemetery",
+      "governorate_id": "IQ-GOV-08",
+      "governorate_ar": "النجف",
+      "category": "religious",
+      "category_ar": "دينية",
+      "era": "مراقد ومواقع دينية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مقبرة تاريخية واسعة في النجف.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "دينية",
+        "مراقد ومواقع دينية",
+        "النجف"
+      ],
+      "wikimedia_search_query": "Wadi al-Salam Cemetery",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Wadi%20al-Salam%20Cemetery%20Iraq"
+    },
+    {
+      "id": "IQ-0037",
+      "name_ar": "مسجد الكوفة",
+      "name_en": "Great Mosque of Kufa",
+      "governorate_id": "IQ-GOV-08",
+      "governorate_ar": "النجف",
+      "category": "religious",
+      "category_ar": "دينية",
+      "era": "مراقد ومواقع دينية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مسجد تاريخي في مدينة الكوفة.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "دينية",
+        "مراقد ومواقع دينية",
+        "النجف"
+      ],
+      "wikimedia_search_query": "Great Mosque of Kufa",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Great%20Mosque%20of%20Kufa%20Iraq"
+    },
+    {
+      "id": "IQ-0038",
+      "name_ar": "مرقد مسلم بن عقيل",
+      "name_en": "Shrine of Muslim ibn Aqil",
+      "governorate_id": "IQ-GOV-08",
+      "governorate_ar": "النجف",
+      "category": "religious",
+      "category_ar": "دينية",
+      "era": "مراقد ومواقع دينية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مرقد مسلم بن عقيل بجوار مسجد الكوفة.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "دينية",
+        "مراقد ومواقع دينية",
+        "النجف"
+      ],
+      "wikimedia_search_query": "Shrine of Muslim ibn Aqil",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Shrine%20of%20Muslim%20ibn%20Aqil%20Iraq"
+    },
+    {
+      "id": "IQ-0039",
+      "name_ar": "مرقد هاني بن عروة",
+      "name_en": "Shrine of Hani ibn Urwa",
+      "governorate_id": "IQ-GOV-08",
+      "governorate_ar": "النجف",
+      "category": "religious",
+      "category_ar": "دينية",
+      "era": "مراقد ومواقع دينية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مرقد تاريخي في الكوفة.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "دينية",
+        "مراقد ومواقع دينية",
+        "النجف"
+      ],
+      "wikimedia_search_query": "Shrine of Hani ibn Urwa",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Shrine%20of%20Hani%20ibn%20Urwa%20Iraq"
+    },
+    {
+      "id": "IQ-0040",
+      "name_ar": "دار الإمام علي في الكوفة (الموقع المنسوب)",
+      "name_en": "House of Imam Ali in Kufa",
+      "governorate_id": "IQ-GOV-08",
+      "governorate_ar": "النجف",
+      "category": "religious",
+      "category_ar": "دينية",
+      "era": "مراقد ومواقع دينية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "موقع تاريخي منسوب في الكوفة.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "دينية",
+        "مراقد ومواقع دينية",
+        "النجف"
+      ],
+      "wikimedia_search_query": "House of Imam Ali in Kufa",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=House%20of%20Imam%20Ali%20in%20Kufa%20Iraq"
+    },
+    {
+      "id": "IQ-0041",
+      "name_ar": "مسجد السهلة",
+      "name_en": "Masjid al-Sahla",
+      "governorate_id": "IQ-GOV-08",
+      "governorate_ar": "النجف",
+      "category": "religious",
+      "category_ar": "دينية",
+      "era": "مراقد ومواقع دينية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مسجد تاريخي في الكوفة.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "دينية",
+        "مراقد ومواقع دينية",
+        "النجف"
+      ],
+      "wikimedia_search_query": "Masjid al-Sahla",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Masjid%20al-Sahla%20Iraq"
+    },
+    {
+      "id": "IQ-0042",
+      "name_ar": "مرقد ميثم التمار",
+      "name_en": "Shrine of Maytham al-Tammar",
+      "governorate_id": "IQ-GOV-08",
+      "governorate_ar": "النجف",
+      "category": "religious",
+      "category_ar": "دينية",
+      "era": "مراقد ومواقع دينية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مرقد في الكوفة.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "دينية",
+        "مراقد ومواقع دينية",
+        "النجف"
+      ],
+      "wikimedia_search_query": "Shrine of Maytham al-Tammar",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Shrine%20of%20Maytham%20al-Tammar%20Iraq"
+    },
+    {
+      "id": "IQ-0043",
+      "name_ar": "مدينة أور",
+      "name_en": "Ur",
+      "governorate_id": "IQ-GOV-18",
+      "governorate_ar": "ذي قار",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار سومرية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مدينة سومرية قديمة قرب الناصرية.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار سومرية",
+        "ذي قار"
+      ],
+      "wikimedia_search_query": "Ur",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Ur%20Iraq"
+    },
+    {
+      "id": "IQ-0044",
+      "name_ar": "زقورة أور",
+      "name_en": "Ziggurat of Ur",
+      "governorate_id": "IQ-GOV-18",
+      "governorate_ar": "ذي قار",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار سومرية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "زقورة سومرية محفوظة نسبياً ضمن موقع أور.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار سومرية",
+        "ذي قار"
+      ],
+      "wikimedia_search_query": "Ziggurat of Ur",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Ziggurat%20of%20Ur%20Iraq"
+    },
+    {
+      "id": "IQ-0045",
+      "name_ar": "مقبرة أور الملكية",
+      "name_en": "Royal Cemetery of Ur",
+      "governorate_id": "IQ-GOV-18",
+      "governorate_ar": "ذي قار",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار سومرية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مقبرة أثرية تعود إلى الحضارة السومرية.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار سومرية",
+        "ذي قار"
+      ],
+      "wikimedia_search_query": "Royal Cemetery of Ur",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Royal%20Cemetery%20of%20Ur%20Iraq"
+    },
+    {
+      "id": "IQ-0046",
+      "name_ar": "مدينة إريدو",
+      "name_en": "Eridu",
+      "governorate_id": "IQ-GOV-18",
+      "governorate_ar": "ذي قار",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار سومرية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "موقع مدينة سومرية قديمة.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار سومرية",
+        "ذي قار"
+      ],
+      "wikimedia_search_query": "Eridu",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Eridu%20Iraq"
+    },
+    {
+      "id": "IQ-0047",
+      "name_ar": "مدينة لكش (تل الوه)",
+      "name_en": "Lagash / Tell al-Hiba",
+      "governorate_id": "IQ-GOV-18",
+      "governorate_ar": "ذي قار",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار سومرية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "موقع مدينة سومرية.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار سومرية",
+        "ذي قار"
+      ],
+      "wikimedia_search_query": "Lagash / Tell al-Hiba",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Lagash%20/%20Tell%20al-Hiba%20Iraq"
+    },
+    {
+      "id": "IQ-0048",
+      "name_ar": "مدينة كرسو (تل تيلو)",
+      "name_en": "Girsu / Tello",
+      "governorate_id": "IQ-GOV-18",
+      "governorate_ar": "ذي قار",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار سومرية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "موقع أثري سومري.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار سومرية",
+        "ذي قار"
+      ],
+      "wikimedia_search_query": "Girsu / Tello",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Girsu%20/%20Tello%20Iraq"
+    },
+    {
+      "id": "IQ-0049",
+      "name_ar": "مدينة أورك (الوركاء)",
+      "name_en": "Uruk",
+      "governorate_id": "IQ-GOV-18",
+      "governorate_ar": "ذي قار",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار سومرية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مدينة سومرية مهمة في تاريخ نشوء المدن.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار سومرية",
+        "ذي قار"
+      ],
+      "wikimedia_search_query": "Uruk",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Uruk%20Iraq"
+    },
+    {
+      "id": "IQ-0050",
+      "name_ar": "موقع تل العبيد",
+      "name_en": "Tell Ubaid",
+      "governorate_id": "IQ-GOV-18",
+      "governorate_ar": "ذي قار",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار سومرية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "موقع أثري من عصور ما قبل التاريخ في جنوب العراق.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار سومرية",
+        "ذي قار"
+      ],
+      "wikimedia_search_query": "Tell Ubaid",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Tell%20Ubaid%20Iraq"
+    },
+    {
+      "id": "IQ-0051",
+      "name_ar": "أهوار الجبايش",
+      "name_en": "Al-Chibayish Marshes",
+      "governorate_id": "IQ-GOV-18",
+      "governorate_ar": "ذي قار",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "الأهوار",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "منطقة أهوار وممرات مائية ومجتمع محلي.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وسياحية",
+        "الأهوار",
+        "ذي قار"
+      ],
+      "wikimedia_search_query": "Al-Chibayish Marshes",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Al-Chibayish%20Marshes%20Iraq"
+    },
+    {
+      "id": "IQ-0052",
+      "name_ar": "أهوار ذي قار",
+      "name_en": "Dhi Qar Marshes",
+      "governorate_id": "IQ-GOV-18",
+      "governorate_ar": "ذي قار",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "الأهوار",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "منظومة الأهوار الجنوبية ذات أهمية بيئية وتراثية.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وسياحية",
+        "الأهوار",
+        "ذي قار"
+      ],
+      "wikimedia_search_query": "Dhi Qar Marshes",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Dhi%20Qar%20Marshes%20Iraq"
+    },
+    {
+      "id": "IQ-0053",
+      "name_ar": "مركز زوار الأهوار في الجبايش",
+      "name_en": "Chibayish Marsh Visitor Area",
+      "governorate_id": "IQ-GOV-18",
+      "governorate_ar": "ذي قار",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "الأهوار",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "منطقة زيارة وتعريف بالأهوار.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وسياحية",
+        "الأهوار",
+        "ذي قار"
+      ],
+      "wikimedia_search_query": "Chibayish Marsh Visitor Area",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Chibayish%20Marsh%20Visitor%20Area%20Iraq"
+    },
+    {
+      "id": "IQ-0054",
+      "name_ar": "هور الحويزة",
+      "name_en": "Hawizeh Marshes",
+      "governorate_id": "IQ-GOV-15",
+      "governorate_ar": "ميسان",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "الأهوار",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "أهوار واسعة على الحدود العراقية الإيرانية.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وسياحية",
+        "الأهوار",
+        "ميسان"
+      ],
+      "wikimedia_search_query": "Hawizeh Marshes",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Hawizeh%20Marshes%20Iraq"
+    },
+    {
+      "id": "IQ-0055",
+      "name_ar": "هور السناف",
+      "name_en": "Sanav Marsh",
+      "governorate_id": "IQ-GOV-15",
+      "governorate_ar": "ميسان",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "الأهوار",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "منطقة من مناطق الأهوار في ميسان.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وسياحية",
+        "الأهوار",
+        "ميسان"
+      ],
+      "wikimedia_search_query": "Sanav Marsh",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Sanav%20Marsh%20Iraq"
+    },
+    {
+      "id": "IQ-0056",
+      "name_ar": "الأهوار الوسطى في ميسان",
+      "name_en": "Central Maysan Marshes",
+      "governorate_id": "IQ-GOV-15",
+      "governorate_ar": "ميسان",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "الأهوار",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مناطق مائية وبيئية في ميسان.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وسياحية",
+        "الأهوار",
+        "ميسان"
+      ],
+      "wikimedia_search_query": "Central Maysan Marshes",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Central%20Maysan%20Marshes%20Iraq"
+    },
+    {
+      "id": "IQ-0057",
+      "name_ar": "شط العرب",
+      "name_en": "Shatt al-Arab",
+      "governorate_id": "IQ-GOV-02",
+      "governorate_ar": "البصرة",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "مواقع طبيعية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مجرى مائي تتشكل عنده منطقة شط العرب.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وسياحية",
+        "مواقع طبيعية",
+        "البصرة"
+      ],
+      "wikimedia_search_query": "Shatt al-Arab",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Shatt%20al-Arab%20Iraq"
+    },
+    {
+      "id": "IQ-0058",
+      "name_ar": "كورنيش شط العرب",
+      "name_en": "Shatt al-Arab Corniche",
+      "governorate_id": "IQ-GOV-02",
+      "governorate_ar": "البصرة",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "مواقع طبيعية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "واجهة نهرية للتنزه في البصرة.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وسياحية",
+        "مواقع طبيعية",
+        "البصرة"
+      ],
+      "wikimedia_search_query": "Shatt al-Arab Corniche",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Shatt%20al-Arab%20Corniche%20Iraq"
+    },
+    {
+      "id": "IQ-0059",
+      "name_ar": "جزيرة السندباد",
+      "name_en": "Sindbad Island",
+      "governorate_id": "IQ-GOV-02",
+      "governorate_ar": "البصرة",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "مواقع طبيعية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "جزيرة وموقع ترفيهي في البصرة.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وسياحية",
+        "مواقع طبيعية",
+        "البصرة"
+      ],
+      "wikimedia_search_query": "Sindbad Island",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Sindbad%20Island%20Iraq"
+    },
+    {
+      "id": "IQ-0060",
+      "name_ar": "غابات النخيل في أبي الخصيب",
+      "name_en": "Abu al-Khasib Palm Groves",
+      "governorate_id": "IQ-GOV-02",
+      "governorate_ar": "البصرة",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "مواقع طبيعية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "بساتين نخيل على مجاري المياه في جنوب البصرة.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وسياحية",
+        "مواقع طبيعية",
+        "البصرة"
+      ],
+      "wikimedia_search_query": "Abu al-Khasib Palm Groves",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Abu%20al-Khasib%20Palm%20Groves%20Iraq"
+    },
+    {
+      "id": "IQ-0061",
+      "name_ar": "الفاو",
+      "name_en": "Al-Faw",
+      "governorate_id": "IQ-GOV-02",
+      "governorate_ar": "البصرة",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "مواقع طبيعية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "منطقة ساحلية عند الطرف الجنوبي للعراق.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وسياحية",
+        "مواقع طبيعية",
+        "البصرة"
+      ],
+      "wikimedia_search_query": "Al-Faw",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Al-Faw%20Iraq"
+    },
+    {
+      "id": "IQ-0062",
+      "name_ar": "خور الزبير",
+      "name_en": "Khor al-Zubair",
+      "governorate_id": "IQ-GOV-02",
+      "governorate_ar": "البصرة",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "مواقع طبيعية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "ممر وميناء ضمن منطقة البصرة.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وسياحية",
+        "مواقع طبيعية",
+        "البصرة"
+      ],
+      "wikimedia_search_query": "Khor al-Zubair",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Khor%20al-Zubair%20Iraq"
+    },
+    {
+      "id": "IQ-0063",
+      "name_ar": "بحيرة ساوة",
+      "name_en": "Lake Sawa",
+      "governorate_id": "IQ-GOV-02",
+      "governorate_ar": "البصرة",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "مواقع طبيعية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "بحيرة طبيعية داخل محافظة المثنى، مدرجة هنا بالربط الجغرافي لا البصري.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وسياحية",
+        "مواقع طبيعية",
+        "البصرة"
+      ],
+      "wikimedia_search_query": "Lake Sawa",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Lake%20Sawa%20Iraq"
+    },
+    {
+      "id": "IQ-0064",
+      "name_ar": "بيت السياب",
+      "name_en": "Bait al-Sayyab",
+      "governorate_id": "IQ-GOV-02",
+      "governorate_ar": "البصرة",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "معالم المدينة",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "بيت مرتبط بالشاعر بدر شاكر السياب في جيكور.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "تاريخية وثقافية",
+        "معالم المدينة",
+        "البصرة"
+      ],
+      "wikimedia_search_query": "Bait al-Sayyab",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Bait%20al-Sayyab%20Iraq"
+    },
+    {
+      "id": "IQ-0065",
+      "name_ar": "متحف البصرة",
+      "name_en": "Basra Museum",
+      "governorate_id": "IQ-GOV-02",
+      "governorate_ar": "البصرة",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "معالم المدينة",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "متحف يعرض جوانب من تاريخ المنطقة.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "تاريخية وثقافية",
+        "معالم المدينة",
+        "البصرة"
+      ],
+      "wikimedia_search_query": "Basra Museum",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Basra%20Museum%20Iraq"
+    },
+    {
+      "id": "IQ-0066",
+      "name_ar": "سوق البصرة القديم",
+      "name_en": "Old Basra Market",
+      "governorate_id": "IQ-GOV-02",
+      "governorate_ar": "البصرة",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "معالم المدينة",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "أسواق تقليدية في المدينة.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "تاريخية وثقافية",
+        "معالم المدينة",
+        "البصرة"
+      ],
+      "wikimedia_search_query": "Old Basra Market",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Old%20Basra%20Market%20Iraq"
+    },
+    {
+      "id": "IQ-0067",
+      "name_ar": "مقام الإمام الحسن البصري",
+      "name_en": "Shrine of Hasan al-Basri",
+      "governorate_id": "IQ-GOV-02",
+      "governorate_ar": "البصرة",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "معالم المدينة",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "موقع ديني وتاريخي مرتبط بالحسن البصري.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "تاريخية وثقافية",
+        "معالم المدينة",
+        "البصرة"
+      ],
+      "wikimedia_search_query": "Shrine of Hasan al-Basri",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Shrine%20of%20Hasan%20al-Basri%20Iraq"
+    },
+    {
+      "id": "IQ-0068",
+      "name_ar": "جامع خطوة الإمام علي",
+      "name_en": "Khatwat Imam Ali Mosque",
+      "governorate_id": "IQ-GOV-02",
+      "governorate_ar": "البصرة",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "معالم المدينة",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مسجد وموقع تاريخي في منطقة الزبير.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "تاريخية وثقافية",
+        "معالم المدينة",
+        "البصرة"
+      ],
+      "wikimedia_search_query": "Khatwat Imam Ali Mosque",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Khatwat%20Imam%20Ali%20Mosque%20Iraq"
+    },
+    {
+      "id": "IQ-0069",
+      "name_ar": "مدينة البصرة القديمة",
+      "name_en": "Old Basra",
+      "governorate_id": "IQ-GOV-02",
+      "governorate_ar": "البصرة",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "معالم المدينة",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "منطقة تاريخية مرتبطة بتاريخ البصرة الإسلامي.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "تاريخية وثقافية",
+        "معالم المدينة",
+        "البصرة"
+      ],
+      "wikimedia_search_query": "Old Basra",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Old%20Basra%20Iraq"
+    },
+    {
+      "id": "IQ-0070",
+      "name_ar": "مدينة الوركاء",
+      "name_en": "Uruk",
+      "governorate_id": "IQ-GOV-11",
+      "governorate_ar": "المثنى",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار ومدن قديمة",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مدينة أثرية سومرية ضمن محافظة المثنى.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار ومدن قديمة",
+        "المثنى"
+      ],
+      "wikimedia_search_query": "Uruk",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Uruk%20Iraq"
+    },
+    {
+      "id": "IQ-0071",
+      "name_ar": "مدينة نيبور",
+      "name_en": "Nippur",
+      "governorate_id": "IQ-GOV-11",
+      "governorate_ar": "المثنى",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار ومدن قديمة",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مدينة سومرية وبابلية ذات مركز ديني مهم.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار ومدن قديمة",
+        "المثنى"
+      ],
+      "wikimedia_search_query": "Nippur",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Nippur%20Iraq"
+    },
+    {
+      "id": "IQ-0072",
+      "name_ar": "مدينة لارسا",
+      "name_en": "Larsa",
+      "governorate_id": "IQ-GOV-11",
+      "governorate_ar": "المثنى",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار ومدن قديمة",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "موقع مدينة قديمة جنوب العراق.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار ومدن قديمة",
+        "المثنى"
+      ],
+      "wikimedia_search_query": "Larsa",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Larsa%20Iraq"
+    },
+    {
+      "id": "IQ-0073",
+      "name_ar": "بحيرة ساوة",
+      "name_en": "Lake Sawa",
+      "governorate_id": "IQ-GOV-11",
+      "governorate_ar": "المثنى",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار ومدن قديمة",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "بحيرة طبيعية معروفة في محافظة المثنى.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار ومدن قديمة",
+        "المثنى"
+      ],
+      "wikimedia_search_query": "Lake Sawa",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Lake%20Sawa%20Iraq"
+    },
+    {
+      "id": "IQ-0074",
+      "name_ar": "موقع تل الدير",
+      "name_en": "Tell al-Dair",
+      "governorate_id": "IQ-GOV-11",
+      "governorate_ar": "المثنى",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار ومدن قديمة",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "موقع أثري في منطقة جنوب العراق.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار ومدن قديمة",
+        "المثنى"
+      ],
+      "wikimedia_search_query": "Tell al-Dair",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Tell%20al-Dair%20Iraq"
+    },
+    {
+      "id": "IQ-0075",
+      "name_ar": "مدينة نفر",
+      "name_en": "Nippur",
+      "governorate_id": "IQ-GOV-17",
+      "governorate_ar": "القادسية",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "موقع نيبور الأثري قرب عفك.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار",
+        "القادسية"
+      ],
+      "wikimedia_search_query": "Nippur",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Nippur%20Iraq"
+    },
+    {
+      "id": "IQ-0076",
+      "name_ar": "تل أبو صلابيخ",
+      "name_en": "Abu Salabikh",
+      "governorate_id": "IQ-GOV-17",
+      "governorate_ar": "القادسية",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "موقع أثري من العصر السومري المبكر.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار",
+        "القادسية"
+      ],
+      "wikimedia_search_query": "Abu Salabikh",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Abu%20Salabikh%20Iraq"
+    },
+    {
+      "id": "IQ-0077",
+      "name_ar": "مدينة واسط الأثرية",
+      "name_en": "Wasit Archaeological City",
+      "governorate_id": "IQ-GOV-16",
+      "governorate_ar": "واسط",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مدينة تاريخية أسسها الحجاج بن يوسف الثقفي.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية وتاريخية",
+        "آثار",
+        "واسط"
+      ],
+      "wikimedia_search_query": "Wasit Archaeological City",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Wasit%20Archaeological%20City%20Iraq"
+    },
+    {
+      "id": "IQ-0078",
+      "name_ar": "منارة واسط",
+      "name_en": "Wasit Minaret",
+      "governorate_id": "IQ-GOV-16",
+      "governorate_ar": "واسط",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "معلم ضمن المنطقة التاريخية لواسط.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية وتاريخية",
+        "آثار",
+        "واسط"
+      ],
+      "wikimedia_search_query": "Wasit Minaret",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Wasit%20Minaret%20Iraq"
+    },
+    {
+      "id": "IQ-0079",
+      "name_ar": "موقع تل الدير",
+      "name_en": "Tell al-Dair",
+      "governorate_id": "IQ-GOV-16",
+      "governorate_ar": "واسط",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "موقع أثري في منطقة واسط.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية وتاريخية",
+        "آثار",
+        "واسط"
+      ],
+      "wikimedia_search_query": "Tell al-Dair",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Tell%20al-Dair%20Iraq"
+    },
+    {
+      "id": "IQ-0080",
+      "name_ar": "مدينة آشور (قلعة الشرقاط)",
+      "name_en": "Ashur / Qal'at Sherqat",
+      "governorate_id": "IQ-GOV-09",
+      "governorate_ar": "صلاح الدين",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار آشورية وعباسية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مدينة آشورية قديمة على ضفاف دجلة.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار آشورية وعباسية",
+        "صلاح الدين"
+      ],
+      "wikimedia_search_query": "Ashur / Qal'at Sherqat",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Ashur%20/%20Qal%27at%20Sherqat%20Iraq"
+    },
+    {
+      "id": "IQ-0081",
+      "name_ar": "مدينة سامراء الأثرية",
+      "name_en": "Samarra Archaeological City",
+      "governorate_id": "IQ-GOV-09",
+      "governorate_ar": "صلاح الدين",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار آشورية وعباسية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مدينة عباسية أثرية.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار آشورية وعباسية",
+        "صلاح الدين"
+      ],
+      "wikimedia_search_query": "Samarra Archaeological City",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Samarra%20Archaeological%20City%20Iraq"
+    },
+    {
+      "id": "IQ-0082",
+      "name_ar": "الملوية",
+      "name_en": "Malwiya Minaret",
+      "governorate_id": "IQ-GOV-09",
+      "governorate_ar": "صلاح الدين",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار آشورية وعباسية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "منارة الجامع الكبير في سامراء.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار آشورية وعباسية",
+        "صلاح الدين"
+      ],
+      "wikimedia_search_query": "Malwiya Minaret",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Malwiya%20Minaret%20Iraq"
+    },
+    {
+      "id": "IQ-0083",
+      "name_ar": "الجامع الكبير في سامراء",
+      "name_en": "Great Mosque of Samarra",
+      "governorate_id": "IQ-GOV-09",
+      "governorate_ar": "صلاح الدين",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار آشورية وعباسية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "جامع عباسي تاريخي مرتبط بالملوية.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار آشورية وعباسية",
+        "صلاح الدين"
+      ],
+      "wikimedia_search_query": "Great Mosque of Samarra",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Great%20Mosque%20of%20Samarra%20Iraq"
+    },
+    {
+      "id": "IQ-0084",
+      "name_ar": "قصر المعتصم",
+      "name_en": "Al-Mu'tasim Palace",
+      "governorate_id": "IQ-GOV-09",
+      "governorate_ar": "صلاح الدين",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار آشورية وعباسية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "قصر عباسي في سامراء.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار آشورية وعباسية",
+        "صلاح الدين"
+      ],
+      "wikimedia_search_query": "Al-Mu'tasim Palace",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Al-Mu%27tasim%20Palace%20Iraq"
+    },
+    {
+      "id": "IQ-0085",
+      "name_ar": "قصر العاشق",
+      "name_en": "Qasr al-Ashiq",
+      "governorate_id": "IQ-GOV-09",
+      "governorate_ar": "صلاح الدين",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار آشورية وعباسية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "قصر عباسي غرب سامراء.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار آشورية وعباسية",
+        "صلاح الدين"
+      ],
+      "wikimedia_search_query": "Qasr al-Ashiq",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Qasr%20al-Ashiq%20Iraq"
+    },
+    {
+      "id": "IQ-0086",
+      "name_ar": "مدينة الدور الأثرية",
+      "name_en": "Al-Dur Archaeological Site",
+      "governorate_id": "IQ-GOV-09",
+      "governorate_ar": "صلاح الدين",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار آشورية وعباسية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "موقع أثري في محافظة صلاح الدين.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار آشورية وعباسية",
+        "صلاح الدين"
+      ],
+      "wikimedia_search_query": "Al-Dur Archaeological Site",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Al-Dur%20Archaeological%20Site%20Iraq"
+    },
+    {
+      "id": "IQ-0087",
+      "name_ar": "موقع تكريت القديم",
+      "name_en": "Old Tikrit",
+      "governorate_id": "IQ-GOV-09",
+      "governorate_ar": "صلاح الدين",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار آشورية وعباسية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مواقع تاريخية في مدينة تكريت.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار آشورية وعباسية",
+        "صلاح الدين"
+      ],
+      "wikimedia_search_query": "Old Tikrit",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Old%20Tikrit%20Iraq"
+    },
+    {
+      "id": "IQ-0088",
+      "name_ar": "مدينة الحضر",
+      "name_en": "Hatra",
+      "governorate_id": "IQ-GOV-03",
+      "governorate_ar": "نينوى",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار آشورية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مدينة أثرية محصنة ذات عمارة دينية ومدنية.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار آشورية",
+        "نينوى"
+      ],
+      "wikimedia_search_query": "Hatra",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Hatra%20Iraq"
+    },
+    {
+      "id": "IQ-0089",
+      "name_ar": "مدينة نينوى",
+      "name_en": "Nineveh",
+      "governorate_id": "IQ-GOV-03",
+      "governorate_ar": "نينوى",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار آشورية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "موقع العاصمة الآشورية القديمة قرب الموصل.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار آشورية",
+        "نينوى"
+      ],
+      "wikimedia_search_query": "Nineveh",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Nineveh%20Iraq"
+    },
+    {
+      "id": "IQ-0090",
+      "name_ar": "مدينة نمرود",
+      "name_en": "Nimrud / Kalhu",
+      "governorate_id": "IQ-GOV-03",
+      "governorate_ar": "نينوى",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار آشورية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مدينة آشورية قديمة جنوب الموصل.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار آشورية",
+        "نينوى"
+      ],
+      "wikimedia_search_query": "Nimrud / Kalhu",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Nimrud%20/%20Kalhu%20Iraq"
+    },
+    {
+      "id": "IQ-0091",
+      "name_ar": "مدينة خورسباد",
+      "name_en": "Dur-Sharrukin / Khorsabad",
+      "governorate_id": "IQ-GOV-03",
+      "governorate_ar": "نينوى",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار آشورية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "موقع العاصمة الآشورية التي بناها سرجون الثاني.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار آشورية",
+        "نينوى"
+      ],
+      "wikimedia_search_query": "Dur-Sharrukin / Khorsabad",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Dur-Sharrukin%20/%20Khorsabad%20Iraq"
+    },
+    {
+      "id": "IQ-0092",
+      "name_ar": "بوابة نركال",
+      "name_en": "Nergal Gate",
+      "governorate_id": "IQ-GOV-03",
+      "governorate_ar": "نينوى",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار آشورية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "بوابة أثرية ضمن موقع نينوى.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار آشورية",
+        "نينوى"
+      ],
+      "wikimedia_search_query": "Nergal Gate",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Nergal%20Gate%20Iraq"
+    },
+    {
+      "id": "IQ-0093",
+      "name_ar": "اللاماسو في نمرود",
+      "name_en": "Lamassu of Nimrud",
+      "governorate_id": "IQ-GOV-03",
+      "governorate_ar": "نينوى",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار آشورية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "تماثيل آشورية حارسة مرتبطة بموقع نمرود.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار آشورية",
+        "نينوى"
+      ],
+      "wikimedia_search_query": "Lamassu of Nimrud",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Lamassu%20of%20Nimrud%20Iraq"
+    },
+    {
+      "id": "IQ-0094",
+      "name_ar": "تل قوينجق",
+      "name_en": "Kuyunjik Mound",
+      "governorate_id": "IQ-GOV-03",
+      "governorate_ar": "نينوى",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار آشورية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "تل أثري ضمن مدينة نينوى.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار آشورية",
+        "نينوى"
+      ],
+      "wikimedia_search_query": "Kuyunjik Mound",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Kuyunjik%20Mound%20Iraq"
+    },
+    {
+      "id": "IQ-0095",
+      "name_ar": "موقع النبي يونس",
+      "name_en": "Nabi Yunus Site",
+      "governorate_id": "IQ-GOV-03",
+      "governorate_ar": "نينوى",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "آثار آشورية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "موقع تاريخي وديني في الموصل.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية",
+        "آثار آشورية",
+        "نينوى"
+      ],
+      "wikimedia_search_query": "Nabi Yunus Site",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Nabi%20Yunus%20Site%20Iraq"
+    },
+    {
+      "id": "IQ-0096",
+      "name_ar": "كنيسة الساعة (أم الربيع)",
+      "name_en": "Our Lady of the Hour Church",
+      "governorate_id": "IQ-GOV-03",
+      "governorate_ar": "نينوى",
+      "category": "religious",
+      "category_ar": "دينية",
+      "era": "كنائس وأديرة",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "كنيسة تاريخية في الموصل.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "دينية",
+        "كنائس وأديرة",
+        "نينوى"
+      ],
+      "wikimedia_search_query": "Our Lady of the Hour Church",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Our%20Lady%20of%20the%20Hour%20Church%20Iraq"
+    },
+    {
+      "id": "IQ-0097",
+      "name_ar": "دير مار متى",
+      "name_en": "Mar Mattai Monastery",
+      "governorate_id": "IQ-GOV-03",
+      "governorate_ar": "نينوى",
+      "category": "religious",
+      "category_ar": "دينية",
+      "era": "كنائس وأديرة",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "دير تاريخي على جبل في شمال العراق.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "دينية",
+        "كنائس وأديرة",
+        "نينوى"
+      ],
+      "wikimedia_search_query": "Mar Mattai Monastery",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Mar%20Mattai%20Monastery%20Iraq"
+    },
+    {
+      "id": "IQ-0098",
+      "name_ar": "دير مار بهنام وسارة",
+      "name_en": "Mar Behnam and Sarah Monastery",
+      "governorate_id": "IQ-GOV-03",
+      "governorate_ar": "نينوى",
+      "category": "religious",
+      "category_ar": "دينية",
+      "era": "كنائس وأديرة",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "دير تاريخي جنوب شرق الموصل.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "دينية",
+        "كنائس وأديرة",
+        "نينوى"
+      ],
+      "wikimedia_search_query": "Mar Behnam and Sarah Monastery",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Mar%20Behnam%20and%20Sarah%20Monastery%20Iraq"
+    },
+    {
+      "id": "IQ-0099",
+      "name_ar": "دير الربان هرمز",
+      "name_en": "Rabban Hormizd Monastery",
+      "governorate_id": "IQ-GOV-03",
+      "governorate_ar": "نينوى",
+      "category": "religious",
+      "category_ar": "دينية",
+      "era": "كنائس وأديرة",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "دير تاريخي في منطقة القوش.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "دينية",
+        "كنائس وأديرة",
+        "نينوى"
+      ],
+      "wikimedia_search_query": "Rabban Hormizd Monastery",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Rabban%20Hormizd%20Monastery%20Iraq"
+    },
+    {
+      "id": "IQ-0100",
+      "name_ar": "كنيسة الطاهرة",
+      "name_en": "Al-Tahira Church",
+      "governorate_id": "IQ-GOV-03",
+      "governorate_ar": "نينوى",
+      "category": "religious",
+      "category_ar": "دينية",
+      "era": "كنائس وأديرة",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "كنيسة تاريخية في الموصل.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "دينية",
+        "كنائس وأديرة",
+        "نينوى"
+      ],
+      "wikimedia_search_query": "Al-Tahira Church",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Al-Tahira%20Church%20Iraq"
+    },
+    {
+      "id": "IQ-0101",
+      "name_ar": "كنيسة مار توما",
+      "name_en": "Mar Toma Church",
+      "governorate_id": "IQ-GOV-03",
+      "governorate_ar": "نينوى",
+      "category": "religious",
+      "category_ar": "دينية",
+      "era": "كنائس وأديرة",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "كنيسة تاريخية في الموصل.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "دينية",
+        "كنائس وأديرة",
+        "نينوى"
+      ],
+      "wikimedia_search_query": "Mar Toma Church",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Mar%20Toma%20Church%20Iraq"
+    },
+    {
+      "id": "IQ-0102",
+      "name_ar": "موقع كنيسة مار إيليا",
+      "name_en": "Mar Elia Monastery Site",
+      "governorate_id": "IQ-GOV-03",
+      "governorate_ar": "نينوى",
+      "category": "religious",
+      "category_ar": "دينية",
+      "era": "كنائس وأديرة",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "موقع دير تاريخي في الموصل.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "دينية",
+        "كنائس وأديرة",
+        "نينوى"
+      ],
+      "wikimedia_search_query": "Mar Elia Monastery Site",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Mar%20Elia%20Monastery%20Site%20Iraq"
+    },
+    {
+      "id": "IQ-0103",
+      "name_ar": "مدينة الموصل القديمة",
+      "name_en": "Old Mosul",
+      "governorate_id": "IQ-GOV-03",
+      "governorate_ar": "نينوى",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "مواقع تاريخية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "أحياء ومباني وأسواق تاريخية في الموصل.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "ثقافية وتاريخية",
+        "مواقع تاريخية",
+        "نينوى"
+      ],
+      "wikimedia_search_query": "Old Mosul",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Old%20Mosul%20Iraq"
+    },
+    {
+      "id": "IQ-0104",
+      "name_ar": "قلعة باشطابيا",
+      "name_en": "Bash Tapia Castle",
+      "governorate_id": "IQ-GOV-03",
+      "governorate_ar": "نينوى",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "مواقع تاريخية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "قلعة تاريخية على ضفاف دجلة في الموصل.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "ثقافية وتاريخية",
+        "مواقع تاريخية",
+        "نينوى"
+      ],
+      "wikimedia_search_query": "Bash Tapia Castle",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Bash%20Tapia%20Castle%20Iraq"
+    },
+    {
+      "id": "IQ-0105",
+      "name_ar": "سوق القيصرية في الموصل",
+      "name_en": "Mosul Qaysari Bazaar",
+      "governorate_id": "IQ-GOV-03",
+      "governorate_ar": "نينوى",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "مواقع تاريخية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "سوق تقليدي في الموصل القديمة.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "ثقافية وتاريخية",
+        "مواقع تاريخية",
+        "نينوى"
+      ],
+      "wikimedia_search_query": "Mosul Qaysari Bazaar",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Mosul%20Qaysari%20Bazaar%20Iraq"
+    },
+    {
+      "id": "IQ-0106",
+      "name_ar": "متحف الموصل",
+      "name_en": "Mosul Museum",
+      "governorate_id": "IQ-GOV-03",
+      "governorate_ar": "نينوى",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "مواقع تاريخية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "متحف تاريخي وآثاري في الموصل.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "ثقافية وتاريخية",
+        "مواقع تاريخية",
+        "نينوى"
+      ],
+      "wikimedia_search_query": "Mosul Museum",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Mosul%20Museum%20Iraq"
+    },
+    {
+      "id": "IQ-0107",
+      "name_ar": "قلعة أربيل",
+      "name_en": "Erbil Citadel",
+      "governorate_id": "IQ-GOV-04",
+      "governorate_ar": "أربيل",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "معالم تاريخية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "قلعة تاريخية مأهولة في مركز أربيل.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية وتاريخية",
+        "معالم تاريخية",
+        "أربيل"
+      ],
+      "wikimedia_search_query": "Erbil Citadel",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Erbil%20Citadel%20Iraq"
+    },
+    {
+      "id": "IQ-0108",
+      "name_ar": "بازار القيصرية في أربيل",
+      "name_en": "Erbil Qaysari Bazaar",
+      "governorate_id": "IQ-GOV-04",
+      "governorate_ar": "أربيل",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "معالم تاريخية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "سوق تقليدي عند قاعدة القلعة.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية وتاريخية",
+        "معالم تاريخية",
+        "أربيل"
+      ],
+      "wikimedia_search_query": "Erbil Qaysari Bazaar",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Erbil%20Qaysari%20Bazaar%20Iraq"
+    },
+    {
+      "id": "IQ-0109",
+      "name_ar": "منارة مظفرية",
+      "name_en": "Mudhafaria Minaret",
+      "governorate_id": "IQ-GOV-04",
+      "governorate_ar": "أربيل",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "معالم تاريخية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "منارة تاريخية في أربيل.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية وتاريخية",
+        "معالم تاريخية",
+        "أربيل"
+      ],
+      "wikimedia_search_query": "Mudhafaria Minaret",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Mudhafaria%20Minaret%20Iraq"
+    },
+    {
+      "id": "IQ-0110",
+      "name_ar": "متحف أربيل الحضاري",
+      "name_en": "Erbil Civilization Museum",
+      "governorate_id": "IQ-GOV-04",
+      "governorate_ar": "أربيل",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "معالم تاريخية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "متحف يعرض تاريخ المنطقة.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية وتاريخية",
+        "معالم تاريخية",
+        "أربيل"
+      ],
+      "wikimedia_search_query": "Erbil Civilization Museum",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Erbil%20Civilization%20Museum%20Iraq"
+    },
+    {
+      "id": "IQ-0111",
+      "name_ar": "موقع عينكاوة التراثي",
+      "name_en": "Ankawa Heritage Area",
+      "governorate_id": "IQ-GOV-04",
+      "governorate_ar": "أربيل",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "معالم تاريخية",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "منطقة تاريخية وكنائس في عينكاوة.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية وتاريخية",
+        "معالم تاريخية",
+        "أربيل"
+      ],
+      "wikimedia_search_query": "Ankawa Heritage Area",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Ankawa%20Heritage%20Area%20Iraq"
+    },
+    {
+      "id": "IQ-0112",
+      "name_ar": "شلال كلي علي بك",
+      "name_en": "Gali Ali Beg Waterfall",
+      "governorate_id": "IQ-GOV-04",
+      "governorate_ar": "أربيل",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "جبال وشلالات",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "شلال معروف في منطقة رواندز.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وسياحية",
+        "جبال وشلالات",
+        "أربيل"
+      ],
+      "wikimedia_search_query": "Gali Ali Beg Waterfall",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Gali%20Ali%20Beg%20Waterfall%20Iraq"
+    },
+    {
+      "id": "IQ-0113",
+      "name_ar": "وادي رواندز",
+      "name_en": "Rawanduz Canyon",
+      "governorate_id": "IQ-GOV-04",
+      "governorate_ar": "أربيل",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "جبال وشلالات",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "وادي جبلي ذو مناظر طبيعية.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وسياحية",
+        "جبال وشلالات",
+        "أربيل"
+      ],
+      "wikimedia_search_query": "Rawanduz Canyon",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Rawanduz%20Canyon%20Iraq"
+    },
+    {
+      "id": "IQ-0114",
+      "name_ar": "جبل كورك",
+      "name_en": "Korek Mountain",
+      "governorate_id": "IQ-GOV-04",
+      "governorate_ar": "أربيل",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "جبال وشلالات",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "منطقة جبلية وسياحية.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وسياحية",
+        "جبال وشلالات",
+        "أربيل"
+      ],
+      "wikimedia_search_query": "Korek Mountain",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Korek%20Mountain%20Iraq"
+    },
+    {
+      "id": "IQ-0115",
+      "name_ar": "شلال بيخال",
+      "name_en": "Bekhal Waterfall",
+      "governorate_id": "IQ-GOV-04",
+      "governorate_ar": "أربيل",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "جبال وشلالات",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "شلال في منطقة راوندوز.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وسياحية",
+        "جبال وشلالات",
+        "أربيل"
+      ],
+      "wikimedia_search_query": "Bekhal Waterfall",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Bekhal%20Waterfall%20Iraq"
+    },
+    {
+      "id": "IQ-0116",
+      "name_ar": "جبل سفين",
+      "name_en": "Mount Safeen",
+      "governorate_id": "IQ-GOV-04",
+      "governorate_ar": "أربيل",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "جبال وشلالات",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "جبل قريب من أربيل.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وسياحية",
+        "جبال وشلالات",
+        "أربيل"
+      ],
+      "wikimedia_search_query": "Mount Safeen",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Mount%20Safeen%20Iraq"
+    },
+    {
+      "id": "IQ-0117",
+      "name_ar": "منتجع صلاح الدين",
+      "name_en": "Salahaddin Resort",
+      "governorate_id": "IQ-GOV-04",
+      "governorate_ar": "أربيل",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "جبال وشلالات",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "منطقة سياحية جبلية قرب أربيل.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وسياحية",
+        "جبال وشلالات",
+        "أربيل"
+      ],
+      "wikimedia_search_query": "Salahaddin Resort",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Salahaddin%20Resort%20Iraq"
+    },
+    {
+      "id": "IQ-0118",
+      "name_ar": "معبد لالش",
+      "name_en": "Lalish Temple",
+      "governorate_id": "IQ-GOV-05",
+      "governorate_ar": "دهوك",
+      "category": "religious",
+      "category_ar": "دينية",
+      "era": "معالم",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "المعبد والموقع المقدس الأبرز للإيزيديين.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية ودينية",
+        "معالم",
+        "دهوك"
+      ],
+      "wikimedia_search_query": "Lalish Temple",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Lalish%20Temple%20Iraq"
+    },
+    {
+      "id": "IQ-0119",
+      "name_ar": "مدينة العمادية",
+      "name_en": "Amedi",
+      "governorate_id": "IQ-GOV-05",
+      "governorate_ar": "دهوك",
+      "category": "religious",
+      "category_ar": "دينية",
+      "era": "معالم",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مدينة جبلية تاريخية فوق هضبة.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية ودينية",
+        "معالم",
+        "دهوك"
+      ],
+      "wikimedia_search_query": "Amedi",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Amedi%20Iraq"
+    },
+    {
+      "id": "IQ-0120",
+      "name_ar": "دير مار أوراها",
+      "name_en": "Mar Oraha Monastery",
+      "governorate_id": "IQ-GOV-05",
+      "governorate_ar": "دهوك",
+      "category": "religious",
+      "category_ar": "دينية",
+      "era": "معالم",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "موقع ديني تاريخي في منطقة دهوك.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية ودينية",
+        "معالم",
+        "دهوك"
+      ],
+      "wikimedia_search_query": "Mar Oraha Monastery",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Mar%20Oraha%20Monastery%20Iraq"
+    },
+    {
+      "id": "IQ-0121",
+      "name_ar": "قلعة دهوك (الموقع التاريخي)",
+      "name_en": "Duhok Historic Site",
+      "governorate_id": "IQ-GOV-05",
+      "governorate_ar": "دهوك",
+      "category": "religious",
+      "category_ar": "دينية",
+      "era": "معالم",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مواقع تاريخية ضمن مدينة دهوك.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية ودينية",
+        "معالم",
+        "دهوك"
+      ],
+      "wikimedia_search_query": "Duhok Historic Site",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Duhok%20Historic%20Site%20Iraq"
+    },
+    {
+      "id": "IQ-0122",
+      "name_ar": "موقع كهف زاخو",
+      "name_en": "Zakho Cave",
+      "governorate_id": "IQ-GOV-05",
+      "governorate_ar": "دهوك",
+      "category": "religious",
+      "category_ar": "دينية",
+      "era": "معالم",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "موقع طبيعي محلي في منطقة زاخو.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية ودينية",
+        "معالم",
+        "دهوك"
+      ],
+      "wikimedia_search_query": "Zakho Cave",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Zakho%20Cave%20Iraq"
+    },
+    {
+      "id": "IQ-0123",
+      "name_ar": "شلال شرانش",
+      "name_en": "Sharanish Waterfall",
+      "governorate_id": "IQ-GOV-05",
+      "governorate_ar": "دهوك",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "طبيعة",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "شلال في منطقة جبلية شمال دهوك.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وسياحية",
+        "طبيعة",
+        "دهوك"
+      ],
+      "wikimedia_search_query": "Sharanish Waterfall",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Sharanish%20Waterfall%20Iraq"
+    },
+    {
+      "id": "IQ-0124",
+      "name_ar": "وادي كلي",
+      "name_en": "Duhok Valley",
+      "governorate_id": "IQ-GOV-05",
+      "governorate_ar": "دهوك",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "طبيعة",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "منطقة طبيعية حول مدينة دهوك.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وسياحية",
+        "طبيعة",
+        "دهوك"
+      ],
+      "wikimedia_search_query": "Duhok Valley",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Duhok%20Valley%20Iraq"
+    },
+    {
+      "id": "IQ-0125",
+      "name_ar": "سد دهوك",
+      "name_en": "Duhok Dam",
+      "governorate_id": "IQ-GOV-05",
+      "governorate_ar": "دهوك",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "طبيعة",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "بحيرة وسد وموقع للنزهات.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وسياحية",
+        "طبيعة",
+        "دهوك"
+      ],
+      "wikimedia_search_query": "Duhok Dam",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Duhok%20Dam%20Iraq"
+    },
+    {
+      "id": "IQ-0126",
+      "name_ar": "جسر دلال",
+      "name_en": "Delal Bridge",
+      "governorate_id": "IQ-GOV-05",
+      "governorate_ar": "دهوك",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "طبيعة",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "جسر تاريخي في زاخو.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وسياحية",
+        "طبيعة",
+        "دهوك"
+      ],
+      "wikimedia_search_query": "Delal Bridge",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Delal%20Bridge%20Iraq"
+    },
+    {
+      "id": "IQ-0127",
+      "name_ar": "متحف السليمانية",
+      "name_en": "Sulaymaniyah Museum",
+      "governorate_id": "IQ-GOV-06",
+      "governorate_ar": "السليمانية",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "متاحف ومواقع",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "متحف آثار وتاريخ في السليمانية.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "ثقافية وتاريخية",
+        "متاحف ومواقع",
+        "السليمانية"
+      ],
+      "wikimedia_search_query": "Sulaymaniyah Museum",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Sulaymaniyah%20Museum%20Iraq"
+    },
+    {
+      "id": "IQ-0128",
+      "name_ar": "متحف أمنه سوركه",
+      "name_en": "Amna Suraka Museum",
+      "governorate_id": "IQ-GOV-06",
+      "governorate_ar": "السليمانية",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "متاحف ومواقع",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "متحف وموقع تاريخي مرتبط بتاريخ العراق الحديث.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "ثقافية وتاريخية",
+        "متاحف ومواقع",
+        "السليمانية"
+      ],
+      "wikimedia_search_query": "Amna Suraka Museum",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Amna%20Suraka%20Museum%20Iraq"
+    },
+    {
+      "id": "IQ-0129",
+      "name_ar": "قلعة شارزور",
+      "name_en": "Sharazur Citadel",
+      "governorate_id": "IQ-GOV-06",
+      "governorate_ar": "السليمانية",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "متاحف ومواقع",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "موقع تاريخي في منطقة شارزور.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "ثقافية وتاريخية",
+        "متاحف ومواقع",
+        "السليمانية"
+      ],
+      "wikimedia_search_query": "Sharazur Citadel",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Sharazur%20Citadel%20Iraq"
+    },
+    {
+      "id": "IQ-0130",
+      "name_ar": "موقع باستان سور",
+      "name_en": "Bestansur",
+      "governorate_id": "IQ-GOV-06",
+      "governorate_ar": "السليمانية",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "متاحف ومواقع",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "موقع أثري من العصر الحجري الحديث.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "ثقافية وتاريخية",
+        "متاحف ومواقع",
+        "السليمانية"
+      ],
+      "wikimedia_search_query": "Bestansur",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Bestansur%20Iraq"
+    },
+    {
+      "id": "IQ-0131",
+      "name_ar": "بحيرة دوكان",
+      "name_en": "Dukan Lake",
+      "governorate_id": "IQ-GOV-06",
+      "governorate_ar": "السليمانية",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "جبال وبحيرات",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "بحيرة وسد ومنطقة سياحية.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وسياحية",
+        "جبال وبحيرات",
+        "السليمانية"
+      ],
+      "wikimedia_search_query": "Dukan Lake",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Dukan%20Lake%20Iraq"
+    },
+    {
+      "id": "IQ-0132",
+      "name_ar": "بحيرة دربنديخان",
+      "name_en": "Darbendikhan Lake",
+      "governorate_id": "IQ-GOV-06",
+      "governorate_ar": "السليمانية",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "جبال وبحيرات",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "بحيرة وسد في المنطقة الجبلية.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وسياحية",
+        "جبال وبحيرات",
+        "السليمانية"
+      ],
+      "wikimedia_search_query": "Darbendikhan Lake",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Darbendikhan%20Lake%20Iraq"
+    },
+    {
+      "id": "IQ-0133",
+      "name_ar": "جبل أزمر",
+      "name_en": "Azmar Mountain",
+      "governorate_id": "IQ-GOV-06",
+      "governorate_ar": "السليمانية",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "جبال وبحيرات",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "جبل يطل على مدينة السليمانية.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وسياحية",
+        "جبال وبحيرات",
+        "السليمانية"
+      ],
+      "wikimedia_search_query": "Azmar Mountain",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Azmar%20Mountain%20Iraq"
+    },
+    {
+      "id": "IQ-0134",
+      "name_ar": "وادي أحمد آوا",
+      "name_en": "Ahmed Awa Waterfall",
+      "governorate_id": "IQ-GOV-06",
+      "governorate_ar": "السليمانية",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "جبال وبحيرات",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "منطقة شلالات وطبيعة قرب الحدود.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وسياحية",
+        "جبال وبحيرات",
+        "السليمانية"
+      ],
+      "wikimedia_search_query": "Ahmed Awa Waterfall",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Ahmed%20Awa%20Waterfall%20Iraq"
+    },
+    {
+      "id": "IQ-0135",
+      "name_ar": "كهف شاندر",
+      "name_en": "Shanidar Cave",
+      "governorate_id": "IQ-GOV-06",
+      "governorate_ar": "السليمانية",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "جبال وبحيرات",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "كهف أثري معروف في منطقة كردستان.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وسياحية",
+        "جبال وبحيرات",
+        "السليمانية"
+      ],
+      "wikimedia_search_query": "Shanidar Cave",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Shanidar%20Cave%20Iraq"
+    },
+    {
+      "id": "IQ-0136",
+      "name_ar": "قلعة كركوك",
+      "name_en": "Kirkuk Citadel",
+      "governorate_id": "IQ-GOV-13",
+      "governorate_ar": "كركوك",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "معالم المدينة",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "قلعة تاريخية داخل مدينة كركوك.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "تاريخية",
+        "معالم المدينة",
+        "كركوك"
+      ],
+      "wikimedia_search_query": "Kirkuk Citadel",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Kirkuk%20Citadel%20Iraq"
+    },
+    {
+      "id": "IQ-0137",
+      "name_ar": "قشلة كركوك",
+      "name_en": "Kirkuk Qishla",
+      "governorate_id": "IQ-GOV-13",
+      "governorate_ar": "كركوك",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "معالم المدينة",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مبنى تاريخي ضمن المدينة.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "تاريخية",
+        "معالم المدينة",
+        "كركوك"
+      ],
+      "wikimedia_search_query": "Kirkuk Qishla",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Kirkuk%20Qishla%20Iraq"
+    },
+    {
+      "id": "IQ-0138",
+      "name_ar": "جامع النبي دانيال",
+      "name_en": "Prophet Daniel Mosque",
+      "governorate_id": "IQ-GOV-13",
+      "governorate_ar": "كركوك",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "معالم المدينة",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "موقع ديني وتاريخي في كركوك.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "تاريخية",
+        "معالم المدينة",
+        "كركوك"
+      ],
+      "wikimedia_search_query": "Prophet Daniel Mosque",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Prophet%20Daniel%20Mosque%20Iraq"
+    },
+    {
+      "id": "IQ-0139",
+      "name_ar": "مقبرة القلعة",
+      "name_en": "Citadel Cemetery",
+      "governorate_id": "IQ-GOV-13",
+      "governorate_ar": "كركوك",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "معالم المدينة",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مقبرة تاريخية ضمن المنطقة القديمة.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "تاريخية",
+        "معالم المدينة",
+        "كركوك"
+      ],
+      "wikimedia_search_query": "Citadel Cemetery",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Citadel%20Cemetery%20Iraq"
+    },
+    {
+      "id": "IQ-0140",
+      "name_ar": "خانق أور",
+      "name_en": "Uru Gorge",
+      "governorate_id": "IQ-GOV-14",
+      "governorate_ar": "ديالى",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "مواقع",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "منطقة طبيعية محلية.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وأثرية",
+        "مواقع",
+        "ديالى"
+      ],
+      "wikimedia_search_query": "Uru Gorge",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Uru%20Gorge%20Iraq"
+    },
+    {
+      "id": "IQ-0141",
+      "name_ar": "موقع تل أسمر",
+      "name_en": "Tell Asmar",
+      "governorate_id": "IQ-GOV-14",
+      "governorate_ar": "ديالى",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "مواقع",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "موقع أثري مرتبط بمدينة إشنونة القديمة.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وأثرية",
+        "مواقع",
+        "ديالى"
+      ],
+      "wikimedia_search_query": "Tell Asmar",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Tell%20Asmar%20Iraq"
+    },
+    {
+      "id": "IQ-0142",
+      "name_ar": "مدينة إشنونة",
+      "name_en": "Eshnunna",
+      "governorate_id": "IQ-GOV-14",
+      "governorate_ar": "ديالى",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "مواقع",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مدينة قديمة قرب تل أسمر.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وأثرية",
+        "مواقع",
+        "ديالى"
+      ],
+      "wikimedia_search_query": "Eshnunna",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Eshnunna%20Iraq"
+    },
+    {
+      "id": "IQ-0143",
+      "name_ar": "بحيرة حمرين",
+      "name_en": "Hamrin Lake",
+      "governorate_id": "IQ-GOV-14",
+      "governorate_ar": "ديالى",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "مواقع",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "بحيرة ومناطق طبيعية في ديالى.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وأثرية",
+        "مواقع",
+        "ديالى"
+      ],
+      "wikimedia_search_query": "Hamrin Lake",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Hamrin%20Lake%20Iraq"
+    },
+    {
+      "id": "IQ-0144",
+      "name_ar": "مدينة عانة القديمة",
+      "name_en": "Old Ana",
+      "governorate_id": "IQ-GOV-12",
+      "governorate_ar": "الأنبار",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "مواقع",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مدينة ومواقع تاريخية على نهر الفرات.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية وطبيعية",
+        "مواقع",
+        "الأنبار"
+      ],
+      "wikimedia_search_query": "Old Ana",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Old%20Ana%20Iraq"
+    },
+    {
+      "id": "IQ-0145",
+      "name_ar": "قلعة حديثة",
+      "name_en": "Haditha Castle",
+      "governorate_id": "IQ-GOV-12",
+      "governorate_ar": "الأنبار",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "مواقع",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "موقع تاريخي في منطقة حديثة.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية وطبيعية",
+        "مواقع",
+        "الأنبار"
+      ],
+      "wikimedia_search_query": "Haditha Castle",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Haditha%20Castle%20Iraq"
+    },
+    {
+      "id": "IQ-0146",
+      "name_ar": "بحيرة الحبانية",
+      "name_en": "Habbaniyah Lake",
+      "governorate_id": "IQ-GOV-12",
+      "governorate_ar": "الأنبار",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "مواقع",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "بحيرة وموقع سياحي.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية وطبيعية",
+        "مواقع",
+        "الأنبار"
+      ],
+      "wikimedia_search_query": "Habbaniyah Lake",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Habbaniyah%20Lake%20Iraq"
+    },
+    {
+      "id": "IQ-0147",
+      "name_ar": "بحيرة الرزازة",
+      "name_en": "Razzaza Lake",
+      "governorate_id": "IQ-GOV-12",
+      "governorate_ar": "الأنبار",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "مواقع",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "بحيرة واسعة غرب كربلاء والأنبار.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية وطبيعية",
+        "مواقع",
+        "الأنبار"
+      ],
+      "wikimedia_search_query": "Razzaza Lake",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Razzaza%20Lake%20Iraq"
+    },
+    {
+      "id": "IQ-0148",
+      "name_ar": "موقع القائم التاريخي",
+      "name_en": "Al-Qaim Historic Site",
+      "governorate_id": "IQ-GOV-12",
+      "governorate_ar": "الأنبار",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "مواقع",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مواقع تاريخية على الحدود الغربية.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "أثرية وطبيعية",
+        "مواقع",
+        "الأنبار"
+      ],
+      "wikimedia_search_query": "Al-Qaim Historic Site",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Al-Qaim%20Historic%20Site%20Iraq"
+    },
+    {
+      "id": "IQ-0149",
+      "name_ar": "نهر دجلة",
+      "name_en": "Tigris River",
+      "governorate_id": "IQ-NATIONAL",
+      "governorate_ar": "العراق",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "مسارات عامة",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "نهر رئيسي يمر عبر مدن ومناطق تاريخية عراقية.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وسياحية",
+        "مسارات عامة",
+        "كافة العراق"
+      ],
+      "wikimedia_search_query": "Tigris River",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Tigris%20River%20Iraq"
+    },
+    {
+      "id": "IQ-0150",
+      "name_ar": "نهر الفرات",
+      "name_en": "Euphrates River",
+      "governorate_id": "IQ-NATIONAL",
+      "governorate_ar": "العراق",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "مسارات عامة",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "نهر رئيسي يمر بمناطق أثرية وسياحية.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وسياحية",
+        "مسارات عامة",
+        "كافة العراق"
+      ],
+      "wikimedia_search_query": "Euphrates River",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Euphrates%20River%20Iraq"
+    },
+    {
+      "id": "IQ-0151",
+      "name_ar": "الأهوار العراقية",
+      "name_en": "Iraqi Marshlands",
+      "governorate_id": "IQ-NATIONAL",
+      "governorate_ar": "العراق",
+      "category": "nature_tourism",
+      "category_ar": "سياحة طبيعية",
+      "era": "مسارات عامة",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "منظومة الأهوار الجنوبية ذات القيمة البيئية والتراثية.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وسياحية",
+        "مسارات عامة",
+        "كافة العراق"
+      ],
+      "wikimedia_search_query": "Iraqi Marshlands",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Iraqi%20Marshlands%20Iraq"
+    },
+    {
+      "id": "IQ-0152",
+      "name_ar": "طريق الحج القديم (درب زبيدة)",
+      "name_en": "Darb Zubaydah",
+      "governorate_id": "IQ-NATIONAL",
+      "governorate_ar": "العراق",
+      "category": "archaeological",
+      "category_ar": "أثرية",
+      "era": "مسارات عامة",
+      "coordinates": {
+        "lat": null,
+        "lng": null
+      },
+      "description_ar": "مسار تاريخي مرتبط بطرق الحج القديمة.",
+      "best_time_to_visit": "غير محدد في البيانات الأصلية",
+      "visitor_tips": "غير محددة في البيانات الأصلية",
+      "unesco_site": false,
+      "tags": [
+        "طبيعية وسياحية",
+        "مسارات عامة",
+        "كافة العراق"
+      ],
+      "wikimedia_search_query": "Darb Zubaydah",
+      "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Darb%20Zubaydah%20Iraq"
+    }
+  ]
+}
