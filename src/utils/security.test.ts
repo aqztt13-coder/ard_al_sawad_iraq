@@ -4,11 +4,13 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {
   decodeJwtClaims,
+  hasTrustedAdminRoleInSession,
   isAuthorizedAdminSession,
   isAuthorizedAdminUser,
   isValidPhotoStoragePath,
   MAX_RAW_UPLOAD_BYTES,
   validateImageUploadFile,
+  verifyAuthorizedAdminSession,
 } from './adminAuth';
 
 function makeFakeJwt(payload: Record<string, unknown>): string {
@@ -119,8 +121,151 @@ test('public admin self-registration is removed from auth hook and login modal',
 
   assert.equal(/supabase\.auth\.signUp\s*\(/.test(authHook), false);
   assert.equal(/const\s+isAdmin\s*=\s*Boolean\(\s*user\s*\)/.test(authHook), false);
-  assert.match(authHook, /isAuthorizedAdminSession/);
+  assert.match(authHook, /verifyAuthorizedAdminSession/);
+  assert.match(authHook, /hasTrustedAdminRoleInSession/);
   assert.equal(/auth-tab-signup|onSignUp/.test(loginModal), false);
+});
+
+test('verifyAuthorizedAdminSession authorizes exact Supabase raw_app_meta_data payload even under client clock skew', async () => {
+  // Exact metadata payload from Supabase Auth:
+  // raw_app_meta_data = { "role": "admin", "provider": "email", "providers": ["email"] }
+  // raw_user_meta_data = { "email_verified": true }
+  const adminUser = {
+    id: 'admin-uuid-1',
+    aud: 'authenticated',
+    role: 'authenticated',
+    app_metadata: {
+      role: 'admin',
+      provider: 'email',
+      providers: ['email'],
+    },
+    user_metadata: {
+      email_verified: true,
+    },
+  } as never;
+
+  // Simulate a token whose exp/expires_at appear in the past relative to a skewed client clock
+  const skewedPastExp = Math.floor(Date.now() / 1000) - 7200;
+  const skewedSession = {
+    access_token: makeFakeJwt({
+      sub: 'admin-uuid-1',
+      role: 'authenticated',
+      app_metadata: {
+        role: 'admin',
+        provider: 'email',
+        providers: ['email'],
+      },
+      user_metadata: { email_verified: true },
+      exp: skewedPastExp,
+    }),
+    expires_at: skewedPastExp,
+    user: adminUser,
+  } as never;
+
+  // Local unverified check rejects expired-looking token, while server-verified check accepts
+  // when Supabase Auth `getUser()` authoritatively confirms the token is valid and live.
+  assert.equal(isAuthorizedAdminSession(skewedSession), false);
+  assert.equal(hasTrustedAdminRoleInSession(skewedSession, adminUser), true);
+
+  const verified = await verifyAuthorizedAdminSession(
+    {
+      getSession: async () => ({ data: { session: skewedSession } }),
+      getUser: async () => ({ data: { user: adminUser }, error: null }),
+      refreshSession: async () => ({ data: { session: skewedSession, user: adminUser }, error: null }),
+    },
+    { candidateSession: skewedSession, candidateUser: adminUser, isFreshSignIn: true }
+  );
+
+  assert.equal(verified.authorized, true);
+  assert.equal(verified.reason, 'authorized');
+  assert.equal(verified.user?.id, 'admin-uuid-1');
+});
+
+test('verifyAuthorizedAdminSession refreshes stale JWT when app_metadata was updated and rejects non-admin spoofing', async () => {
+  const futureExp = Math.floor(Date.now() / 1000) + 3600;
+  const freshAdminUser = {
+    id: 'admin-uuid-2',
+    app_metadata: { role: 'admin', provider: 'email', providers: ['email'] },
+    user_metadata: { email_verified: true },
+  } as never;
+
+  const staleJwtSession = {
+    access_token: makeFakeJwt({
+      sub: 'admin-uuid-2',
+      role: 'authenticated',
+      app_metadata: { provider: 'email', providers: ['email'] },
+      exp: futureExp,
+    }),
+    expires_at: futureExp,
+    user: { id: 'admin-uuid-2', app_metadata: { provider: 'email' } },
+  } as never;
+
+  const refreshedSession = {
+    access_token: makeFakeJwt({
+      sub: 'admin-uuid-2',
+      role: 'authenticated',
+      app_metadata: { role: 'admin', provider: 'email', providers: ['email'] },
+      exp: futureExp + 3600,
+    }),
+    expires_at: futureExp + 3600,
+    user: freshAdminUser,
+  } as never;
+
+  let refreshCalled = 0;
+  const refreshedResult = await verifyAuthorizedAdminSession({
+    getSession: async () => ({ data: { session: staleJwtSession } }),
+    getUser: async () => ({ data: { user: freshAdminUser }, error: null }),
+    refreshSession: async () => {
+      refreshCalled += 1;
+      return { data: { session: refreshedSession, user: freshAdminUser }, error: null };
+    },
+  });
+
+  assert.equal(refreshedResult.authorized, true);
+  assert.equal(refreshCalled, 1);
+  assert.equal(refreshedResult.session?.access_token, (refreshedSession as { access_token: string }).access_token);
+
+  // Regular user trying to spoof admin via user_metadata MUST still be rejected
+  const spoofedUser = {
+    id: 'regular-user-9',
+    role: 'authenticated',
+    app_metadata: { provider: 'email', providers: ['email'] },
+    user_metadata: { role: 'admin', is_admin: true, roles: ['admin'] },
+  } as never;
+
+  const spoofedSession = {
+    access_token: makeFakeJwt({
+      sub: 'regular-user-9',
+      role: 'authenticated',
+      app_metadata: { provider: 'email' },
+      user_metadata: { role: 'admin', is_admin: true },
+      exp: futureExp,
+    }),
+    expires_at: futureExp,
+    user: spoofedUser,
+  } as never;
+
+  const rejected = await verifyAuthorizedAdminSession(
+    {
+      getSession: async () => ({ data: { session: spoofedSession } }),
+      getUser: async () => ({ data: { user: spoofedUser }, error: null }),
+      refreshSession: async () => ({ data: { session: null, user: null }, error: null }),
+    },
+    { candidateSession: spoofedSession, candidateUser: spoofedUser, isFreshSignIn: true }
+  );
+
+  assert.equal(rejected.authorized, false);
+  assert.equal(rejected.reason, 'not_admin');
+
+  // Expired token that fails both getUser and refreshSession MUST be rejected
+  const expiredResult = await verifyAuthorizedAdminSession({
+    getSession: async () => ({ data: { session: staleJwtSession } }),
+    getUser: async () => ({ data: { user: null }, error: { message: 'JWT expired', status: 401 } }),
+    refreshSession: async () => ({ data: { session: null, user: null }, error: { message: 'Invalid refresh token', status: 400 } }),
+  });
+
+  assert.equal(expiredResult.authorized, false);
+  assert.equal(expiredResult.reason, 'session_expired');
 });
 
 /* ===========================

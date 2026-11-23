@@ -10,7 +10,7 @@ import {
   TourismServiceListing,
   VisitorReview,
 } from '../types/tourism';
-import { isAuthorizedAdminSession } from '../utils/adminAuth';
+import { verifyAuthorizedAdminSession } from '../utils/adminAuth';
 import {
   buildAuditLogEntry,
   createVisitorReview,
@@ -161,8 +161,8 @@ export function usePlatformData(isAdmin: boolean) {
 
   const ensureAuthorizedAdmin = useCallback(async (): Promise<boolean> => {
     if (!isSupabaseConfigured) return false;
-    const { data } = await supabase.auth.getSession();
-    return isAuthorizedAdminSession(data.session);
+    const verification = await verifyAuthorizedAdminSession(supabase.auth);
+    return verification.authorized;
   }, []);
 
   const refreshPublicPlatformData = useCallback(async () => {

@@ -59,10 +59,28 @@ export function decodeJwtClaims(accessToken: string | undefined | null): JwtClai
 }
 
 function hasAdminClaimInObject(appMetadata: unknown): boolean {
-  if (!appMetadata || typeof appMetadata !== 'object') return false;
-  const meta = appMetadata as Record<string, unknown>;
+  let candidate: unknown = appMetadata;
+  if (typeof candidate === 'string') {
+    const trimmed = candidate.trim();
+    if (!trimmed.startsWith('{')) return false;
+    try {
+      candidate = JSON.parse(trimmed);
+    } catch {
+      return false;
+    }
+  }
+
+  if (!candidate || typeof candidate !== 'object' || Array.isArray(candidate)) {
+    return false;
+  }
+
+  const meta = candidate as Record<string, unknown>;
 
   if (typeof meta.role === 'string' && meta.role.trim().toLowerCase() === 'admin') {
+    return true;
+  }
+
+  if (typeof meta.app_role === 'string' && meta.app_role.trim().toLowerCase() === 'admin') {
     return true;
   }
 
@@ -73,10 +91,50 @@ function hasAdminClaimInObject(appMetadata: unknown): boolean {
     return true;
   }
 
-  if (meta.is_admin === true) {
+  if (
+    meta.is_admin === true ||
+    (typeof meta.is_admin === 'string' && meta.is_admin.trim().toLowerCase() === 'true')
+  ) {
     return true;
   }
 
+  return false;
+}
+
+function normalizeUnixSeconds(value: unknown): number | null {
+  if (typeof value !== 'number' || !Number.isFinite(value) || value <= 0) {
+    return null;
+  }
+  // Normalize millisecond timestamps defensively if ever encountered
+  return value > 1_000_000_000_000 ? Math.floor(value / 1000) : Math.floor(value);
+}
+
+/**
+ * Checks whether a Supabase JWT access token itself carries a trusted admin claim
+ * (`app_metadata` or signed top-level `app_role`/`is_admin`) required by Postgres RLS.
+ *
+ * SECURITY:
+ *   - Explicitly NEVER trusts `user_metadata` or default `role: "authenticated"`.
+ */
+export function hasJwtAdminClaim(accessToken: string | undefined | null): boolean {
+  const claims = decodeJwtClaims(accessToken);
+  if (!claims) return false;
+
+  if (hasAdminClaimInObject(claims.app_metadata)) {
+    return true;
+  }
+  if (
+    typeof claims.app_role === 'string' &&
+    claims.app_role.trim().toLowerCase() === 'admin'
+  ) {
+    return true;
+  }
+  if (
+    claims.is_admin === true ||
+    (typeof claims.is_admin === 'string' && claims.is_admin.trim().toLowerCase() === 'true')
+  ) {
+    return true;
+  }
   return false;
 }
 
@@ -98,47 +156,246 @@ export function isAuthorizedAdminUser(
 }
 
 /**
+ * Checks whether a session (and optional server-verified user) carries a trusted
+ * admin claim, without comparing against the browser's local clock.
+ * Use this ONLY for sessions whose validity has been verified by Supabase Auth,
+ * or combined with an explicit expiration check.
+ */
+export function hasTrustedAdminRoleInSession(
+  session: Pick<Session, 'access_token' | 'user' | 'expires_at'> | null | undefined,
+  verifiedUser?: Pick<User, 'id' | 'app_metadata'> | null
+): boolean {
+  if (!session) return false;
+  if (verifiedUser && isAuthorizedAdminUser(verifiedUser)) {
+    return true;
+  }
+  if (session.user && isAuthorizedAdminUser(session.user)) {
+    return true;
+  }
+  if (hasJwtAdminClaim(session.access_token)) {
+    return true;
+  }
+  return false;
+}
+
+export interface AdminSessionCheckOptions {
+  /**
+   * Skip comparing `expires_at` / JWT `exp` against local `Date.now()`.
+   * Only set this when Supabase Auth has already verified the token server-side
+   * (e.g., via `getUser()` or a fresh `signInWithPassword()` response), so client
+   * clock skew cannot lock out a legitimate administrator.
+   */
+  ignoreClientClockExpiry?: boolean;
+  verifiedUser?: Pick<User, 'id' | 'app_metadata'> | null;
+}
+
+/**
  * Checks whether a Supabase Session belongs to an authorized administrator via
  * trusted `user.app_metadata` or server-signed JWT custom claims (`app_metadata`,
  * `app_role`, `is_admin`).
  *
- * Also checks JWT `exp` when present so expired cached tokens are rejected.
+ * By default also checks JWT `exp` / `expires_at` against `nowSeconds` so expired
+ * unverified cached tokens are rejected.
  */
 export function isAuthorizedAdminSession(
   session: Pick<Session, 'access_token' | 'user' | 'expires_at'> | null | undefined,
-  nowSeconds: number = Math.floor(Date.now() / 1000)
+  nowSeconds: number = Math.floor(Date.now() / 1000),
+  options?: AdminSessionCheckOptions
 ): boolean {
-  if (!session || !session.user) return false;
+  if (!session || (!session.user && !options?.verifiedUser)) return false;
 
-  if (typeof session.expires_at === 'number' && session.expires_at <= nowSeconds) {
-    return false;
+  if (!options?.ignoreClientClockExpiry) {
+    const expiresAt = normalizeUnixSeconds(session.expires_at);
+    if (expiresAt !== null && expiresAt <= nowSeconds) {
+      return false;
+    }
+
+    const claims = decodeJwtClaims(session.access_token);
+    const jwtExp = normalizeUnixSeconds(claims?.exp);
+    if (jwtExp !== null && jwtExp <= nowSeconds) {
+      return false;
+    }
   }
 
-  const claims = decodeJwtClaims(session.access_token);
-  if (claims && typeof claims.exp === 'number' && claims.exp <= nowSeconds) {
-    return false;
-  }
+  return hasTrustedAdminRoleInSession(session, options?.verifiedUser);
+}
 
-  if (isAuthorizedAdminUser(session.user)) {
+export interface SupabaseAuthLike {
+  getSession: () => Promise<{
+    data: { session: Session | null };
+    error?: { message?: string; status?: number } | null;
+  }>;
+  getUser: (jwt?: string) => Promise<{
+    data: { user: User | null };
+    error: { message?: string; status?: number } | null;
+  }>;
+  refreshSession: () => Promise<{
+    data: { session: Session | null; user: User | null };
+    error: { message?: string; status?: number } | null;
+  }>;
+}
+
+export interface AdminSessionVerificationResult {
+  authorized: boolean;
+  session: Session | null;
+  user: User | null;
+  reason: 'authorized' | 'no_session' | 'not_admin' | 'session_expired' | 'network_error';
+}
+
+function isLikelyNetworkAuthError(error: { message?: string; status?: number } | null | undefined): boolean {
+  if (!error) return false;
+  if (typeof error.status === 'number' && (error.status === 0 || error.status >= 500)) {
     return true;
   }
+  const msg = (error.message || '').toLowerCase();
+  return (
+    msg.includes('failed to fetch') ||
+    msg.includes('network') ||
+    msg.includes('fetch') ||
+    msg.includes('timeout') ||
+    msg.includes('offline') ||
+    msg.includes('load failed')
+  );
+}
 
-  if (claims) {
-    if (hasAdminClaimInObject(claims.app_metadata)) {
-      return true;
-    }
-    if (
-      typeof claims.app_role === 'string' &&
-      claims.app_role.trim().toLowerCase() === 'admin'
-    ) {
-      return true;
-    }
-    if (claims.is_admin === true) {
-      return true;
+/**
+ * Authoritatively verifies a Supabase session for admin access:
+ * 1. Validates the access token against Supabase Auth (`getUser(access_token)`),
+ *    which enforces server-side JWT signature & expiration (immune to client clock skew)
+ *    and fetches the latest `app_metadata` from `auth.users`.
+ * 2. If `getUser` rejects a stale/expired token, attempts one `refreshSession()` and
+ *    re-verifies the refreshed token.
+ * 3. If `user.app_metadata` grants admin but the current JWT does not yet carry the
+ *    admin claim (e.g. role granted while a session was cached), refreshes the session
+ *    so Postgres RLS (`auth.jwt() -> 'app_metadata'`) also receives the updated JWT.
+ * 4. Strictly enforces RBAC via `app_metadata` / signed JWT claims ONLY (never `user_metadata`).
+ */
+export async function verifyAuthorizedAdminSession(
+  authClient: SupabaseAuthLike,
+  options?: {
+    candidateSession?: Session | null;
+    candidateUser?: User | null;
+    /**
+     * True immediately after `signInWithPassword` returns a fresh server-issued session.
+     * If `getUser()` hits a transient network error right after sign-in, allows falling
+     * back to the fresh server-issued session's trusted `app_metadata` claims.
+     */
+    isFreshSignIn?: boolean;
+  }
+): Promise<AdminSessionVerificationResult> {
+  let activeSession = options?.candidateSession ?? null;
+  if (!activeSession) {
+    try {
+      const { data } = await authClient.getSession();
+      activeSession = data.session ?? null;
+    } catch {
+      return { authorized: false, session: null, user: null, reason: 'network_error' };
     }
   }
 
-  return false;
+  if (!activeSession || !activeSession.access_token) {
+    return { authorized: false, session: null, user: null, reason: 'no_session' };
+  }
+
+  const validateAgainstServer = async (
+    sessionToCheck: Session
+  ): Promise<{
+    serverUser: User | null;
+    error: { message?: string; status?: number } | null;
+  }> => {
+    try {
+      const { data, error } = await authClient.getUser(sessionToCheck.access_token);
+      return { serverUser: data.user ?? null, error: error ?? null };
+    } catch (err) {
+      return {
+        serverUser: null,
+        error: {
+          message: err instanceof Error ? err.message : 'network error',
+          status: 0,
+        },
+      };
+    }
+  };
+
+  let { serverUser, error: userError } = await validateAgainstServer(activeSession);
+
+  // If the server rejected an expired/stale access token (non-network error), try one refresh
+  if ((userError || !serverUser) && !isLikelyNetworkAuthError(userError)) {
+    try {
+      const { data: refreshed, error: refreshError } = await authClient.refreshSession();
+      if (!refreshError && refreshed.session?.access_token) {
+        activeSession = refreshed.session;
+        const retry = await validateAgainstServer(activeSession);
+        serverUser = retry.serverUser;
+        userError = retry.error;
+      }
+    } catch {
+      // Fall through to error handling below
+    }
+  }
+
+  // Handle network/offline failure gracefully without misreporting permissions
+  if (userError && isLikelyNetworkAuthError(userError)) {
+    const fallbackUser = options?.candidateUser ?? activeSession.user ?? null;
+    const allowed = options?.isFreshSignIn
+      ? hasTrustedAdminRoleInSession(activeSession, fallbackUser)
+      : isAuthorizedAdminSession(activeSession, undefined, { verifiedUser: fallbackUser });
+
+    if (allowed) {
+      const resolvedSession: Session = fallbackUser
+        ? { ...activeSession, user: fallbackUser }
+        : activeSession;
+      return {
+        authorized: true,
+        session: resolvedSession,
+        user: resolvedSession.user ?? null,
+        reason: 'authorized',
+      };
+    }
+
+    return {
+      authorized: false,
+      session: null,
+      user: null,
+      reason: options?.isFreshSignIn ? 'not_admin' : 'network_error',
+    };
+  }
+
+  if (userError || !serverUser) {
+    return { authorized: false, session: null, user: null, reason: 'session_expired' };
+  }
+
+  // If `auth.users.raw_app_meta_data` grants admin, ensure the active JWT also carries
+  // the admin claim so Supabase Postgres RLS policies recognize the role immediately.
+  if (isAuthorizedAdminUser(serverUser) && !hasJwtAdminClaim(activeSession.access_token)) {
+    try {
+      const { data: refreshed, error: refreshError } = await authClient.refreshSession();
+      if (!refreshError && refreshed.session?.access_token) {
+        activeSession = refreshed.session;
+        if (refreshed.user) {
+          serverUser = refreshed.user;
+        }
+      }
+    } catch {
+      // Keep verified session even if opportunistic refresh fails
+    }
+  }
+
+  const resolvedSession: Session = {
+    ...activeSession,
+    user: serverUser,
+  };
+
+  if (!hasTrustedAdminRoleInSession(resolvedSession, serverUser)) {
+    return { authorized: false, session: null, user: null, reason: 'not_admin' };
+  }
+
+  return {
+    authorized: true,
+    session: resolvedSession,
+    user: serverUser,
+    reason: 'authorized',
+  };
 }
 
 export interface UploadFileMetadata {

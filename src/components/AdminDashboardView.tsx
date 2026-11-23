@@ -50,6 +50,7 @@ import { normalizeArabic } from '../utils/arabicSearch';
 
 interface AdminDashboardViewProps {
   isAdmin: boolean;
+  isAuthLoading?: boolean;
   isSyncing: boolean;
   landmarks: Landmark[];
   governorates: Governorate[];
@@ -119,6 +120,7 @@ const HOMEPAGE_SECTION_LABELS: { key: keyof HomepageSectionsConfig; label: strin
 
 export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({
   isAdmin,
+  isAuthLoading = false,
   isSyncing,
   landmarks,
   governorates,
@@ -215,6 +217,19 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({
   );
 
   // Gate strictly if user is not authenticated as admin
+  if (!isAdmin && isAuthLoading) {
+    return (
+      <section className="mx-auto max-w-xl px-4 py-16 text-center">
+        <div className="rounded-2xl border border-[#173F35]/14 bg-white p-8 dark:border-[#C5A15A]/22 dark:bg-[#13352F]">
+          <RefreshCw className="mx-auto h-8 w-8 animate-spin text-[#C5A15A]" />
+          <p className="mt-3 text-sm font-semibold text-[#173F35] dark:text-[#F8F6F0]">
+            جارٍ التحقق من صلاحيات جلسة الإدارة...
+          </p>
+        </div>
+      </section>
+    );
+  }
+
   if (!isAdmin) {
     return (
       <section className="mx-auto max-w-xl px-4 py-16 text-center">

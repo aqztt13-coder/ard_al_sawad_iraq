@@ -12,10 +12,10 @@ import {
 } from '../lib/supabase';
 import { GovernorateProfile, Landmark } from '../types/tourism';
 import {
-  isAuthorizedAdminSession,
   isValidPhotoStoragePath,
   MAX_STORAGE_UPLOAD_BYTES,
   validateImageUploadFile,
+  verifyAuthorizedAdminSession,
 } from '../utils/adminAuth';
 import { compressImageFile } from '../utils/imageCompression';
 import {
@@ -245,8 +245,8 @@ export function useCloudData() {
 
   const ensureAuthorizedAdmin = async (): Promise<boolean> => {
     if (!isSupabaseConfigured) return false;
-    const { data } = await supabase.auth.getSession();
-    return isAuthorizedAdminSession(data.session);
+    const verification = await verifyAuthorizedAdminSession(supabase.auth);
+    return verification.authorized;
   };
 
   const saveLandmark = useCallback(

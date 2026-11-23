@@ -114,7 +114,7 @@ function readInitialViewFromUrl(): AppView {
 export default function App() {
   const { theme, toggleTheme } = useTheme();
   const { isInstallable, isInstalled, isIOS, install } = usePWAInstall();
-  const { isAdmin, signIn, signOut } = useSupabaseAuth();
+  const { isAdmin, isLoading: isAuthLoading, signIn, signOut } = useSupabaseAuth();
   const {
     landmarks,
     governorateProfiles,
@@ -647,6 +647,7 @@ export default function App() {
         {activeView === 'admin' && (
           <AdminDashboardView
             isAdmin={isAdmin}
+            isAuthLoading={isAuthLoading}
             isSyncing={isSyncing}
             landmarks={landmarks}
             governorates={IRAQ_GOVERNORATES}
