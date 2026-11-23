@@ -60,8 +60,10 @@ interface DestinationDetailModalProps {
     authorName: string;
     rating: number;
     comment: string;
-  }) => { ok: boolean; errorAr?: string };
-  onReportReview?: (reviewId: string, reason: string) => void;
+  }) =>
+    | Promise<{ ok: boolean; messageAr?: string; errorAr?: string }>
+    | { ok: boolean; messageAr?: string; errorAr?: string };
+  onReportReview?: (reviewId: string, reason: string) => void | Promise<void>;
   onAdminManagePhotos?: (landmark: Landmark) => void;
   onAdminEditLandmark?: (landmark: Landmark) => void;
 }
@@ -91,6 +93,7 @@ export const DestinationDetailModal: React.FC<DestinationDetailModalProps> = ({
     ok: boolean;
     message: string;
   } | null>(null);
+  const [isSubmittingReview, setIsSubmittingReview] = React.useState(false);
   const [reportedIds, setReportedIds] = React.useState<Set<string>>(new Set());
 
   const {
@@ -599,22 +602,27 @@ export const DestinationDetailModal: React.FC<DestinationDetailModalProps> = ({
 
                   {onSubmitReview && (
                     <form
-                      onSubmit={(e) => {
+                      onSubmit={async (e) => {
                         e.preventDefault();
-                        const res = onSubmitReview({
+                        if (isSubmittingReview) return;
+                        setIsSubmittingReview(true);
+                        const res = await onSubmitReview({
                           landmarkId: landmark.id,
                           landmarkNameAr: landmark.name_ar,
                           authorName: reviewAuthor,
                           rating: reviewRating,
                           comment: reviewComment,
                         });
+                        setIsSubmittingReview(false);
                         if (res.ok) {
                           setReviewAuthor('');
                           setReviewRating(5);
                           setReviewComment('');
                           setReviewFeedback({
                             ok: true,
-                            message: 'شكراً لمشاركتك! تم نشر مراجعتك بنجاح.',
+                            message:
+                              res.messageAr ??
+                              'شكراً لمشاركتك! تم استلام مراجعتك وستظهر بعد مراجعتها واعتمادها من قِبل الإدارة.',
                           });
                         } else {
                           setReviewFeedback({
@@ -626,7 +634,7 @@ export const DestinationDetailModal: React.FC<DestinationDetailModalProps> = ({
                       className="mt-5 space-y-3 border-t border-[#173F35]/10 pt-4 dark:border-[#C5A15A]/15"
                     >
                       <p className="text-xs font-bold text-[#173F35] dark:text-[#E7C87B]">
-                        أضف مراجعتك لهذا المعلم
+                        أضف مراجعتك لهذا المعلم (تخضع للمراجعة قبل النشر)
                       </p>
                       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                         <input
@@ -672,9 +680,10 @@ export const DestinationDetailModal: React.FC<DestinationDetailModalProps> = ({
                         <button
                           type="submit"
                           data-testid="review-submit-btn"
-                          className="rounded-xl bg-[#173F35] px-5 py-2 text-xs font-bold text-[#F8F6F0] hover:bg-[#1E5044] dark:bg-[#C5A15A] dark:text-[#102F29]"
+                          disabled={isSubmittingReview}
+                          className="rounded-xl bg-[#173F35] px-5 py-2 text-xs font-bold text-[#F8F6F0] hover:bg-[#1E5044] disabled:opacity-60 dark:bg-[#C5A15A] dark:text-[#102F29]"
                         >
-                          إرسال المراجعة
+                          {isSubmittingReview ? 'جارٍ الإرسال...' : 'إرسال المراجعة'}
                         </button>
                         {reviewFeedback && (
                           <p

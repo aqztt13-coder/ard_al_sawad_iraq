@@ -12,17 +12,17 @@ import {
 } from '../types/tourism';
 import { normalizeArabic } from './arabicSearch';
 
-const STORAGE_KEYS = {
-  reviews: 'ard_alsawad_visitor_reviews_v1',
-  reviewRateLimit: 'ard_alsawad_review_last_submit_v1',
-  settings: 'ard_alsawad_site_settings_v1',
-  analytics: 'ard_alsawad_analytics_v1',
-  auditLogs: 'ard_alsawad_audit_logs_v1',
-  newsletter: 'ard_alsawad_newsletter_v1',
-  customArticles: 'ard_alsawad_custom_articles_v1',
-  customArtifacts: 'ard_alsawad_custom_artifacts_v1',
-  customServices: 'ard_alsawad_custom_services_v1',
-} as const;
+/**
+ * NOTE ON SECURITY & PERSISTENCE BOUNDARIES:
+ * - Authoritative platform data (visitor reviews, site settings, admin audit logs,
+ *   managed articles/artifacts/services, and newsletter subscriptions) is persisted
+ *   in Supabase Postgres tables protected by Row Level Security (see `usePlatformData.ts`
+ *   and `supabase/migrations/`).
+ * - Only non-sensitive client UX rate-limit timestamps and local session analytics
+ *   remain client-side. No admin audit logs, subscriber emails, or authoritative
+ *   settings are written to `localStorage`.
+ */
+const CLIENT_RATE_LIMIT_KEY = 'ard_alsawad_review_last_submit_v1';
 
 export const DEFAULT_SITE_SETTINGS: SiteSettingsConfig = {
   siteTitleAr: 'أرض السواد — المنصة الوطنية للسياحة والتراث العراقي',
@@ -56,58 +56,58 @@ export const EMPTY_ANALYTICS: PlatformAnalytics = {
   newsletterSubscribersCount: 0,
 };
 
-function safeReadJson<T>(key: string, fallback: T): T {
+function safeReadClientNumber(key: string): number {
   try {
-    if (typeof window === 'undefined' || !window.localStorage) return fallback;
+    if (typeof window === 'undefined' || !window.localStorage) return 0;
     const raw = window.localStorage.getItem(key);
-    if (!raw) return fallback;
-    return JSON.parse(raw) as T;
+    const parsed = raw ? Number(raw) : 0;
+    return Number.isFinite(parsed) ? parsed : 0;
   } catch {
-    return fallback;
+    return 0;
   }
 }
 
-function safeWriteJson<T>(key: string, value: T): void {
+function safeWriteClientNumber(key: string, value: number): void {
   try {
     if (typeof window === 'undefined' || !window.localStorage) return;
-    window.localStorage.setItem(key, JSON.stringify(value));
+    window.localStorage.setItem(key, String(value));
   } catch {
     // Ignore storage quota errors cleanly
   }
 }
 
-/* ===========================
- * Site Settings & Homepage Config
- * =========================== */
-export function loadSiteSettings(): SiteSettingsConfig {
-  const saved = safeReadJson<Partial<SiteSettingsConfig>>(STORAGE_KEYS.settings, {});
+export function normalizeSiteSettings(
+  raw: Partial<SiteSettingsConfig> | null | undefined
+): SiteSettingsConfig {
+  if (!raw || typeof raw !== 'object') return DEFAULT_SITE_SETTINGS;
   return {
-    ...DEFAULT_SITE_SETTINGS,
-    ...saved,
+    siteTitleAr:
+      typeof raw.siteTitleAr === 'string' && raw.siteTitleAr.trim()
+        ? raw.siteTitleAr.trim()
+        : DEFAULT_SITE_SETTINGS.siteTitleAr,
+    heroHeadlineAr:
+      typeof raw.heroHeadlineAr === 'string' && raw.heroHeadlineAr.trim()
+        ? raw.heroHeadlineAr.trim()
+        : DEFAULT_SITE_SETTINGS.heroHeadlineAr,
+    heroSubtitleAr:
+      typeof raw.heroSubtitleAr === 'string' && raw.heroSubtitleAr.trim()
+        ? raw.heroSubtitleAr.trim()
+        : DEFAULT_SITE_SETTINGS.heroSubtitleAr,
+    metaDescriptionAr:
+      typeof raw.metaDescriptionAr === 'string' && raw.metaDescriptionAr.trim()
+        ? raw.metaDescriptionAr.trim()
+        : DEFAULT_SITE_SETTINGS.metaDescriptionAr,
     homepageSections: {
       ...DEFAULT_SITE_SETTINGS.homepageSections,
-      ...(saved.homepageSections ?? {}),
+      ...(raw.homepageSections ?? {}),
     },
   };
 }
 
-export function saveSiteSettings(settings: SiteSettingsConfig): void {
-  safeWriteJson(STORAGE_KEYS.settings, settings);
-}
-
 /* ===========================
- * Visitor Reviews (Zero fabricated reviews)
+ * Visitor Reviews (Zero fabricated reviews; mandatory moderation before publish)
  * =========================== */
 export const REVIEW_RATE_LIMIT_MS = 30_000;
-
-export function loadVisitorReviews(): VisitorReview[] {
-  const loaded = safeReadJson<VisitorReview[]>(STORAGE_KEYS.reviews, []);
-  return Array.isArray(loaded) ? loaded : [];
-}
-
-export function saveVisitorReviews(reviews: VisitorReview[]): void {
-  safeWriteJson(STORAGE_KEYS.reviews, reviews);
-}
 
 export function validateReviewInput(input: {
   authorName: string;
@@ -128,12 +128,17 @@ export function validateReviewInput(input: {
       errorAr: 'يرجى كتابة تعليق مفيد لا يقل عن 8 أحرف ولا يتجاوز 800 حرف.',
     };
   }
-  if (/<script|javascript:|onerror=/i.test(comment) || /<script/i.test(name)) {
+  if (/<script|javascript:|onerror=|onload=/i.test(comment) || /<script/i.test(name)) {
     return { ok: false, errorAr: 'النص يحتوي على رموز غير مسموح بها.' };
   }
   return { ok: true };
 }
 
+/**
+ * Validates and builds a new visitor review record.
+ * SECURITY: Always initializes `status: 'pending'` so visitor submissions NEVER
+ * appear publicly until an authorized administrator approves them.
+ */
 export function createVisitorReview(
   params: {
     landmarkId: string;
@@ -154,7 +159,7 @@ export function createVisitorReview(
   const effectiveLast =
     typeof lastSubmitMs === 'number'
       ? lastSubmitMs
-      : safeReadJson<number>(STORAGE_KEYS.reviewRateLimit, 0);
+      : safeReadClientNumber(CLIENT_RATE_LIMIT_KEY);
 
   if (effectiveLast > 0 && nowMs - effectiveLast < REVIEW_RATE_LIMIT_MS) {
     const remainingSec = Math.ceil((REVIEW_RATE_LIMIT_MS - (nowMs - effectiveLast)) / 1000);
@@ -173,15 +178,13 @@ export function createVisitorReview(
     rating: params.rating,
     comment: params.comment.trim(),
     createdAt: new Date(nowMs).toISOString(),
-    status: 'approved',
+    status: 'pending',
     reportedCount: 0,
     reportReasons: [],
   };
 
-  safeWriteJson(STORAGE_KEYS.reviewRateLimit, nowMs);
-  const next = [review, ...existingReviews];
-  saveVisitorReviews(next);
-  return { ok: true, review, reviews: next };
+  safeWriteClientNumber(CLIENT_RATE_LIMIT_KEY, nowMs);
+  return { ok: true, review, reviews: [review, ...existingReviews] };
 }
 
 export function reportVisitorReview(
@@ -189,8 +192,8 @@ export function reportVisitorReview(
   reason: string,
   reviews: VisitorReview[]
 ): VisitorReview[] {
-  const next = reviews.map((rev) =>
-    rev.id === reviewId
+  return reviews.map((rev) =>
+    rev.id === reviewId && rev.status === 'approved'
       ? {
           ...rev,
           reportedCount: rev.reportedCount + 1,
@@ -198,8 +201,6 @@ export function reportVisitorReview(
         }
       : rev
   );
-  saveVisitorReviews(next);
-  return next;
 }
 
 export function moderateVisitorReview(
@@ -207,22 +208,23 @@ export function moderateVisitorReview(
   action: 'approve' | 'hide' | 'delete',
   reviews: VisitorReview[]
 ): VisitorReview[] {
-  const next =
-    action === 'delete'
-      ? reviews.filter((r) => r.id !== reviewId)
-      : reviews.map((r) =>
-          r.id === reviewId
-            ? {
-                ...r,
-                status: action === 'approve' ? ('approved' as const) : ('hidden' as const),
-                reportedCount: action === 'approve' ? 0 : r.reportedCount,
-              }
-            : r
-        );
-  saveVisitorReviews(next);
-  return next;
+  return action === 'delete'
+    ? reviews.filter((r) => r.id !== reviewId)
+    : reviews.map((r) =>
+        r.id === reviewId
+          ? {
+              ...r,
+              status: action === 'approve' ? ('approved' as const) : ('hidden' as const),
+              reportedCount: action === 'approve' ? 0 : r.reportedCount,
+            }
+          : r
+      );
 }
 
+/**
+ * Computes public landmark rating summary strictly from `approved` reviews only.
+ * Pending and hidden reviews are excluded from both count and average.
+ */
 export function computeLandmarkRatingSummary(
   landmarkId: string,
   reviews: VisitorReview[]
@@ -241,118 +243,33 @@ export function computeLandmarkRatingSummary(
   };
 }
 
-/* ===========================
- * Real Platform Analytics & Audit Trail
- * =========================== */
-export function loadAnalytics(): PlatformAnalytics {
-  const saved = safeReadJson<Partial<PlatformAnalytics>>(STORAGE_KEYS.analytics, {});
+export function buildAuditLogEntry(
+  entry: Omit<AuditLogEntry, 'id' | 'timestamp'>
+): AuditLogEntry {
   return {
-    ...EMPTY_ANALYTICS,
-    ...saved,
-    destinationViews: saved.destinationViews ?? {},
-    governorateViews: saved.governorateViews ?? {},
-    artifactViews: saved.artifactViews ?? {},
-    searchTerms: saved.searchTerms ?? {},
-  };
-}
-
-export function saveAnalytics(analytics: PlatformAnalytics): void {
-  safeWriteJson(STORAGE_KEYS.analytics, analytics);
-}
-
-export function loadAuditLogs(): AuditLogEntry[] {
-  const saved = safeReadJson<AuditLogEntry[]>(STORAGE_KEYS.auditLogs, []);
-  return Array.isArray(saved) ? saved : [];
-}
-
-export function appendAuditLog(
-  entry: Omit<AuditLogEntry, 'id' | 'timestamp'>,
-  existing: AuditLogEntry[]
-): AuditLogEntry[] {
-  const record: AuditLogEntry = {
     ...entry,
     id: `audit-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
     timestamp: new Date().toISOString(),
   };
-  const next = [record, ...existing].slice(0, 200);
-  safeWriteJson(STORAGE_KEYS.auditLogs, next);
-  return next;
 }
 
 /* ===========================
- * Newsletter Subscription
+ * Newsletter Email Validation
  * =========================== */
-export interface NewsletterSubscriber {
+export function validateNewsletterEmail(emailRaw: string): {
+  ok: boolean;
   email: string;
-  subscribedAt: string;
-}
-
-export function loadNewsletterSubscribers(): NewsletterSubscriber[] {
-  const saved = safeReadJson<NewsletterSubscriber[]>(STORAGE_KEYS.newsletter, []);
-  return Array.isArray(saved) ? saved : [];
-}
-
-export function subscribeNewsletter(
-  emailRaw: string,
-  existing: NewsletterSubscriber[]
-): { ok: boolean; messageAr: string; subscribers: NewsletterSubscriber[] } {
+  messageAr?: string;
+} {
   const email = emailRaw.trim().toLowerCase();
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
     return {
       ok: false,
+      email,
       messageAr: 'يرجى إدخال بريد إلكتروني صحيح.',
-      subscribers: existing,
     };
   }
-  if (existing.some((s) => s.email === email)) {
-    return {
-      ok: true,
-      messageAr: 'هذا البريد مسجل بالفعل في النشرة الثقافية.',
-      subscribers: existing,
-    };
-  }
-  const next = [{ email, subscribedAt: new Date().toISOString() }, ...existing];
-  safeWriteJson(STORAGE_KEYS.newsletter, next);
-  return {
-    ok: true,
-    messageAr: 'تم تسجيل اشتراكك بنجاح في تحديثات أرض السواد.',
-    subscribers: next,
-  };
-}
-
-/* ===========================
- * Admin Managed Content (Articles, Artifacts, Services)
- * =========================== */
-export function loadCustomArticles(defaults: CulturalArticle[]): CulturalArticle[] {
-  const saved = safeReadJson<CulturalArticle[] | null>(STORAGE_KEYS.customArticles, null);
-  return Array.isArray(saved) && saved.length > 0 ? saved : defaults;
-}
-
-export function saveCustomArticles(articles: CulturalArticle[]): void {
-  safeWriteJson(STORAGE_KEYS.customArticles, articles);
-}
-
-export function loadCustomArtifacts(defaults: MuseumArtifact[]): MuseumArtifact[] {
-  const saved = safeReadJson<MuseumArtifact[] | null>(STORAGE_KEYS.customArtifacts, null);
-  return Array.isArray(saved) && saved.length > 0 ? saved : defaults;
-}
-
-export function saveCustomArtifacts(artifacts: MuseumArtifact[]): void {
-  safeWriteJson(STORAGE_KEYS.customArtifacts, artifacts);
-}
-
-export function loadCustomServices(
-  defaults: TourismServiceListing[]
-): TourismServiceListing[] {
-  const saved = safeReadJson<TourismServiceListing[] | null>(
-    STORAGE_KEYS.customServices,
-    null
-  );
-  return Array.isArray(saved) && saved.length > 0 ? saved : defaults;
-}
-
-export function saveCustomServices(services: TourismServiceListing[]): void {
-  safeWriteJson(STORAGE_KEYS.customServices, services);
+  return { ok: true, email };
 }
 
 /* ===========================

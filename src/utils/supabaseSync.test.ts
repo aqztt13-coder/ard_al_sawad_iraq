@@ -26,7 +26,7 @@ const PROFILES_BY_ID = buildGovernorateProfilesMap(IRAQ_GOVERNORATES);
 test('isSafeHttpUrl allows http(s) URLs and blocks javascript:/data: schemes', () => {
   assert.equal(
     isSafeHttpUrl(
-      'https://ckurlrrxifyowuxyqpwe.supabase.co/storage/v1/object/public/landmark-photos/a.jpg'
+      'https://example.supabase.co/storage/v1/object/public/landmark-photos/a.jpg'
     ),
     true
   );
@@ -39,7 +39,7 @@ test('isSafeHttpUrl allows http(s) URLs and blocks javascript:/data: schemes', (
 
 test('appendCacheBuster and stripQueryFromUrl manage cache-busting query params cleanly', () => {
   const base =
-    'https://ckurlrrxifyowuxyqpwe.supabase.co/storage/v1/object/public/landmark-photos/landmarks/iq-0001/photo.jpg';
+    'https://example.supabase.co/storage/v1/object/public/landmark-photos/landmarks/iq-0001/photo.jpg';
   const busted = appendCacheBuster(base, 1700000000000);
   assert.equal(busted, `${base}?t=1700000000000`);
   assert.equal(appendCacheBuster(busted, 1700000009999), `${base}?t=1700000009999`);
@@ -143,7 +143,7 @@ test('mergeLandmarksWithRemote overwrites local images (including clearing to []
         significance_ar: 'أهمية حضارية محدّثة من لوحة الإدارة',
         unesco_site: true,
         images: [
-          'https://ckurlrrxifyowuxyqpwe.supabase.co/storage/v1/object/public/landmark-photos/babylon.jpg?t=1234',
+          'https://example.supabase.co/storage/v1/object/public/landmark-photos/babylon.jpg?t=1234',
         ],
         google_maps_url: 'javascript:alert(1)', // should be rejected and keep safe local URL
       },

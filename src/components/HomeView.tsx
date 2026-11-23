@@ -42,7 +42,9 @@ interface HomeViewProps {
   onOpenArtifact: (artifact: MuseumArtifact) => void;
   onOpenArticle: (article: CulturalArticle) => void;
   onQuickSearch: (query: string) => void;
-  onSubscribeNewsletter: (email: string) => { ok: boolean; messageAr: string };
+  onSubscribeNewsletter: (
+    email: string
+  ) => Promise<{ ok: boolean; messageAr: string }> | { ok: boolean; messageAr: string };
 }
 
 export const HomeView: React.FC<HomeViewProps> = ({
@@ -179,9 +181,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
     }
   };
 
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const result = onSubscribeNewsletter(newsletterEmail);
+    const result = await onSubscribeNewsletter(newsletterEmail);
     setNewsletterFeedback(result);
     if (result.ok) {
       setNewsletterEmail('');

@@ -69,17 +69,28 @@ interface AdminDashboardViewProps {
   onSaveLandmark: (landmark: Landmark) => Promise<CloudOperationResult>;
   onSeedCloudData: () => Promise<CloudOperationResult>;
   onRefreshCloud: () => Promise<CloudOperationResult>;
-  onUpdateSettings: (next: SiteSettingsConfig) => void;
-  onModerateReview: (reviewId: string, action: 'approve' | 'hide' | 'delete') => void;
-  onSaveArticles: (next: CulturalArticle[], logDetail: string) => void;
-  onSaveServices: (next: TourismServiceListing[], logDetail: string) => void;
+  onUpdateSettings: (
+    next: SiteSettingsConfig
+  ) => Promise<{ ok: boolean; messageAr?: string; errorAr?: string }> | void;
+  onModerateReview: (
+    reviewId: string,
+    action: 'approve' | 'hide' | 'delete'
+  ) => Promise<{ ok: boolean; messageAr?: string; errorAr?: string }> | void;
+  onSaveArticles: (
+    next: CulturalArticle[],
+    logDetail: string
+  ) => Promise<{ ok: boolean; messageAr?: string; errorAr?: string }> | void;
+  onSaveServices: (
+    next: TourismServiceListing[],
+    logDetail: string
+  ) => Promise<{ ok: boolean; messageAr?: string; errorAr?: string }> | void;
   onRestoreBackup: (snapshot: {
     settings: SiteSettingsConfig;
     reviews: VisitorReview[];
     articles: CulturalArticle[];
     artifacts: MuseumArtifact[];
     services: TourismServiceListing[];
-  }) => void;
+  }) => Promise<{ ok: boolean; messageAr?: string; errorAr?: string }> | void;
 }
 
 type AdminTab =
@@ -292,7 +303,7 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({
     const file = e.target.files?.[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = () => {
+    reader.onload = async () => {
       try {
         const parsed = JSON.parse(String(reader.result));
         const checked = validatePlatformBackupSnapshot(parsed);
@@ -300,15 +311,19 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({
           setStatusNotice(checked.errorAr ?? 'ملف النسخة الاحتياطية غير صالح.');
           return;
         }
-        onRestoreBackup({
+        const res = await onRestoreBackup({
           settings: checked.snapshot.settings,
           reviews: checked.snapshot.reviews,
           articles: checked.snapshot.articles,
           artifacts: checked.snapshot.artifacts,
           services: checked.snapshot.services,
         });
+        if (res && !res.ok) {
+          setStatusNotice(res.errorAr ?? 'تعذر استعادة النسخة الاحتياطية.');
+          return;
+        }
         setDraftSettings(checked.snapshot.settings);
-        setStatusNotice('تمت استعادة النسخة الاحتياطية بنجاح.');
+        setStatusNotice(res?.messageAr ?? 'تمت استعادة النسخة الاحتياطية بنجاح.');
       } catch {
         setStatusNotice('تعذر قراءة ملف JSON؛ يرجى التأكد من سلامة الملف.');
       }
@@ -316,7 +331,7 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({
     reader.readAsText(file, 'utf-8');
   };
 
-  const handleAddQuickArticle = (e: React.FormEvent) => {
+  const handleAddQuickArticle = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newArticleTitle.trim() || !newArticleBody.trim()) return;
     const catLabels: Record<CultureTopicCategory, string> = {
@@ -351,13 +366,17 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({
       published_at: new Date().toISOString().slice(0, 10),
       status: 'published',
     };
-    onSaveArticles([article, ...articles], `إضافة مقال ثقافي: ${article.title_ar}`);
+    const res = await onSaveArticles([article, ...articles], `إضافة مقال ثقافي: ${article.title_ar}`);
+    if (res && !res.ok) {
+      setStatusNotice(res.errorAr ?? 'تعذر حفظ المقال في قاعدة البيانات.');
+      return;
+    }
     setNewArticleTitle('');
     setNewArticleBody('');
-    setStatusNotice('تمت إضافة المقال الجديد إلى قسم «عِش العراق».');
+    setStatusNotice(res?.messageAr ?? 'تمت إضافة المقال الجديد إلى قسم «عِش العراق».');
   };
 
-  const handleAddQuickService = (e: React.FormEvent) => {
+  const handleAddQuickService = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newServiceName.trim() || !newServiceDesc.trim()) return;
     const gov = governorates.find((g) => g.id === newServiceGovId) ?? governorates[0];
@@ -380,12 +399,17 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({
       verification_status: 'verified',
       features_ar: ['مُضاف عبر الإدارة'],
     };
-    onSaveServices([svc, ...services], `إضافة خدمة سياحية: ${svc.name_ar}`);
+    const res = await onSaveServices([svc, ...services], `إضافة خدمة سياحية: ${svc.name_ar}`);
+    if (res && !res.ok) {
+      setStatusNotice(res.errorAr ?? 'تعذر حفظ الخدمة السياحية في قاعدة البيانات.');
+      return;
+    }
     setNewServiceName('');
     setNewServiceDesc('');
-    setStatusNotice('تمت إضافة الخدمة السياحية إلى «دليل الزائر».');
+    setStatusNotice(res?.messageAr ?? 'تمت إضافة الخدمة السياحية إلى «دليل الزائر».');
   };
 
+  const pendingReviewsCount = reviews.filter((r) => r.status === 'pending').length;
   const reportedCount = reviews.filter((r) => r.reportedCount > 0).length;
 
   return (
@@ -460,7 +484,7 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({
             { id: 'content', label: 'الثقافة والخدمات', Icon: BookOpen },
             {
               id: 'reviews',
-              label: `المراجعات (${reviews.length}${reportedCount > 0 ? ` · ${reportedCount} بلاغ` : ''})`,
+              label: `المراجعات (${reviews.length}${pendingReviewsCount > 0 ? ` · ${pendingReviewsCount} بانتظار المراجعة` : ''}${reportedCount > 0 ? ` · ${reportedCount} بلاغ` : ''})`,
               Icon: MessageSquare,
             },
             { id: 'import_backup', label: 'استيراد CSV والنسخ الاحتياطي', Icon: FileSpreadsheet },
@@ -640,10 +664,14 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({
       {/* TAB 3: HOMEPAGE SECTIONS & SITE SETTINGS */}
       {activeTab === 'homepage' && (
         <form
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
-            onUpdateSettings(draftSettings);
-            setStatusNotice('تم حفظ إعدادات الصفحة الرئيسية والهوية بنجاح.');
+            const res = await onUpdateSettings(draftSettings);
+            if (res && !res.ok) {
+              setStatusNotice(res.errorAr ?? 'تعذر حفظ إعدادات المنصة في قاعدة البيانات.');
+              return;
+            }
+            setStatusNotice(res?.messageAr ?? 'تم حفظ إعدادات الصفحة الرئيسية والهوية بنجاح.');
           }}
           className="space-y-6 rounded-2xl border border-[#173F35]/12 bg-white p-6 dark:bg-[#13352F]"
         >
@@ -851,7 +879,11 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({
                 <div>
                   <p className="text-xs font-bold text-[#8C6D2B] dark:text-[#E7C87B]">
                     {rev.landmarkNameAr} · {rev.authorName} · {rev.rating}/5 ·{' '}
-                    {rev.status === 'approved' ? 'منشور' : 'مخفي'}
+                    {rev.status === 'approved'
+                      ? 'منشور'
+                      : rev.status === 'pending'
+                        ? 'بانتظار المراجعة'
+                        : 'مخفي'}
                     {rev.reportedCount > 0 ? ` · (${rev.reportedCount} بلاغ)` : ''}
                   </p>
                   <p className="mt-1 text-xs text-[#252B29] dark:text-[#E9DFC9]">
@@ -861,7 +893,10 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({
                 <div className="flex shrink-0 items-center gap-2">
                   <button
                     type="button"
-                    onClick={() => onModerateReview(rev.id, 'approve')}
+                    onClick={async () => {
+                      const res = await onModerateReview(rev.id, 'approve');
+                      if (res && !res.ok) setStatusNotice(res.errorAr ?? 'تعذر اعتماد المراجعة.');
+                    }}
                     className="inline-flex items-center gap-1 rounded-lg bg-[#173F35] px-3 py-1.5 text-xs font-bold text-white"
                   >
                     <CheckCircle2 className="h-3.5 w-3.5" />
@@ -869,7 +904,10 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({
                   </button>
                   <button
                     type="button"
-                    onClick={() => onModerateReview(rev.id, 'hide')}
+                    onClick={async () => {
+                      const res = await onModerateReview(rev.id, 'hide');
+                      if (res && !res.ok) setStatusNotice(res.errorAr ?? 'تعذر إخفاء المراجعة.');
+                    }}
                     className="inline-flex items-center gap-1 rounded-lg border border-[#C5A15A]/50 px-3 py-1.5 text-xs font-bold text-[#7B5B17] dark:text-[#E7C87B]"
                   >
                     <EyeOff className="h-3.5 w-3.5" />
@@ -877,7 +915,10 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({
                   </button>
                   <button
                     type="button"
-                    onClick={() => onModerateReview(rev.id, 'delete')}
+                    onClick={async () => {
+                      const res = await onModerateReview(rev.id, 'delete');
+                      if (res && !res.ok) setStatusNotice(res.errorAr ?? 'تعذر حذف المراجعة.');
+                    }}
                     className="inline-flex items-center gap-1 rounded-lg border border-red-300 px-3 py-1.5 text-xs font-bold text-red-700"
                   >
                     <Trash2 className="h-3.5 w-3.5" />

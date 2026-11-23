@@ -4,8 +4,19 @@ import {
   buildGovernorateProfilesMap,
   getGovernorateProfile,
 } from '../data/governorateProfiles';
-import { supabase, SUPABASE_PHOTO_BUCKET, SUPABASE_URL } from '../lib/supabase';
+import {
+  isSupabaseConfigured,
+  supabase,
+  SUPABASE_PHOTO_BUCKET,
+  SUPABASE_URL,
+} from '../lib/supabase';
 import { GovernorateProfile, Landmark } from '../types/tourism';
+import {
+  isAuthorizedAdminSession,
+  isValidPhotoStoragePath,
+  MAX_STORAGE_UPLOAD_BYTES,
+  validateImageUploadFile,
+} from '../utils/adminAuth';
 import { compressImageFile } from '../utils/imageCompression';
 import {
   appendCacheBuster,
@@ -66,20 +77,25 @@ function formatCloudErrorAr(
     err.code === '42501' ||
     msg.includes('row-level security') ||
     msg.includes('permission denied') ||
-    msg.includes('not authorized')
+    msg.includes('not authorized') ||
+    msg.includes('unauthorized')
   ) {
-    return 'ليس لديك صلاحية تنفيذ هذا الإجراء. يُرجى التأكد من تسجيل الدخول بحساب المدير.';
+    return 'ليس لديك صلاحية تنفيذ هذا الإجراء. يُرجى التأكد من تسجيل الدخول بحساب مدير مخوّل.';
   }
   return fallback;
 }
 
 function extractBucketPathFromPublicUrl(publicUrl: string): string | null {
+  if (!SUPABASE_URL) return null;
   const cleanUrl = stripQueryFromUrl(publicUrl);
   const prefix = `${SUPABASE_URL.replace(/\/$/, '')}/storage/v1/object/public/${SUPABASE_PHOTO_BUCKET}/`;
   if (!cleanUrl.startsWith(prefix)) return null;
-  const path = decodeURIComponent(cleanUrl.slice(prefix.length));
-  if (!path || path.includes('..')) return null;
-  return path;
+  try {
+    const path = decodeURIComponent(cleanUrl.slice(prefix.length));
+    return isValidPhotoStoragePath(path) ? path : null;
+  } catch {
+    return null;
+  }
 }
 
 export function useCloudData() {
@@ -145,6 +161,13 @@ export function useCloudData() {
   );
 
   const refreshFromCloud = useCallback(async (): Promise<CloudOperationResult> => {
+    if (!isSupabaseConfigured) {
+      return {
+        ok: false,
+        message: 'يتم عرض قاعدة البيانات المدمجة حالياً لعدم ربط إعدادات السحابة.',
+      };
+    }
+
     const startMutationVersion = mutationVersionRef.current;
     setIsSyncing(true);
     try {
@@ -211,6 +234,7 @@ export function useCloudData() {
 
   // Always fetch fresh data from Supabase first on initial app load (and whenever browser reconnects)
   useEffect(() => {
+    if (!isSupabaseConfigured) return;
     void refreshFromCloud();
     const handleOnline = () => {
       void refreshFromCloud();
@@ -219,15 +243,16 @@ export function useCloudData() {
     return () => window.removeEventListener('online', handleOnline);
   }, [refreshFromCloud]);
 
-  const ensureAuthenticated = async (): Promise<boolean> => {
+  const ensureAuthorizedAdmin = async (): Promise<boolean> => {
+    if (!isSupabaseConfigured) return false;
     const { data } = await supabase.auth.getSession();
-    return Boolean(data.session?.user);
+    return isAuthorizedAdminSession(data.session);
   };
 
   const saveLandmark = useCallback(
     async (landmark: Landmark): Promise<CloudOperationResult> => {
-      if (!(await ensureAuthenticated())) {
-        return { ok: false, message: 'يجب تسجيل الدخول كمدير لإجراء التعديلات.' };
+      if (!(await ensureAuthorizedAdmin())) {
+        return { ok: false, message: 'يجب تسجيل الدخول بحساب مدير مخوّل لإجراء التعديلات.' };
       }
 
       const sanitizedLandmark: Landmark = {
@@ -295,8 +320,8 @@ export function useCloudData() {
 
   const deleteLandmark = useCallback(
     async (landmarkId: string): Promise<CloudOperationResult> => {
-      if (!(await ensureAuthenticated())) {
-        return { ok: false, message: 'يجب تسجيل الدخول كمدير لحذف المعالم.' };
+      if (!(await ensureAuthorizedAdmin())) {
+        return { ok: false, message: 'يجب تسجيل الدخول بحساب مدير مخوّل لحذف المعالم.' };
       }
 
       const { error } = await supabase
@@ -337,8 +362,8 @@ export function useCloudData() {
       governorateId: string,
       coverImageUrl: string | null
     ): Promise<CloudOperationResult> => {
-      if (!(await ensureAuthenticated())) {
-        return { ok: false, message: 'يجب تسجيل الدخول كمدير لتحديث صورة المحافظة.' };
+      if (!(await ensureAuthorizedAdmin())) {
+        return { ok: false, message: 'يجب تسجيل الدخول بحساب مدير مخوّل لتحديث صورة المحافظة.' };
       }
 
       const matchedGov = IRAQ_GOVERNORATES.find((g) => g.id === governorateId);
@@ -412,8 +437,17 @@ export function useCloudData() {
       folder: 'landmarks' | 'governorates',
       entityId: string
     ): Promise<{ url: string | null; error: string | null }> => {
-      if (!(await ensureAuthenticated())) {
-        return { url: null, error: 'يجب تسجيل الدخول بحساب المدير لرفع الصور.' };
+      if (!(await ensureAuthorizedAdmin())) {
+        return { url: null, error: 'يجب تسجيل الدخول بحساب مدير مخوّل لرفع الصور.' };
+      }
+
+      const fileValidation = validateImageUploadFile({
+        name: file.name,
+        type: file.type,
+        size: file.size,
+      });
+      if (!fileValidation.ok) {
+        return { url: null, error: fileValidation.errorAr ?? 'ملف الصورة غير صالح.' };
       }
 
       try {
@@ -423,10 +457,21 @@ export function useCloudData() {
           quality: 0.82,
         });
 
+        if (compressedBlob.size > MAX_STORAGE_UPLOAD_BYTES) {
+          return {
+            url: null,
+            error: 'حجم الصورة بعد الضغط ما زال يتجاوز الحد الأقصى المسموح به (5 ميجابايت).',
+          };
+        }
+
         const safeEntity = sanitizeStorageSegment(entityId);
         const now = Date.now();
         const randomSuffix = Math.random().toString(36).slice(2, 8);
         const objectPath = `${folder}/${safeEntity}/${now}-${randomSuffix}.jpg`;
+
+        if (!isValidPhotoStoragePath(objectPath)) {
+          return { url: null, error: 'مسار حفظ الصورة غير صالح.' };
+        }
 
         const { error: uploadError } = await supabase.storage
           .from(SUPABASE_PHOTO_BUCKET)
@@ -466,6 +511,7 @@ export function useCloudData() {
   );
 
   const deletePhotoFromBucket = useCallback(async (publicUrl: string): Promise<void> => {
+    if (!(await ensureAuthorizedAdmin())) return;
     const objectPath = extractBucketPathFromPublicUrl(publicUrl);
     if (!objectPath) return;
     try {
@@ -476,8 +522,8 @@ export function useCloudData() {
   }, []);
 
   const seedInitialDataToCloud = useCallback(async (): Promise<CloudOperationResult> => {
-    if (!(await ensureAuthenticated())) {
-      return { ok: false, message: 'يجب تسجيل الدخول كمدير لرفع البيانات الأولية.' };
+    if (!(await ensureAuthorizedAdmin())) {
+      return { ok: false, message: 'يجب تسجيل الدخول بحساب مدير مخوّل لرفع البيانات الأولية.' };
     }
 
     // Preserve any cloud photos already attached in current state

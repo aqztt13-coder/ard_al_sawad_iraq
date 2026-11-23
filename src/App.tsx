@@ -1,14 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { DATABASE_METADATA, IRAQ_GOVERNORATES } from './data/database';
-import { DIGITAL_MUSEUM_ARTIFACTS } from './data/museumData';
-import {
-  CULTURAL_ARTICLES,
-  INITIAL_TOURISM_SERVICES,
-  NATIONAL_INITIATIVES,
-} from './data/cultureData';
+import { NATIONAL_INITIATIVES } from './data/cultureData';
 import {
   AppView,
-  AuditLogEntry,
   CulturalArticle,
   Governorate,
   GovernorateProfile,
@@ -17,9 +11,6 @@ import {
   LandmarkFilterState,
   MuseumArtifact,
   PlatformAnalytics,
-  SiteSettingsConfig,
-  TourismServiceListing,
-  VisitorReview,
 } from './types/tourism';
 import { filterLandmarks, getDatabaseStats } from './utils/arabicSearch';
 import {
@@ -29,32 +20,12 @@ import {
   toggleItineraryEntry,
   updateItineraryNote,
 } from './utils/itinerary';
-import {
-  appendAuditLog,
-  createVisitorReview,
-  loadAnalytics,
-  loadAuditLogs,
-  loadCustomArticles,
-  loadCustomArtifacts,
-  loadCustomServices,
-  loadNewsletterSubscribers,
-  loadSiteSettings,
-  loadVisitorReviews,
-  moderateVisitorReview,
-  NewsletterSubscriber,
-  reportVisitorReview,
-  saveAnalytics,
-  saveCustomArticles,
-  saveCustomArtifacts,
-  saveCustomServices,
-  saveSiteSettings,
-  saveVisitorReviews,
-  subscribeNewsletter,
-} from './utils/platformStore';
+import { EMPTY_ANALYTICS } from './utils/platformStore';
 import { usePWAInstall } from './hooks/usePWAInstall';
 import { useTheme } from './hooks/useTheme';
 import { useSupabaseAuth } from './hooks/useSupabaseAuth';
 import { useCloudData } from './hooks/useCloudData';
+import { usePlatformData } from './hooks/usePlatformData';
 import { Header } from './components/Header';
 import { AdminBar } from './components/AdminBar';
 import { MobileBottomNav } from './components/MobileBottomNav';
@@ -143,7 +114,7 @@ function readInitialViewFromUrl(): AppView {
 export default function App() {
   const { theme, toggleTheme } = useTheme();
   const { isInstallable, isInstalled, isIOS, install } = usePWAInstall();
-  const { isAdmin, signIn, signUp, signOut } = useSupabaseAuth();
+  const { isAdmin, signIn, signOut } = useSupabaseAuth();
   const {
     landmarks,
     governorateProfiles,
@@ -157,6 +128,24 @@ export default function App() {
     deletePhotoFromBucket,
     seedInitialDataToCloud,
   } = useCloudData();
+
+  const {
+    siteSettings,
+    reviews,
+    articles,
+    artifacts,
+    services,
+    auditLogs,
+    recordAudit,
+    submitReview,
+    reportReview,
+    moderateReview,
+    updateSiteSettings,
+    saveArticles,
+    saveServices,
+    restoreBackup,
+    subscribeNewsletter,
+  } = usePlatformData(isAdmin);
 
   const [activeView, setActiveView] = useState<AppView>(readInitialViewFromUrl);
   const [filters, setFilters] = useState<LandmarkFilterState>(DEFAULT_FILTERS);
@@ -181,36 +170,15 @@ export default function App() {
     landmarkId: string | null;
   }>({ isOpen: false, landmarkId: null });
 
-  // Persistent Platform State (Offline-first)
+  // Visitor personal itinerary (client preference) and session-scoped analytics
   const [itinerary, setItinerary] = useState<ItineraryEntry[]>(() =>
     loadItineraryFromStorage()
   );
-  const [siteSettings, setSiteSettings] = useState<SiteSettingsConfig>(() =>
-    loadSiteSettings()
-  );
-  const [reviews, setReviews] = useState<VisitorReview[]>(() => loadVisitorReviews());
-  const [articles, setArticles] = useState<CulturalArticle[]>(() =>
-    loadCustomArticles(CULTURAL_ARTICLES)
-  );
-  const [artifacts, setArtifacts] = useState<MuseumArtifact[]>(() =>
-    loadCustomArtifacts(DIGITAL_MUSEUM_ARTIFACTS)
-  );
-  const [services, setServices] = useState<TourismServiceListing[]>(() =>
-    loadCustomServices(INITIAL_TOURISM_SERVICES)
-  );
-  const [analytics, setAnalytics] = useState<PlatformAnalytics>(() => loadAnalytics());
-  const [auditLogs, setAuditLogs] = useState<AuditLogEntry[]>(() => loadAuditLogs());
-  const [subscribers, setSubscribers] = useState<NewsletterSubscriber[]>(() =>
-    loadNewsletterSubscribers()
-  );
+  const [analytics, setAnalytics] = useState<PlatformAnalytics>(EMPTY_ANALYTICS);
 
   useEffect(() => {
     saveItineraryToStorage(itinerary);
   }, [itinerary]);
-
-  useEffect(() => {
-    saveAnalytics(analytics);
-  }, [analytics]);
 
   // Dynamic SEO document.title + URL query sync
   useEffect(() => {
@@ -295,12 +263,6 @@ export default function App() {
     isAdmin && editorState.isOpen && editorState.landmarkId
       ? landmarkMap.get(editorState.landmarkId) ?? null
       : null;
-
-  const recordAudit = (action_ar: string, entity_type: string, details_ar: string) => {
-    setAuditLogs((prev) =>
-      appendAuditLog({ action_ar, entity_type, details_ar }, prev)
-    );
-  };
 
   const handleSelectLandmark = (landmark: Landmark) => {
     setSelectedLandmarkId(landmark.id);
@@ -415,90 +377,15 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleSubmitReview = (params: {
-    landmarkId: string;
-    landmarkNameAr: string;
-    authorName: string;
-    rating: number;
-    comment: string;
-  }) => {
-    const result = createVisitorReview(params, reviews);
-    if (result.ok) {
-      setReviews(result.reviews);
-    }
-    return { ok: result.ok, errorAr: result.errorAr };
-  };
-
-  const handleReportReview = (reviewId: string, reason: string) => {
-    setReviews((prev) => reportVisitorReview(reviewId, reason, prev));
-  };
-
-  const handleModerateReview = (
-    reviewId: string,
-    action: 'approve' | 'hide' | 'delete'
-  ) => {
-    if (!isAdmin) return;
-    setReviews((prev) => moderateVisitorReview(reviewId, action, prev));
-    const labelMap = {
-      approve: 'اعتماد مراجعة',
-      hide: 'إخفاء مراجعة',
-      delete: 'حذف مراجعة',
-    };
-    recordAudit(labelMap[action], 'review', `تحديث حالة المراجعة (${reviewId})`);
-  };
-
-  const handleUpdateSettings = (next: SiteSettingsConfig) => {
-    if (!isAdmin) return;
-    setSiteSettings(next);
-    saveSiteSettings(next);
-    recordAudit('تحديث إعدادات المنصة', 'settings', 'حفظ إعدادات الواجهة الرئيسية وSEO');
-  };
-
-  const handleSaveArticles = (next: CulturalArticle[], logDetail: string) => {
-    if (!isAdmin) return;
-    setArticles(next);
-    saveCustomArticles(next);
-    recordAudit('إدارة محتوى عِش العراق', 'article', logDetail);
-  };
-
-  const handleSaveServices = (next: TourismServiceListing[], logDetail: string) => {
-    if (!isAdmin) return;
-    setServices(next);
-    saveCustomServices(next);
-    recordAudit('إدارة الخدمات السياحية', 'service', logDetail);
-  };
-
-  const handleRestoreBackup = (snapshot: {
-    settings: SiteSettingsConfig;
-    reviews: VisitorReview[];
-    articles: CulturalArticle[];
-    artifacts: MuseumArtifact[];
-    services: TourismServiceListing[];
-  }) => {
-    if (!isAdmin) return;
-    setSiteSettings(snapshot.settings);
-    saveSiteSettings(snapshot.settings);
-    setReviews(snapshot.reviews);
-    saveVisitorReviews(snapshot.reviews);
-    setArticles(snapshot.articles);
-    saveCustomArticles(snapshot.articles);
-    setArtifacts(snapshot.artifacts);
-    saveCustomArtifacts(snapshot.artifacts);
-    setServices(snapshot.services);
-    saveCustomServices(snapshot.services);
-    recordAudit('استعادة نسخة احتياطية', 'backup', 'استعادة إعدادات ومحتوى المنصة من JSON');
-  };
-
-  const handleSubscribeNewsletter = (email: string) => {
-    const res = subscribeNewsletter(email, subscribers);
+  const handleSubscribeNewsletter = async (email: string) => {
+    const res = await subscribeNewsletter(email);
     if (res.ok) {
-      setSubscribers(res.subscribers);
       setAnalytics((prev) => ({
         ...prev,
-        newsletterSubscribersCount: res.subscribers.length,
+        newsletterSubscribersCount: prev.newsletterSubscribersCount + 1,
       }));
     }
-    return { ok: res.ok, messageAr: res.messageAr };
+    return res;
   };
 
   const handleRequestInstall = async () => {
@@ -789,11 +676,11 @@ export default function App() {
             }}
             onSeedCloudData={seedInitialDataToCloud}
             onRefreshCloud={refreshFromCloud}
-            onUpdateSettings={handleUpdateSettings}
-            onModerateReview={handleModerateReview}
-            onSaveArticles={handleSaveArticles}
-            onSaveServices={handleSaveServices}
-            onRestoreBackup={handleRestoreBackup}
+            onUpdateSettings={updateSiteSettings}
+            onModerateReview={moderateReview}
+            onSaveArticles={saveArticles}
+            onSaveServices={saveServices}
+            onRestoreBackup={restoreBackup}
           />
         )}
       </main>
@@ -828,8 +715,8 @@ export default function App() {
         onToggleSave={handleToggleSave}
         onViewOnMap={handleViewLandmarkOnMap}
         onSelectLandmark={handleSelectLandmark}
-        onSubmitReview={handleSubmitReview}
-        onReportReview={handleReportReview}
+        onSubmitReview={submitReview}
+        onReportReview={reportReview}
         onAdminManagePhotos={handleOpenLandmarkPhotos}
         onAdminEditLandmark={handleOpenLandmarkEditor}
       />
@@ -849,11 +736,10 @@ export default function App() {
         onSignIn={async (email, password) => {
           const res = await signIn(email, password);
           if (!res.error) {
-            recordAudit('تسجيل دخول إداري', 'auth', 'دخول ناجح إلى لوحة الإدارة');
+            void recordAudit('تسجيل دخول إداري', 'auth', 'دخول ناجح إلى لوحة الإدارة');
           }
           return res;
         }}
-        onSignUp={signUp}
         onSignOut={signOut}
       />
 
