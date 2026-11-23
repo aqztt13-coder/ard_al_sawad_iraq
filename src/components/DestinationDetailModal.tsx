@@ -18,8 +18,14 @@ import {
   ArrowUpLeft,
   ImagePlus,
   Pencil,
+  Star,
+  Flag,
+  MessageSquarePlus,
+  Clock,
+  Ticket,
+  FileCheck2,
 } from 'lucide-react';
-import { Governorate, Landmark } from '../types/tourism';
+import { Governorate, Landmark, VisitorReview } from '../types/tourism';
 import {
   getDisplayBestTimeToVisit,
   getDisplayVisitorTips,
@@ -30,6 +36,7 @@ import {
   getLandmarkGoogleMapsUrl,
 } from '../utils/arabicSearch';
 import { formatDistanceAr, getNearbyLandmarks } from '../utils/geo';
+import { computeLandmarkRatingSummary } from '../utils/platformStore';
 import { buildAudioGuideScript } from '../utils/speech';
 import { useArabicSpeech } from '../hooks/useArabicSpeech';
 import { LandmarkGalleryCarousel } from './LandmarkGalleryCarousel';
@@ -40,12 +47,21 @@ interface DestinationDetailModalProps {
   governorate?: Governorate;
   governorates: Governorate[];
   allLandmarks: Landmark[];
+  reviews?: VisitorReview[];
   isSaved: boolean;
   isAdmin?: boolean;
   onClose: () => void;
   onToggleSave: (landmarkId: string) => void;
   onViewOnMap: (landmark: Landmark) => void;
   onSelectLandmark: (landmark: Landmark) => void;
+  onSubmitReview?: (params: {
+    landmarkId: string;
+    landmarkNameAr: string;
+    authorName: string;
+    rating: number;
+    comment: string;
+  }) => { ok: boolean; errorAr?: string };
+  onReportReview?: (reviewId: string, reason: string) => void;
   onAdminManagePhotos?: (landmark: Landmark) => void;
   onAdminEditLandmark?: (landmark: Landmark) => void;
 }
@@ -55,16 +71,27 @@ export const DestinationDetailModal: React.FC<DestinationDetailModalProps> = ({
   governorate,
   governorates,
   allLandmarks,
+  reviews = [],
   isSaved,
   isAdmin = false,
   onClose,
   onToggleSave,
   onViewOnMap,
   onSelectLandmark,
+  onSubmitReview,
+  onReportReview,
   onAdminManagePhotos,
   onAdminEditLandmark,
 }) => {
   const scrollBodyRef = useRef<HTMLDivElement>(null);
+  const [reviewAuthor, setReviewAuthor] = React.useState('');
+  const [reviewRating, setReviewRating] = React.useState(5);
+  const [reviewComment, setReviewComment] = React.useState('');
+  const [reviewFeedback, setReviewFeedback] = React.useState<{
+    ok: boolean;
+    message: string;
+  } | null>(null);
+  const [reportedIds, setReportedIds] = React.useState<Set<string>>(new Set());
 
   const {
     isSupported: isSpeechSupported,
@@ -420,6 +447,39 @@ export const DestinationDetailModal: React.FC<DestinationDetailModalProps> = ({
                 </div>
               </div>
 
+              {/* Verified Directory Logistics (Transparent — never fabricates unverified prices/hours) */}
+              <div className="mt-5 grid grid-cols-1 gap-3 border-t border-[#0F3D3E]/10 pt-5 sm:grid-cols-3 dark:border-[#C89B3C]/16">
+                <div className="rounded-xl border border-[#0F3D3E]/10 bg-[#F9F6F0]/75 p-3.5 dark:border-[#C89B3C]/14 dark:bg-[#0D1B1E]/60">
+                  <p className="flex items-center gap-1.5 text-xs font-bold text-[#173F35] dark:text-[#E7C87B]">
+                    <Clock className="h-3.5 w-3.5 text-[#C5A15A]" aria-hidden="true" />
+                    <span>ساعات الزيارة</span>
+                  </p>
+                  <p className="mt-1 text-xs text-[#4B5854] dark:text-[#B5C4BF]">
+                    {landmark.visiting_hours_ar || 'غير متوفر حالياً'}
+                  </p>
+                </div>
+                <div className="rounded-xl border border-[#0F3D3E]/10 bg-[#F9F6F0]/75 p-3.5 dark:border-[#C89B3C]/14 dark:bg-[#0D1B1E]/60">
+                  <p className="flex items-center gap-1.5 text-xs font-bold text-[#173F35] dark:text-[#E7C87B]">
+                    <Ticket className="h-3.5 w-3.5 text-[#C5A15A]" aria-hidden="true" />
+                    <span>رسوم الدخول</span>
+                  </p>
+                  <p className="mt-1 text-xs text-[#4B5854] dark:text-[#B5C4BF]">
+                    {landmark.entrance_fee_ar || 'غير متوفر حالياً'}
+                  </p>
+                </div>
+                <div className="rounded-xl border border-[#0F3D3E]/10 bg-[#F9F6F0]/75 p-3.5 dark:border-[#C89B3C]/14 dark:bg-[#0D1B1E]/60">
+                  <p className="flex items-center gap-1.5 text-xs font-bold text-[#173F35] dark:text-[#E7C87B]">
+                    <FileCheck2 className="h-3.5 w-3.5 text-[#C5A15A]" aria-hidden="true" />
+                    <span>حالة التوثيق</span>
+                  </p>
+                  <p className="mt-1 text-xs text-[#4B5854] dark:text-[#B5C4BF]">
+                    {landmark.verification_status === 'verified'
+                      ? 'موثّق تحريرياً'
+                      : 'معلومات تعريفية عامة — قيد التحديث الميداني'}
+                  </p>
+                </div>
+              </div>
+
               {/* Nearby Landmarks Sub-section */}
               {nearbyLandmarks.length > 0 && (
                 <div
@@ -460,6 +520,180 @@ export const DestinationDetailModal: React.FC<DestinationDetailModalProps> = ({
                 </div>
               )}
             </section>
+
+            {/* Section 4: Visitor Reviews & Ratings (Zero Fake Reviews) */}
+            {(() => {
+              const summary = computeLandmarkRatingSummary(landmark.id, reviews);
+              return (
+                <section
+                  data-testid="section-visitor-reviews"
+                  className="rounded-2xl border border-[#0F3D3E]/12 bg-white/85 p-5 dark:border-[#C89B3C]/18 dark:bg-[#132529]/90 sm:p-6"
+                >
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <h3 className="flex items-center gap-2 font-heritage text-xl font-bold text-[#0F3D3E] dark:text-[#E7C87B] sm:text-2xl">
+                      <MessageSquarePlus
+                        className="h-5 w-5 shrink-0 text-[#C5A15A]"
+                        aria-hidden="true"
+                      />
+                      <span>تقييمات وتجارب الزوار</span>
+                    </h3>
+                    <p className="text-xs font-bold text-[#54635F] dark:text-[#A9B8B3] tabular-nums">
+                      {summary.average !== null
+                        ? `المتوسط ${summary.average} / 5 (${summary.count} مراجعة)`
+                        : 'لا توجد تقييمات بعد'}
+                    </p>
+                  </div>
+
+                  {summary.visibleReviews.length === 0 ? (
+                    <p className="mt-3 rounded-xl border border-[#173F35]/10 bg-[#F8F6F0] px-4 py-3 text-xs leading-relaxed text-[#54635F] dark:border-[#C5A15A]/15 dark:bg-[#0D1B1E]/60 dark:text-[#A9B8B3]">
+                      لم تُضف مراجعات لهذا المعلم بعد. شارك تجربتك الميدانية الحقيقية
+                      لمساعدة الزوار الآخرين.
+                    </p>
+                  ) : (
+                    <div className="mt-4 space-y-3">
+                      {summary.visibleReviews.map((rev) => (
+                        <article
+                          key={rev.id}
+                          className="rounded-xl border border-[#173F35]/10 bg-[#F8F6F0] p-4 dark:border-[#C5A15A]/15 dark:bg-[#0D1B1E]/70"
+                        >
+                          <div className="flex items-center justify-between gap-2">
+                            <div>
+                              <p className="text-sm font-bold text-[#173F35] dark:text-[#F8F6F0]">
+                                {rev.authorName}
+                              </p>
+                              <div className="mt-0.5 flex items-center gap-0.5 text-[#C5A15A]">
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                  <Star
+                                    key={star}
+                                    className={`h-3.5 w-3.5 ${
+                                      star <= rev.rating ? 'fill-current' : 'opacity-25'
+                                    }`}
+                                  />
+                                ))}
+                              </div>
+                            </div>
+                            {onReportReview && (
+                              <button
+                                type="button"
+                                disabled={reportedIds.has(rev.id)}
+                                onClick={() => {
+                                  onReportReview(rev.id, 'إبلاغ من صفحة المعلم');
+                                  setReportedIds((prev) => new Set(prev).add(rev.id));
+                                }}
+                                className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#6B7A75] hover:text-red-700 disabled:opacity-50"
+                              >
+                                <Flag className="h-3 w-3" />
+                                <span>
+                                  {reportedIds.has(rev.id) ? 'تم الإبلاغ' : 'إبلاغ'}
+                                </span>
+                              </button>
+                            )}
+                          </div>
+                          <p className="mt-2 text-xs leading-relaxed text-[#2F3B38] dark:text-[#D5DDD9]">
+                            {rev.comment}
+                          </p>
+                        </article>
+                      ))}
+                    </div>
+                  )}
+
+                  {onSubmitReview && (
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        const res = onSubmitReview({
+                          landmarkId: landmark.id,
+                          landmarkNameAr: landmark.name_ar,
+                          authorName: reviewAuthor,
+                          rating: reviewRating,
+                          comment: reviewComment,
+                        });
+                        if (res.ok) {
+                          setReviewAuthor('');
+                          setReviewRating(5);
+                          setReviewComment('');
+                          setReviewFeedback({
+                            ok: true,
+                            message: 'شكراً لمشاركتك! تم نشر مراجعتك بنجاح.',
+                          });
+                        } else {
+                          setReviewFeedback({
+                            ok: false,
+                            message: res.errorAr ?? 'تعذر إرسال المراجعة.',
+                          });
+                        }
+                      }}
+                      className="mt-5 space-y-3 border-t border-[#173F35]/10 pt-4 dark:border-[#C5A15A]/15"
+                    >
+                      <p className="text-xs font-bold text-[#173F35] dark:text-[#E7C87B]">
+                        أضف مراجعتك لهذا المعلم
+                      </p>
+                      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        <input
+                          type="text"
+                          data-testid="review-author-input"
+                          value={reviewAuthor}
+                          onChange={(e) => setReviewAuthor(e.target.value)}
+                          placeholder="الاسم الكامل"
+                          required
+                          className="min-h-[40px] rounded-xl border border-[#173F35]/18 bg-[#F8F6F0] px-3 text-xs text-[#252B29] dark:border-[#C5A15A]/22 dark:bg-[#0D1B1E] dark:text-[#F8F6F0]"
+                        />
+                        <div className="flex items-center gap-2 rounded-xl border border-[#173F35]/18 bg-[#F8F6F0] px-3 dark:border-[#C5A15A]/22 dark:bg-[#0D1B1E]">
+                          <span className="text-xs font-semibold text-[#54635F] dark:text-[#A9B8B3]">
+                            التقييم:
+                          </span>
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <button
+                              key={star}
+                              type="button"
+                              onClick={() => setReviewRating(star)}
+                              aria-label={`${star} نجوم`}
+                              className="p-0.5 text-[#C5A15A]"
+                            >
+                              <Star
+                                className={`h-4 w-4 ${
+                                  star <= reviewRating ? 'fill-current' : 'opacity-30'
+                                }`}
+                              />
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                      <textarea
+                        rows={2}
+                        data-testid="review-comment-input"
+                        value={reviewComment}
+                        onChange={(e) => setReviewComment(e.target.value)}
+                        placeholder="شارك ملاحظاتك حول الوصول، الخدمات، أو أفضل وقت للزيارة..."
+                        required
+                        className="w-full rounded-xl border border-[#173F35]/18 bg-[#F8F6F0] p-3 text-xs text-[#252B29] dark:border-[#C5A15A]/22 dark:bg-[#0D1B1E] dark:text-[#F8F6F0]"
+                      />
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <button
+                          type="submit"
+                          data-testid="review-submit-btn"
+                          className="rounded-xl bg-[#173F35] px-5 py-2 text-xs font-bold text-[#F8F6F0] hover:bg-[#1E5044] dark:bg-[#C5A15A] dark:text-[#102F29]"
+                        >
+                          إرسال المراجعة
+                        </button>
+                        {reviewFeedback && (
+                          <p
+                            role="status"
+                            className={`text-xs font-semibold ${
+                              reviewFeedback.ok
+                                ? 'text-[#173F35] dark:text-[#E7C87B]'
+                                : 'text-red-700 dark:text-red-300'
+                            }`}
+                          >
+                            {reviewFeedback.message}
+                          </p>
+                        )}
+                      </div>
+                    </form>
+                  )}
+                </section>
+              );
+            })()}
           </div>
         </div>
 

@@ -123,6 +123,17 @@ export function getDatabaseStats(
   };
 }
 
+export function getUniqueCivilizations(landmarks: Landmark[]): string[] {
+  const set = new Set<string>();
+  for (const landmark of landmarks) {
+    const value = (landmark.civilization_ar || landmark.era || '').trim();
+    if (value) {
+      set.add(value);
+    }
+  }
+  return Array.from(set).sort((a, b) => a.localeCompare(b, 'ar'));
+}
+
 export function filterLandmarks(
   landmarks: Landmark[],
   governorates: Governorate[],
@@ -130,8 +141,15 @@ export function filterLandmarks(
 ): Landmark[] {
   const govMap = new Map(governorates.map((g) => [g.id, g]));
   const normalizedQuery = normalizeArabic(filters.query);
+  const normalizedCiv = filters.civilization
+    ? normalizeArabic(filters.civilization)
+    : '';
 
-  return landmarks.filter((landmark) => {
+  const filtered = landmarks.filter((landmark) => {
+    if (landmark.publication_status === 'draft') {
+      return false;
+    }
+
     if (filters.category !== 'all' && landmark.category !== filters.category) {
       return false;
     }
@@ -147,6 +165,23 @@ export function filterLandmarks(
       return false;
     }
 
+    if (filters.familyFriendlyOnly && landmark.family_friendly === false) {
+      return false;
+    }
+
+    if (filters.accessibleOnly && !landmark.wheelchair_accessible) {
+      return false;
+    }
+
+    if (normalizedCiv && normalizedCiv !== 'all') {
+      const civText = normalizeArabic(
+        `${landmark.civilization_ar ?? ''} ${landmark.era ?? ''}`
+      );
+      if (!civText.includes(normalizedCiv)) {
+        return false;
+      }
+    }
+
     if (!normalizedQuery) {
       return true;
     }
@@ -157,11 +192,13 @@ export function filterLandmarks(
         landmark.name_ar,
         landmark.name_en,
         landmark.governorate_ar,
+        landmark.district_ar ?? '',
         landmark.category_ar,
         CATEGORY_LABELS[landmark.category] ?? '',
         CATEGORY_SHORT_LABELS[landmark.category] ?? '',
         landmark.description_ar,
         landmark.era,
+        landmark.civilization_ar ?? '',
         Array.isArray(landmark.tags) ? landmark.tags.join(' ') : '',
         landmark.unesco_site ? 'يونسكو تراث عالمي unesco' : '',
         gov?.name_en ?? '',
@@ -172,6 +209,21 @@ export function filterLandmarks(
     const tokens = normalizedQuery.split(' ').filter(Boolean);
     return tokens.every((token) => searchableBlob.includes(token));
   });
+
+  if (filters.sortBy === 'alphabetical') {
+    return [...filtered].sort((a, b) => a.name_ar.localeCompare(b.name_ar, 'ar'));
+  }
+  if (filters.sortBy === 'unesco_first') {
+    return [...filtered].sort((a, b) => {
+      if (a.unesco_site !== b.unesco_site) return a.unesco_site ? -1 : 1;
+      return a.name_ar.localeCompare(b.name_ar, 'ar');
+    });
+  }
+  if (filters.sortBy === 'recent') {
+    return [...filtered].reverse();
+  }
+
+  return filtered;
 }
 
 export function buildGoogleMapsUrl(lat: number, lng: number): string {

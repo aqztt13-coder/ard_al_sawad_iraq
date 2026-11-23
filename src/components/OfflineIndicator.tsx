@@ -11,10 +11,19 @@ export const OfflineIndicator: React.FC = () => {
     <div
       role="status"
       aria-live="polite"
-      className="fixed bottom-20 left-4 z-50 flex items-center gap-2 rounded-xl border border-[#C89B3C]/40 bg-[#0F3D3E] px-4 py-2.5 text-xs font-semibold text-[#F9F6F0] shadow-lg md:bottom-5"
+      data-testid="offline-banner"
+      className="fixed bottom-20 left-4 right-4 z-50 mx-auto max-w-xl rounded-xl border border-[#C5A15A]/45 bg-[#102F29] px-4 py-3 text-xs text-[#F8F6F0] shadow-xl lg:bottom-5 lg:left-5 lg:right-auto"
     >
-      <WifiOff className="h-4 w-4 text-[#E7C87B]" aria-hidden="true" />
-      <span>وضع عدم الاتصال — يتم عرض البيانات المخزّنة محلياً</span>
+      <div className="flex items-start gap-2.5">
+        <WifiOff className="mt-0.5 h-4 w-4 shrink-0 text-[#E7C87B]" aria-hidden="true" />
+        <div>
+          <p className="font-bold text-[#E7C87B]">وضع عدم الاتصال نشط</p>
+          <p className="mt-0.5 leading-relaxed text-[#E9DFC9]">
+            متاح دون إنترنت: دليل المعالم المحفوظ، المتحف الرقمي، «عِش العراق»، الألعاب
+            الثقافية، ومسار رحلتك. تتطلب الخريطة الحية والمزامنة السحابية اتصالاً بالإنترنت.
+          </p>
+        </div>
+      </div>
     </div>
   );
 };

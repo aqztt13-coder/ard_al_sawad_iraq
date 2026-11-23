@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>أرض السواد — وضع عدم الاتصال</title>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #F8F6F0;
+        color: #252B29;
+        font-family: system-ui, -apple-system, sans-serif;
+        padding: 24px;
+      }
+      .card {
+        max-width: 480px;
+        background: #FFFFFF;
+        border: 1px solid rgba(23, 63, 53, 0.16);
+        border-radius: 18px;
+        padding: 32px;
+        text-align: center;
+      }
+      h1 {
+        color: #173F35;
+        margin: 0 0 12px;
+        font-size: 1.75rem;
+      }
+      p {
+        color: #4E5C58;
+        line-height: 1.8;
+        font-size: 0.95rem;
+        margin: 0 0 20px;
+      }
+      button {
+        background: #173F35;
+        color: #F8F6F0;
+        border: none;
+        border-radius: 12px;
+        padding: 12px 24px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <h1>أرض السواد — لا يوجد اتصال بالإنترنت</h1>
+      <p>
+        أنت تتصفح حالياً دون اتصال بالإنترنت. المعالم المحفوظة وخطط رحلاتك وقواعد
+        البيانات المخزنة محلياً تبقى متاحة عند العودة إلى التطبيق، بينما تتطلب
+        الخرائط الحية ومزامنة الصور الجديدة اتصالاً بالشبكة.
+      </p>
+      <button type="button" onclick="window.location.href='/'">
+        إعادة المحاولة والعودة للتطبيق
+      </button>
+    </main>
+  </body>
+</html>

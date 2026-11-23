@@ -15,9 +15,10 @@ import {
   GovernorateProfile,
   Landmark,
   LandmarkFilterState,
+  LandmarkSortOption,
 } from '../types/tourism';
 import { getGovernorateProfile } from '../data/governorateProfiles';
-import { CATEGORY_LABELS } from '../utils/arabicSearch';
+import { CATEGORY_LABELS, getUniqueCivilizations } from '../utils/arabicSearch';
 import { sortLandmarksByDistance } from '../utils/geo';
 import { useGeolocation } from '../hooks/useGeolocation';
 import { GovernorateProfileCard } from './GovernorateProfileCard';
@@ -37,6 +38,9 @@ interface ExploreSectionProps {
   filters: LandmarkFilterState;
   savedIds: Set<string>;
   isAdmin?: boolean;
+  sectionKicker?: string;
+  sectionTitle?: string;
+  sectionSubtitle?: string;
   onChangeFilters: (next: Partial<LandmarkFilterState>) => void;
   onResetFilters: () => void;
   onSelectLandmark: (landmark: Landmark) => void;
@@ -58,6 +62,9 @@ export const ExploreSection: React.FC<ExploreSectionProps> = ({
   filters,
   savedIds,
   isAdmin = false,
+  sectionKicker = 'دليل الوجهات الموثّقة في العراق',
+  sectionTitle = 'استكشف معالم أرض السواد',
+  sectionSubtitle,
   onChangeFilters,
   onResetFilters,
   onSelectLandmark,
@@ -76,6 +83,8 @@ export const ExploreSection: React.FC<ExploreSectionProps> = ({
     filters.category,
     filters.governorateId,
     filters.unescoOnly,
+    filters.civilization,
+    filters.sortBy,
     allLandmarksCount,
   ]);
 
@@ -95,6 +104,11 @@ export const ExploreSection: React.FC<ExploreSectionProps> = ({
     }
     return counts;
   }, [allLandmarks]);
+
+  const civilizationOptions = useMemo(
+    () => getUniqueCivilizations(allLandmarks),
+    [allLandmarks]
+  );
 
   const displayItems = useMemo(() => {
     if (isNearMeActive && userCoords) {
@@ -135,7 +149,9 @@ export const ExploreSection: React.FC<ExploreSectionProps> = ({
     filters.query.trim().length > 0 ||
     filters.category !== 'all' ||
     filters.governorateId !== 'all' ||
-    filters.unescoOnly;
+    filters.unescoOnly ||
+    Boolean(filters.civilization && filters.civilization !== 'all') ||
+    Boolean(filters.sortBy && filters.sortBy !== 'featured');
 
   const remainingCount = Math.max(0, displayItems.length - visibleItems.length);
 
@@ -147,15 +163,20 @@ export const ExploreSection: React.FC<ExploreSectionProps> = ({
     >
       <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="text-xs font-semibold text-[#1B4B72] dark:text-[#96C2E6]">
-            دليل الوجهات الموثّقة في العراق
+          <p className="text-xs font-semibold text-[#8C6D2B] dark:text-[#E7C87B]">
+            {sectionKicker}
           </p>
-          <h2
+          <h1
             id="explorer-heading"
-            className="mt-1 font-heritage text-3xl font-bold text-[#0F3D3E] dark:text-[#F4EFE6] sm:text-4xl"
+            className="mt-1 font-heritage text-3xl font-bold text-[#173F35] dark:text-[#F8F6F0] sm:text-4xl"
           >
-            استكشف معالم أرض السواد
-          </h2>
+            {sectionTitle}
+          </h1>
+          {sectionSubtitle && (
+            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[#54635F] dark:text-[#A8B8B3]">
+              {sectionSubtitle}
+            </p>
+          )}
         </div>
 
         <p
@@ -168,9 +189,9 @@ export const ExploreSection: React.FC<ExploreSectionProps> = ({
         </p>
       </div>
 
-      {/* Search & Dynamic Governorate Filter Bar */}
+      {/* Search, Governorate, Civilization & Sort Bar */}
       <div className="mt-6 grid grid-cols-1 gap-3 md:grid-cols-12">
-        <div className="relative md:col-span-7">
+        <div className="relative md:col-span-5">
           <label htmlFor="landmark-search-input" className="sr-only">
             ابحث عن معلم ديني أو أثري أو طبيعي
           </label>
@@ -198,7 +219,7 @@ export const ExploreSection: React.FC<ExploreSectionProps> = ({
           )}
         </div>
 
-        <div className="md:col-span-5">
+        <div className="md:col-span-3">
           <label htmlFor="governorate-select" className="sr-only">
             تصفية حسب المحافظة
           </label>
@@ -206,24 +227,62 @@ export const ExploreSection: React.FC<ExploreSectionProps> = ({
             id="governorate-select"
             value={filters.governorateId}
             onChange={(e) => onChangeFilters({ governorateId: e.target.value })}
-            className="min-h-[46px] w-full rounded-xl border border-[#0F3D3E]/16 bg-white/90 px-4 text-sm font-medium text-[#1A2421] focus:border-[#0F3D3E] focus:outline-none dark:border-[#C89B3C]/24 dark:bg-[#132529] dark:text-[#F1ECE2] dark:focus:border-[#C89B3C]"
+            className="min-h-[46px] w-full rounded-xl border border-[#173F35]/16 bg-white/90 px-3 text-sm font-medium text-[#1A2421] focus:border-[#173F35] focus:outline-none dark:border-[#C5A15A]/24 dark:bg-[#13352F] dark:text-[#F8F6F0] dark:focus:border-[#C5A15A]"
           >
             <option value="all">
-              جميع محافظات العراق ({governorates.length} محافظة · {allLandmarksCount} معلم)
+              جميع المحافظات ({governorates.length})
             </option>
             {governorates.map((gov) => {
               const count = governorateCounts.get(gov.id) ?? 0;
               return (
                 <option key={gov.id} value={gov.id}>
-                  {gov.name_ar} — {gov.region} ({count})
+                  {gov.name_ar} ({count})
                 </option>
               );
             })}
             {nationalLandmarksCount > 0 && (
               <option value="IQ-NATIONAL">
-                معالم وطنية على مستوى العراق ({nationalLandmarksCount})
+                معالم وطنية ({nationalLandmarksCount})
               </option>
             )}
+          </select>
+        </div>
+
+        <div className="md:col-span-2">
+          <label htmlFor="civilization-select" className="sr-only">
+            تصفية حسب الحقبة أو الحضارة
+          </label>
+          <select
+            id="civilization-select"
+            value={filters.civilization ?? 'all'}
+            onChange={(e) => onChangeFilters({ civilization: e.target.value })}
+            className="min-h-[46px] w-full rounded-xl border border-[#173F35]/16 bg-white/90 px-3 text-sm font-medium text-[#1A2421] focus:border-[#173F35] focus:outline-none dark:border-[#C5A15A]/24 dark:bg-[#13352F] dark:text-[#F8F6F0]"
+          >
+            <option value="all">كل الحقب والحضارات</option>
+            {civilizationOptions.slice(0, 40).map((era) => (
+              <option key={era} value={era}>
+                {era}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="md:col-span-2">
+          <label htmlFor="sort-select" className="sr-only">
+            ترتيب النتائج
+          </label>
+          <select
+            id="sort-select"
+            value={filters.sortBy ?? 'featured'}
+            onChange={(e) =>
+              onChangeFilters({ sortBy: e.target.value as LandmarkSortOption })
+            }
+            className="min-h-[46px] w-full rounded-xl border border-[#173F35]/16 bg-white/90 px-3 text-sm font-medium text-[#1A2421] focus:border-[#173F35] focus:outline-none dark:border-[#C5A15A]/24 dark:bg-[#13352F] dark:text-[#F8F6F0]"
+          >
+            <option value="featured">الترتيب: الأبرز</option>
+            <option value="alphabetical">الترتيب: أبجدياً</option>
+            <option value="unesco_first">الترتيب: اليونسكو أولاً</option>
+            <option value="recent">الترتيب: الأحدث إضافة</option>
           </select>
         </div>
       </div>

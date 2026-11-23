@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   CheckCircle2,
   CloudUpload,
+  LayoutDashboard,
   Loader2,
   LogOut,
   PlusCircle,
@@ -13,6 +14,7 @@ import { CloudOperationResult } from '../hooks/useCloudData';
 
 interface AdminBarProps {
   isSyncing: boolean;
+  onOpenDashboard: () => void;
   onAddLandmark: () => void;
   onSeedCloudData: () => Promise<CloudOperationResult>;
   onRefreshCloud: () => Promise<CloudOperationResult>;
@@ -21,6 +23,7 @@ interface AdminBarProps {
 
 export const AdminBar: React.FC<AdminBarProps> = ({
   isSyncing,
+  onOpenDashboard,
   onAddLandmark,
   onSeedCloudData,
   onRefreshCloud,
@@ -60,24 +63,34 @@ export const AdminBar: React.FC<AdminBarProps> = ({
   return (
     <div
       data-testid="admin-panel-bar"
-      className="border-b border-[#C89B3C]/35 bg-[#0F3D3E] text-[#F9F6F0] dark:bg-[#102428]"
+      className="border-b border-[#C5A15A]/35 bg-[#102F29] text-[#F8F6F0]"
     >
       <div className="mx-auto max-w-7xl px-4 py-2.5 sm:px-6 lg:px-8">
         <div className="flex flex-wrap items-center justify-between gap-2.5">
           <div className="flex items-center gap-2 text-xs">
             <ShieldCheck className="h-4 w-4 shrink-0 text-[#E7C87B]" aria-hidden="true" />
-            <span className="font-bold text-[#E7C87B]">لوحة الإدارة</span>
+            <span className="font-bold text-[#E7C87B]">حساب المدير</span>
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
             <button
               type="button"
+              data-testid="admin-open-dashboard-btn"
+              onClick={onOpenDashboard}
+              className="inline-flex min-h-[36px] items-center gap-1.5 rounded-lg bg-[#C5A15A] px-3 py-1.5 text-xs font-bold text-[#102F29] transition-colors hover:bg-[#D5B26B] whitespace-nowrap"
+            >
+              <LayoutDashboard className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+              <span>لوحة التحكم الكاملة</span>
+            </button>
+
+            <button
+              type="button"
               data-testid="admin-add-landmark-btn"
               onClick={onAddLandmark}
-              className="inline-flex min-h-[36px] items-center gap-1.5 rounded-lg bg-[#C89B3C] px-3 py-1.5 text-xs font-bold text-[#0D1B1E] transition-colors hover:bg-[#D7AC4D] whitespace-nowrap"
+              className="inline-flex min-h-[36px] items-center gap-1.5 rounded-lg border border-[#E7C87B]/45 bg-white/10 px-3 py-1.5 text-xs font-bold text-[#F8F6F0] transition-colors hover:bg-white/18 whitespace-nowrap"
             >
-              <PlusCircle className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-              <span>إضافة معلم جديد</span>
+              <PlusCircle className="h-3.5 w-3.5 shrink-0 text-[#E7C87B]" aria-hidden="true" />
+              <span>إضافة معلم</span>
             </button>
 
             <button

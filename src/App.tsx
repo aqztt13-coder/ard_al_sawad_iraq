@@ -1,13 +1,25 @@
 import { useEffect, useMemo, useState } from 'react';
 import { DATABASE_METADATA, IRAQ_GOVERNORATES } from './data/database';
-import { buildDynamicCuratedTrails } from './data/trails';
+import { DIGITAL_MUSEUM_ARTIFACTS } from './data/museumData';
+import {
+  CULTURAL_ARTICLES,
+  INITIAL_TOURISM_SERVICES,
+  NATIONAL_INITIATIVES,
+} from './data/cultureData';
 import {
   AppView,
+  AuditLogEntry,
+  CulturalArticle,
   Governorate,
   GovernorateProfile,
   ItineraryEntry,
   Landmark,
   LandmarkFilterState,
+  MuseumArtifact,
+  PlatformAnalytics,
+  SiteSettingsConfig,
+  TourismServiceListing,
+  VisitorReview,
 } from './types/tourism';
 import { filterLandmarks, getDatabaseStats } from './utils/arabicSearch';
 import {
@@ -17,6 +29,28 @@ import {
   toggleItineraryEntry,
   updateItineraryNote,
 } from './utils/itinerary';
+import {
+  appendAuditLog,
+  createVisitorReview,
+  loadAnalytics,
+  loadAuditLogs,
+  loadCustomArticles,
+  loadCustomArtifacts,
+  loadCustomServices,
+  loadNewsletterSubscribers,
+  loadSiteSettings,
+  loadVisitorReviews,
+  moderateVisitorReview,
+  NewsletterSubscriber,
+  reportVisitorReview,
+  saveAnalytics,
+  saveCustomArticles,
+  saveCustomArtifacts,
+  saveCustomServices,
+  saveSiteSettings,
+  saveVisitorReviews,
+  subscribeNewsletter,
+} from './utils/platformStore';
 import { usePWAInstall } from './hooks/usePWAInstall';
 import { useTheme } from './hooks/useTheme';
 import { useSupabaseAuth } from './hooks/useSupabaseAuth';
@@ -24,12 +58,18 @@ import { useCloudData } from './hooks/useCloudData';
 import { Header } from './components/Header';
 import { AdminBar } from './components/AdminBar';
 import { MobileBottomNav } from './components/MobileBottomNav';
-import { HeroSection } from './components/HeroSection';
+import { HomeView } from './components/HomeView';
 import { ExploreSection } from './components/ExploreSection';
-import { CuratedTrailsView } from './components/CuratedTrailsView';
 import { GovernoratesView } from './components/GovernoratesView';
 import { IraqMapView } from './components/IraqMapView';
-import { ItineraryView } from './components/ItineraryView';
+import { SmartTravelPlannerView } from './components/SmartTravelPlannerView';
+import { DigitalMuseumView } from './components/DigitalMuseumView';
+import { LiveIraqCultureView } from './components/LiveIraqCultureView';
+import { CulturalGamesView } from './components/CulturalGamesView';
+import { VisitorGuideView } from './components/VisitorGuideView';
+import { NationalInitiativesView } from './components/NationalInitiativesView';
+import { AboutView } from './components/AboutView';
+import { AdminDashboardView } from './components/AdminDashboardView';
 import { DestinationDetailModal } from './components/DestinationDetailModal';
 import { PWAInstallModal } from './components/PWAInstallModal';
 import { AdminLoginModal } from './components/AdminLoginModal';
@@ -46,7 +86,59 @@ const DEFAULT_FILTERS: LandmarkFilterState = {
   category: 'all',
   governorateId: 'all',
   unescoOnly: false,
+  civilization: 'all',
+  sortBy: 'featured',
 };
+
+const VALID_VIEWS = new Set<AppView>([
+  'home',
+  'explore',
+  'map',
+  'governorates',
+  'archaeological',
+  'religious',
+  'nature',
+  'museum',
+  'planner',
+  'trails',
+  'itinerary',
+  'culture',
+  'games',
+  'guide',
+  'initiatives',
+  'about',
+  'admin',
+]);
+
+const VIEW_TITLES: Record<AppView, string> = {
+  home: 'أرض السواد — المنصة الوطنية للسياحة والتراث العراقي',
+  explore: 'اكتشف العراق — دليل المعالم | أرض السواد',
+  map: 'خريطة العراق التفاعلية ومنشئ المسارات | أرض السواد',
+  governorates: 'المحافظات العراقية الـ 18 | أرض السواد',
+  archaeological: 'المواقع الأثرية والتاريخية في العراق | أرض السواد',
+  religious: 'العتبات والمراقد والمواقع الدينية | أرض السواد',
+  nature: 'الطبيعة والأهوار والمصايف في العراق | أرض السواد',
+  museum: 'المتحف العراقي الرقمي والخط الزمني | أرض السواد',
+  planner: 'خطط رحلتك الذكي والمسارات المقترحة | أرض السواد',
+  trails: 'المسارات السياحية المقترحة | أرض السواد',
+  itinerary: 'مساري المحفوظ | أرض السواد',
+  culture: 'عِش العراق — الثقافة والضيافة | أرض السواد',
+  games: 'الألعاب الثقافية والتراثية | أرض السواد',
+  guide: 'دليل الزائر والخدمات السياحية | أرض السواد',
+  initiatives: 'المبادرات الوطنية للتراث | أرض السواد',
+  about: 'من نحن ومعايير التوثيق | أرض السواد',
+  admin: 'لوحة التحكم والإدارة | أرض السواد',
+};
+
+function readInitialViewFromUrl(): AppView {
+  try {
+    const param = new URLSearchParams(window.location.search).get('view') as AppView | null;
+    if (param && VALID_VIEWS.has(param)) return param;
+  } catch {
+    // Fallback to home
+  }
+  return 'home';
+}
 
 export default function App() {
   const { theme, toggleTheme } = useTheme();
@@ -66,14 +158,20 @@ export default function App() {
     seedInitialDataToCloud,
   } = useCloudData();
 
-  const [activeView, setActiveView] = useState<AppView>('explore');
+  const [activeView, setActiveView] = useState<AppView>(readInitialViewFromUrl);
   const [filters, setFilters] = useState<LandmarkFilterState>(DEFAULT_FILTERS);
   const [selectedLandmarkId, setSelectedLandmarkId] = useState<string | null>(null);
   const [mapFocusGovId, setMapFocusGovId] = useState<string | null>(null);
   const [mapFocusLandmarkId, setMapFocusLandmarkId] = useState<string | null>(null);
   const [showInstallModal, setShowInstallModal] = useState(false);
 
-  // Admin modal state (editor and photo manager strictly gated by isAdmin)
+  // Cross-section jump states
+  const [initialArtifactToOpen, setInitialArtifactToOpen] =
+    useState<MuseumArtifact | null>(null);
+  const [initialArticleToOpen, setInitialArticleToOpen] =
+    useState<CulturalArticle | null>(null);
+
+  // Admin modal state
   const [showAdminLoginModal, setShowAdminLoginModal] = useState(false);
   const [photoManagerRef, setPhotoManagerRef] = useState<
     { type: 'landmark'; id: string } | { type: 'governorate'; id: string } | null
@@ -83,15 +181,55 @@ export default function App() {
     landmarkId: string | null;
   }>({ isOpen: false, landmarkId: null });
 
+  // Persistent Platform State (Offline-first)
   const [itinerary, setItinerary] = useState<ItineraryEntry[]>(() =>
     loadItineraryFromStorage()
+  );
+  const [siteSettings, setSiteSettings] = useState<SiteSettingsConfig>(() =>
+    loadSiteSettings()
+  );
+  const [reviews, setReviews] = useState<VisitorReview[]>(() => loadVisitorReviews());
+  const [articles, setArticles] = useState<CulturalArticle[]>(() =>
+    loadCustomArticles(CULTURAL_ARTICLES)
+  );
+  const [artifacts, setArtifacts] = useState<MuseumArtifact[]>(() =>
+    loadCustomArtifacts(DIGITAL_MUSEUM_ARTIFACTS)
+  );
+  const [services, setServices] = useState<TourismServiceListing[]>(() =>
+    loadCustomServices(INITIAL_TOURISM_SERVICES)
+  );
+  const [analytics, setAnalytics] = useState<PlatformAnalytics>(() => loadAnalytics());
+  const [auditLogs, setAuditLogs] = useState<AuditLogEntry[]>(() => loadAuditLogs());
+  const [subscribers, setSubscribers] = useState<NewsletterSubscriber[]>(() =>
+    loadNewsletterSubscribers()
   );
 
   useEffect(() => {
     saveItineraryToStorage(itinerary);
   }, [itinerary]);
 
-  // Clear any open admin modals automatically if admin signs out
+  useEffect(() => {
+    saveAnalytics(analytics);
+  }, [analytics]);
+
+  // Dynamic SEO document.title + URL query sync
+  useEffect(() => {
+    document.title =
+      activeView === 'home' ? siteSettings.siteTitleAr : VIEW_TITLES[activeView];
+    try {
+      const url = new URL(window.location.href);
+      if (activeView === 'home') {
+        url.searchParams.delete('view');
+      } else {
+        url.searchParams.set('view', activeView);
+      }
+      window.history.replaceState({}, '', url.toString());
+    } catch {
+      // Ignore history API issues in restricted frames
+    }
+  }, [activeView, siteSettings.siteTitleAr]);
+
+  // Clear admin modals & return from admin view if signed out
   useEffect(() => {
     if (!isAdmin) {
       setPhotoManagerRef(null);
@@ -106,22 +244,26 @@ export default function App() {
 
   const databaseStats = useMemo(
     () =>
-      getDatabaseStats(
-        landmarks,
-        IRAQ_GOVERNORATES,
-        DATABASE_METADATA.categories
-      ),
+      getDatabaseStats(landmarks, IRAQ_GOVERNORATES, DATABASE_METADATA.categories),
     [landmarks]
   );
 
-  const curatedTrails = useMemo(
-    () => buildDynamicCuratedTrails(landmarks),
-    [landmarks]
-  );
+  const effectiveFilters = useMemo<LandmarkFilterState>(() => {
+    if (activeView === 'archaeological') {
+      return { ...filters, category: 'archaeological' };
+    }
+    if (activeView === 'religious') {
+      return { ...filters, category: 'religious' };
+    }
+    if (activeView === 'nature') {
+      return { ...filters, category: 'nature_tourism' };
+    }
+    return filters;
+  }, [activeView, filters]);
 
   const filteredLandmarks = useMemo(
-    () => filterLandmarks(landmarks, IRAQ_GOVERNORATES, filters),
-    [landmarks, filters]
+    () => filterLandmarks(landmarks, IRAQ_GOVERNORATES, effectiveFilters),
+    [landmarks, effectiveFilters]
   );
 
   const govMap = useMemo(
@@ -154,12 +296,28 @@ export default function App() {
       ? landmarkMap.get(editorState.landmarkId) ?? null
       : null;
 
+  const recordAudit = (action_ar: string, entity_type: string, details_ar: string) => {
+    setAuditLogs((prev) =>
+      appendAuditLog({ action_ar, entity_type, details_ar }, prev)
+    );
+  };
+
   const handleSelectLandmark = (landmark: Landmark) => {
     setSelectedLandmarkId(landmark.id);
+    setAnalytics((prev) => ({
+      ...prev,
+      destinationViews: {
+        ...prev.destinationViews,
+        [landmark.id]: (prev.destinationViews[landmark.id] ?? 0) + 1,
+      },
+    }));
   };
 
   const handleNavigate = (view: AppView) => {
     setSelectedLandmarkId(null);
+    if (view === 'explore') {
+      setFilters((prev) => ({ ...prev, category: 'all' }));
+    }
     setActiveView(view);
     if (view !== 'map') {
       setMapFocusGovId(null);
@@ -169,10 +327,19 @@ export default function App() {
   };
 
   const handleToggleSave = (landmarkId: string) => {
-    setItinerary((prev) => toggleItineraryEntry(prev, landmarkId));
+    setItinerary((prev) => {
+      const next = toggleItineraryEntry(prev, landmarkId);
+      if (next.length > prev.length) {
+        setAnalytics((a) => ({
+          ...a,
+          itinerarySavesCount: a.itinerarySavesCount + 1,
+        }));
+      }
+      return next;
+    });
   };
 
-  const handleSaveTrailToItinerary = (landmarkIds: string[]) => {
+  const handleSaveMultipleStops = (landmarkIds: string[]) => {
     setItinerary((prev) => {
       const existing = new Set(prev.map((item) => item.landmarkId));
       const additions: ItineraryEntry[] = landmarkIds
@@ -182,7 +349,14 @@ export default function App() {
           addedAt: new Date().toISOString(),
           note: '',
         }));
-      return additions.length > 0 ? [...prev, ...additions] : prev;
+      if (additions.length > 0) {
+        setAnalytics((a) => ({
+          ...a,
+          itinerarySavesCount: a.itinerarySavesCount + additions.length,
+        }));
+        return [...prev, ...additions];
+      }
+      return prev;
     });
   };
 
@@ -201,6 +375,13 @@ export default function App() {
   const handleExploreGovernorate = (governorateId: string) => {
     setFilters({ ...DEFAULT_FILTERS, governorateId });
     setActiveView('explore');
+    setAnalytics((prev) => ({
+      ...prev,
+      governorateViews: {
+        ...prev.governorateViews,
+        [governorateId]: (prev.governorateViews[governorateId] ?? 0) + 1,
+      },
+    }));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -219,6 +400,105 @@ export default function App() {
     setFilters((prev) => ({ ...prev, governorateId: landmark.governorate_id }));
     setActiveView('map');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleQuickSearchFromHome = (query: string) => {
+    setFilters({ ...DEFAULT_FILTERS, query });
+    setActiveView('explore');
+    setAnalytics((prev) => ({
+      ...prev,
+      searchTerms: {
+        ...prev.searchTerms,
+        [query]: (prev.searchTerms[query] ?? 0) + 1,
+      },
+    }));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleSubmitReview = (params: {
+    landmarkId: string;
+    landmarkNameAr: string;
+    authorName: string;
+    rating: number;
+    comment: string;
+  }) => {
+    const result = createVisitorReview(params, reviews);
+    if (result.ok) {
+      setReviews(result.reviews);
+    }
+    return { ok: result.ok, errorAr: result.errorAr };
+  };
+
+  const handleReportReview = (reviewId: string, reason: string) => {
+    setReviews((prev) => reportVisitorReview(reviewId, reason, prev));
+  };
+
+  const handleModerateReview = (
+    reviewId: string,
+    action: 'approve' | 'hide' | 'delete'
+  ) => {
+    if (!isAdmin) return;
+    setReviews((prev) => moderateVisitorReview(reviewId, action, prev));
+    const labelMap = {
+      approve: 'اعتماد مراجعة',
+      hide: 'إخفاء مراجعة',
+      delete: 'حذف مراجعة',
+    };
+    recordAudit(labelMap[action], 'review', `تحديث حالة المراجعة (${reviewId})`);
+  };
+
+  const handleUpdateSettings = (next: SiteSettingsConfig) => {
+    if (!isAdmin) return;
+    setSiteSettings(next);
+    saveSiteSettings(next);
+    recordAudit('تحديث إعدادات المنصة', 'settings', 'حفظ إعدادات الواجهة الرئيسية وSEO');
+  };
+
+  const handleSaveArticles = (next: CulturalArticle[], logDetail: string) => {
+    if (!isAdmin) return;
+    setArticles(next);
+    saveCustomArticles(next);
+    recordAudit('إدارة محتوى عِش العراق', 'article', logDetail);
+  };
+
+  const handleSaveServices = (next: TourismServiceListing[], logDetail: string) => {
+    if (!isAdmin) return;
+    setServices(next);
+    saveCustomServices(next);
+    recordAudit('إدارة الخدمات السياحية', 'service', logDetail);
+  };
+
+  const handleRestoreBackup = (snapshot: {
+    settings: SiteSettingsConfig;
+    reviews: VisitorReview[];
+    articles: CulturalArticle[];
+    artifacts: MuseumArtifact[];
+    services: TourismServiceListing[];
+  }) => {
+    if (!isAdmin) return;
+    setSiteSettings(snapshot.settings);
+    saveSiteSettings(snapshot.settings);
+    setReviews(snapshot.reviews);
+    saveVisitorReviews(snapshot.reviews);
+    setArticles(snapshot.articles);
+    saveCustomArticles(snapshot.articles);
+    setArtifacts(snapshot.artifacts);
+    saveCustomArtifacts(snapshot.artifacts);
+    setServices(snapshot.services);
+    saveCustomServices(snapshot.services);
+    recordAudit('استعادة نسخة احتياطية', 'backup', 'استعادة إعدادات ومحتوى المنصة من JSON');
+  };
+
+  const handleSubscribeNewsletter = (email: string) => {
+    const res = subscribeNewsletter(email, subscribers);
+    if (res.ok) {
+      setSubscribers(res.subscribers);
+      setAnalytics((prev) => ({
+        ...prev,
+        newsletterSubscribersCount: res.subscribers.length,
+      }));
+    }
+    return { ok: res.ok, messageAr: res.messageAr };
   };
 
   const handleRequestInstall = async () => {
@@ -247,8 +527,46 @@ export default function App() {
     setEditorState({ isOpen: true, landmarkId: landmark ? landmark.id : null });
   };
 
+  const categoryExploreMeta = useMemo(() => {
+    if (activeView === 'archaeological') {
+      return {
+        kicker: 'إرث بلاد الرافدين والحضارات العريقة',
+        title: 'المواقع الأثرية والتاريخية في العراق',
+        subtitle:
+          'من زقورة أور وبابل وأوروك وآشور والحضر إلى المدرسة المستنصرية وملوية سامراء.',
+      };
+    }
+    if (activeView === 'religious') {
+      return {
+        kicker: 'السياحة الدينية والعتبات المقدسة',
+        title: 'العتبات والمراقد والمواقع الدينية',
+        subtitle:
+          'العتبات المقدسة في النجف وكربلاء والكاظمية وسامراء، والجوامع والأديرة التاريخية.',
+      };
+    }
+    if (activeView === 'nature') {
+      return {
+        kicker: 'التنوع البيئي من الأهوار إلى جبال كردستان',
+        title: 'الطبيعة والأهوار والمصايف العراقية',
+        subtitle:
+          'أهوار جنوب العراق المدرجة في اليونسكو، وشلالات وبحيرات ومصايف إقليم كردستان.',
+      };
+    }
+    return {
+      kicker: 'دليل الوجهات الموثّقة في العراق',
+      title: 'اكتشف معالم أرض السواد',
+      subtitle: undefined,
+    };
+  }, [activeView]);
+
+  const isExploreFamilyView =
+    activeView === 'explore' ||
+    activeView === 'archaeological' ||
+    activeView === 'religious' ||
+    activeView === 'nature';
+
   return (
-    <div className="min-h-screen bg-[#F9F6F0] text-[#1A2421] transition-colors duration-200 dark:bg-[#0D1B1E] dark:text-[#F1ECE2]">
+    <div className="min-h-screen bg-[#F8F6F0] text-[#252B29] transition-colors duration-200 dark:bg-[#102F29] dark:text-[#F8F6F0]">
       <Header
         activeView={activeView}
         onNavigate={handleNavigate}
@@ -259,10 +577,10 @@ export default function App() {
         onOpenAdminLogin={() => setShowAdminLoginModal(true)}
       />
 
-      {/* Admin-Only Control Bar (Strictly invisible to regular visitors) */}
-      {isAdmin && (
+      {isAdmin && activeView !== 'admin' && (
         <AdminBar
           isSyncing={isSyncing}
+          onOpenDashboard={() => handleNavigate('admin')}
           onAddLandmark={() => handleOpenLandmarkEditor(null)}
           onSeedCloudData={seedInitialDataToCloud}
           onRefreshCloud={refreshFromCloud}
@@ -271,50 +589,64 @@ export default function App() {
       )}
 
       <main>
-        {activeView === 'explore' && (
-          <>
-            <HeroSection
-              totalGovernorates={databaseStats.totalGovernorates}
-              totalLandmarks={databaseStats.totalLandmarks}
-              unescoCount={databaseStats.unescoCount}
-              theme={theme}
-              onToggleTheme={toggleTheme}
-              onOpenMap={() => handleNavigate('map')}
-              onExploreGovernorates={() => handleNavigate('governorates')}
-            />
-            <ExploreSection
-              landmarks={filteredLandmarks}
-              allLandmarks={landmarks}
-              allLandmarksCount={databaseStats.totalLandmarks}
-              unescoCount={databaseStats.unescoCount}
-              nationalLandmarksCount={databaseStats.nationalLandmarksCount}
-              categoryStats={databaseStats.categoryStats}
-              governorates={IRAQ_GOVERNORATES}
-              governorateProfiles={governorateProfiles}
-              filters={filters}
-              savedIds={savedIds}
-              isAdmin={isAdmin}
-              onChangeFilters={(partial) =>
-                setFilters((prev) => ({ ...prev, ...partial }))
-              }
-              onResetFilters={() => setFilters(DEFAULT_FILTERS)}
-              onSelectLandmark={handleSelectLandmark}
-              onToggleSave={handleToggleSave}
-              onAdminManageLandmarkPhotos={handleOpenLandmarkPhotos}
-              onAdminEditLandmark={handleOpenLandmarkEditor}
-              onAdminManageGovPhotos={handleOpenGovPhotos}
-            />
-          </>
-        )}
-
-        {activeView === 'trails' && (
-          <CuratedTrailsView
-            trails={curatedTrails}
+        {activeView === 'home' && (
+          <HomeView
             landmarks={landmarks}
             governorates={IRAQ_GOVERNORATES}
-            savedIds={savedIds}
+            stats={databaseStats}
+            settings={siteSettings}
+            artifacts={artifacts}
+            articles={articles}
+            initiatives={NATIONAL_INITIATIVES}
+            isSaved={(id) => savedIds.has(id)}
+            onToggleSave={handleToggleSave}
             onSelectLandmark={handleSelectLandmark}
-            onSaveTrailToItinerary={handleSaveTrailToItinerary}
+            onSelectGovernorate={handleExploreGovernorate}
+            onNavigate={handleNavigate}
+            onOpenArtifact={(artifact) => {
+              setInitialArtifactToOpen(artifact);
+              handleNavigate('museum');
+            }}
+            onOpenArticle={(article) => {
+              setInitialArticleToOpen(article);
+              handleNavigate('culture');
+            }}
+            onQuickSearch={handleQuickSearchFromHome}
+            onSubscribeNewsletter={handleSubscribeNewsletter}
+          />
+        )}
+
+        {isExploreFamilyView && (
+          <ExploreSection
+            landmarks={filteredLandmarks}
+            allLandmarks={landmarks}
+            allLandmarksCount={databaseStats.totalLandmarks}
+            unescoCount={databaseStats.unescoCount}
+            nationalLandmarksCount={databaseStats.nationalLandmarksCount}
+            categoryStats={databaseStats.categoryStats}
+            governorates={IRAQ_GOVERNORATES}
+            governorateProfiles={governorateProfiles}
+            filters={effectiveFilters}
+            savedIds={savedIds}
+            isAdmin={isAdmin}
+            sectionKicker={categoryExploreMeta.kicker}
+            sectionTitle={categoryExploreMeta.title}
+            sectionSubtitle={categoryExploreMeta.subtitle}
+            onChangeFilters={(partial) => {
+              if (partial.category && activeView !== 'explore') {
+                setActiveView('explore');
+              }
+              setFilters((prev) => ({ ...prev, ...partial }));
+            }}
+            onResetFilters={() => {
+              setFilters(DEFAULT_FILTERS);
+              if (activeView !== 'explore') setActiveView('explore');
+            }}
+            onSelectLandmark={handleSelectLandmark}
+            onToggleSave={handleToggleSave}
+            onAdminManageLandmarkPhotos={handleOpenLandmarkPhotos}
+            onAdminEditLandmark={handleOpenLandmarkEditor}
+            onAdminManageGovPhotos={handleOpenGovPhotos}
           />
         )}
 
@@ -349,19 +681,119 @@ export default function App() {
             theme={theme}
             onToggleTheme={toggleTheme}
             onSelectLandmark={handleSelectLandmark}
+            onSaveRouteToItinerary={handleSaveMultipleStops}
           />
         )}
 
-        {activeView === 'itinerary' && (
-          <ItineraryView
-            entries={itinerary}
+        {(activeView === 'planner' ||
+          activeView === 'trails' ||
+          activeView === 'itinerary') && (
+          <SmartTravelPlannerView
+            key={activeView}
+            initialTab={
+              activeView === 'trails'
+                ? 'trails'
+                : activeView === 'itinerary'
+                  ? 'saved'
+                  : 'smart'
+            }
             landmarks={landmarks}
+            governorates={IRAQ_GOVERNORATES}
+            entries={itinerary}
+            savedIds={savedIds}
             onSelectLandmark={handleSelectLandmark}
-            onRemove={handleToggleSave}
+            onSaveMultipleStops={handleSaveMultipleStops}
+            onRemoveEntry={handleToggleSave}
             onUpdateNote={handleUpdateNote}
-            onMove={handleMoveItinerary}
+            onMoveEntry={handleMoveItinerary}
             onClearAll={handleClearItinerary}
-            onExploreLandmarks={() => handleNavigate('explore')}
+            onExplore={() => handleNavigate('explore')}
+          />
+        )}
+
+        {activeView === 'museum' && (
+          <DigitalMuseumView
+            artifacts={artifacts}
+            landmarks={landmarks}
+            initialSelectedArtifact={initialArtifactToOpen}
+            onConsumeInitialArtifact={() => setInitialArtifactToOpen(null)}
+            onSelectLandmark={handleSelectLandmark}
+            onViewArtifact={(artifact) =>
+              setAnalytics((prev) => ({
+                ...prev,
+                artifactViews: {
+                  ...prev.artifactViews,
+                  [artifact.id]: (prev.artifactViews[artifact.id] ?? 0) + 1,
+                },
+              }))
+            }
+          />
+        )}
+
+        {activeView === 'culture' && (
+          <LiveIraqCultureView
+            articles={articles}
+            initialSelectedArticle={initialArticleToOpen}
+            onConsumeInitialArticle={() => setInitialArticleToOpen(null)}
+          />
+        )}
+
+        {activeView === 'games' && <CulturalGamesView />}
+
+        {activeView === 'guide' && (
+          <VisitorGuideView services={services} governorates={IRAQ_GOVERNORATES} />
+        )}
+
+        {activeView === 'initiatives' && (
+          <NationalInitiativesView initiatives={NATIONAL_INITIATIVES} />
+        )}
+
+        {activeView === 'about' && (
+          <AboutView
+            stats={databaseStats}
+            artifactsCount={artifacts.length}
+            articlesCount={articles.length}
+            onNavigate={handleNavigate}
+          />
+        )}
+
+        {activeView === 'admin' && (
+          <AdminDashboardView
+            isAdmin={isAdmin}
+            isSyncing={isSyncing}
+            landmarks={landmarks}
+            governorates={IRAQ_GOVERNORATES}
+            stats={databaseStats}
+            settings={siteSettings}
+            reviews={reviews}
+            articles={articles}
+            artifacts={artifacts}
+            services={services}
+            analytics={analytics}
+            auditLogs={auditLogs}
+            onOpenAdminLogin={() => setShowAdminLoginModal(true)}
+            onSignOut={async () => {
+              const res = await signOut();
+              handleNavigate('home');
+              return res;
+            }}
+            onAddLandmark={() => handleOpenLandmarkEditor(null)}
+            onEditLandmark={handleOpenLandmarkEditor}
+            onManageLandmarkPhotos={handleOpenLandmarkPhotos}
+            onSaveLandmark={async (lm) => {
+              const res = await saveLandmark(lm);
+              if (res.ok) {
+                recordAudit('حفظ معلم', 'landmark', lm.name_ar);
+              }
+              return res;
+            }}
+            onSeedCloudData={seedInitialDataToCloud}
+            onRefreshCloud={refreshFromCloud}
+            onUpdateSettings={handleUpdateSettings}
+            onModerateReview={handleModerateReview}
+            onSaveArticles={handleSaveArticles}
+            onSaveServices={handleSaveServices}
+            onRestoreBackup={handleRestoreBackup}
           />
         )}
       </main>
@@ -389,12 +821,15 @@ export default function App() {
         }
         governorates={IRAQ_GOVERNORATES}
         allLandmarks={landmarks}
+        reviews={reviews}
         isSaved={selectedLandmark ? savedIds.has(selectedLandmark.id) : false}
         isAdmin={isAdmin}
         onClose={() => setSelectedLandmarkId(null)}
         onToggleSave={handleToggleSave}
         onViewOnMap={handleViewLandmarkOnMap}
         onSelectLandmark={handleSelectLandmark}
+        onSubmitReview={handleSubmitReview}
+        onReportReview={handleReportReview}
         onAdminManagePhotos={handleOpenLandmarkPhotos}
         onAdminEditLandmark={handleOpenLandmarkEditor}
       />
@@ -411,7 +846,13 @@ export default function App() {
         isOpen={showAdminLoginModal}
         isAdmin={isAdmin}
         onClose={() => setShowAdminLoginModal(false)}
-        onSignIn={signIn}
+        onSignIn={async (email, password) => {
+          const res = await signIn(email, password);
+          if (!res.error) {
+            recordAudit('تسجيل دخول إداري', 'auth', 'دخول ناجح إلى لوحة الإدارة');
+          }
+          return res;
+        }}
         onSignUp={signUp}
         onSignOut={signOut}
       />
@@ -423,8 +864,16 @@ export default function App() {
             onClose={() => setPhotoManagerRef(null)}
             onUploadPhoto={uploadPhotoToBucket}
             onDeleteStoragePhoto={deletePhotoFromBucket}
-            onUpdateLandmarkImages={updateLandmarkImages}
-            onUpdateGovernorateCover={updateGovernorateCoverImage}
+            onUpdateLandmarkImages={async (lm, imgs) => {
+              const res = await updateLandmarkImages(lm, imgs);
+              if (res.ok) recordAudit('تحديث صور معلم', 'media', lm.name_ar);
+              return res;
+            }}
+            onUpdateGovernorateCover={async (id, url) => {
+              const res = await updateGovernorateCoverImage(id, url);
+              if (res.ok) recordAudit('تحديث غلاف محافظة', 'media', id);
+              return res;
+            }}
           />
 
           <AdminLandmarkEditorModal
@@ -432,11 +881,18 @@ export default function App() {
             landmark={editingLandmark}
             governorates={IRAQ_GOVERNORATES}
             onClose={() => setEditorState({ isOpen: false, landmarkId: null })}
-            onSave={saveLandmark}
+            onSave={async (lm) => {
+              const res = await saveLandmark(lm);
+              if (res.ok) recordAudit('تعديل/إضافة معلم', 'landmark', lm.name_ar);
+              return res;
+            }}
             onDelete={async (id) => {
               const res = await deleteLandmark(id);
-              if (res.ok && selectedLandmarkId === id) {
-                setSelectedLandmarkId(null);
+              if (res.ok) {
+                recordAudit('حذف معلم', 'landmark', id);
+                if (selectedLandmarkId === id) {
+                  setSelectedLandmarkId(null);
+                }
               }
               return res;
             }}

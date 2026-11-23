@@ -10,7 +10,7 @@ const database = rawDatabase as LandmarksDatabase;
 
 export const HERO_IMAGE_URL = '/src/assets/images/hero_ard_alsawad_1795363266757.jpg';
 
-const FALLBACK_IMAGES = {
+export const PLATFORM_IMAGES = {
   hero: '/src/assets/images/hero_ard_alsawad_1795363266757.jpg',
   shrine: '/src/assets/images/shrine_golden_dome_1795363272892.jpg',
   babylon: '/src/assets/images/babylon_ishtar_gate_1795363274102.jpg',
@@ -19,7 +19,13 @@ const FALLBACK_IMAGES = {
   marshes: '/src/assets/images/chibayish_marshes_1795363273341.jpg',
   waterfalls: '/src/assets/images/kurdistan_waterfalls_1795363274365.jpg',
   erbil: '/src/assets/images/erbil_citadel_1795363274397.jpg',
+  museumSumerian: '/src/assets/images/museum_sumerian_artifact_1795411411245.jpg',
+  museumLamassu: '/src/assets/images/museum_assyrian_lamassu_1795411409752.jpg',
+  cultureHospitality: '/src/assets/images/culture_iraqi_hospitality_1795411410347.jpg',
+  cuneiformTablet: '/src/assets/images/cuneiform_clay_tablet_1795411408746.jpg',
 } as const;
+
+const FALLBACK_IMAGES = PLATFORM_IMAGES;
 
 export const DATABASE_METADATA: DatabaseMetadata = database.metadata;
 export const IRAQ_GOVERNORATES: Governorate[] = database.governorates;
